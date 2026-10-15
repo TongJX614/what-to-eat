@@ -1,0 +1,883 @@
+/* result 页：uiverse 视觉语言落地。
+   主轴：玻璃 + 渐变 + 多重投影 + 暖食氛围（BG Blob 双光斑 + 发光小圆点）。 */
+
+/* ============================================================
+   1. 页面骨架与底部安全区
+   ============================================================ */
+.result-page {
+  position: relative;
+  min-height: 100vh;
+  padding-bottom: 220rpx; /* 给底部 sticky 玻璃 CTA 栏让位 */
+  overflow: visible;      /* 允许整页纵向滚动，避免扑克牌栈把工具/打卡顶到 CTA 后面 */
+  /* 全页连贯暖调：右上橙晕一路铺到底（多段缓降、无硬边），
+     左下金晕 + 底部右角一层极淡橙呼应，彻底消灭光斑圆形边界造成的"割裂" */
+  background:
+    radial-gradient(160% 115% at 100% 0%,
+      rgba(221, 122, 60, 0.26) 0%,
+      rgba(221, 122, 60, 0.15) 32%,
+      rgba(221, 122, 60, 0.07) 60%,
+      rgba(221, 122, 60, 0) 82%),
+    radial-gradient(120% 70% at 100% 100%,
+      rgba(221, 122, 60, 0.10) 0%,
+      rgba(221, 122, 60, 0) 62%),
+    radial-gradient(140% 90% at 0% 100%,
+      rgba(201, 162, 75, 0.16) 0%,
+      rgba(201, 162, 75, 0) 60%),
+    linear-gradient(180deg, #FBEDDB 0%, #FDF7EC 100%);
+}
+
+/* ============================================================
+   2. 顶部导航（自定义）：固定钉在顶部，不随内容滚动。
+      状态栏留白由 JS 注入，仅一个圆玻璃返回键 + 居中标题
+   ============================================================ */
+/* 固定顶栏容器：磨砂暖玻璃底，内容从下方滑过时标题/返回键仍清晰 */
+.r-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  background: rgba(251, 237, 219, 0.72);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  backdrop-filter: blur(14px) saturate(160%);
+}
+
+/* 顶栏占位（普通流内）：高度 = 导航行 88rpx + 呼吸 32rpx；
+   状态栏部分由 wxml 内联 px 占位另行补齐 */
+.r-header-ph {
+  height: 120rpx;
+}
+
+/* 状态栏占位（高度由 JS 注入的内联样式决定，导航行跟随其下） */
+.r-status-spacer {
+  width: 100%;
+}
+
+.r-nav {
+  position: relative;
+  z-index: 5;
+  height: 88rpx;
+}
+
+/* 返回键固定贴左；标题行保持原位，返回键单独下沉到行下方（不用百分比 top，
+   位置只由这个固定 rpx 值决定，1:1 生效） */
+.r-nav .glass-circle {
+  position: absolute;
+  left: 32rpx;
+  top: 4rpx;              /* 回到「今天，你的答案」同一行，按钮在 88rpx 行内垂直居中 */
+}
+
+.r-nav-title {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 32rpx;
+  font-weight: 600;
+  color: var(--c-text);
+  letter-spacing: 2rpx;
+  white-space: nowrap;
+}
+
+/* 玻璃圆形按钮：白玻璃底 + 暖色细描边 + 暖软阴影 */
+.glass-circle {
+  position: relative;
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  background: rgba(255, 252, 247, 0.72);
+  border: 1rpx solid rgba(255, 255, 255, 0.6);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  backdrop-filter: blur(12px) saturate(180%);
+  box-shadow:
+    0 8rpx 24rpx rgba(74, 52, 32, 0.15),
+    inset 0 2rpx 4rpx rgba(255, 255, 255, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s var(--ease), background-color 0.2s var(--ease);
+}
+
+/* 玻璃圆形键 · 渐变描边（uiverse 手法：让"圈"本身就是一道金→橙的光）
+   用伪元素 + mask 抠环，不用 border-image —— 后者会让 border-radius:50% 直接失效变方。
+   绝对定位的伪元素不参与 flex 布局，不会挤压居中的图标。 */
+.glass-circle::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 50%;
+  padding: 2rpx;
+  background: linear-gradient(135deg,
+    var(--c-gold) 0%,
+    var(--c-primary) 55%,
+    var(--c-primary-l1) 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.r-nav .glass-circle:active {
+  transform: scale(0.94);
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.r-nav-icon {
+  font-size: 44rpx;
+  font-weight: 500;
+  color: var(--c-text);
+  line-height: 1;
+  margin-top: -4rpx;
+}
+
+/* ============================================================
+   4. 滚动主容器
+   ============================================================ */
+.r-content {
+  position: relative;
+  z-index: 5;
+  padding: 48rpx 32rpx 0; /* 顶部再加一段下移，标题区不贴着导航 */
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============================================================
+   5. 标题区：eyebrow chip + 52px 大字 + fun 副标题
+   ============================================================ */
+.r-title {
+  margin-bottom: 20rpx;
+  text-align: right;       /* 标题区整体右对齐：eyebrow / 菜名 / 时段提示 */
+}
+
+.r-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 12rpx;
+  padding: 10rpx 22rpx 10rpx 18rpx;
+  background: rgba(221, 122, 60, 0.12);
+  border: 1rpx solid rgba(221, 122, 60, 0.35);
+  border-radius: var(--r-pill);
+}
+
+.r-eyebrow-dot {
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 50%;
+  background: var(--c-primary);
+  box-shadow: 0 0 12rpx rgba(221, 122, 60, 0.8);
+}
+
+/* 已决定过：橙色换成深绿，提示"这道吃过了" */
+.r-eyebrow-dot.is-decided {
+  background: var(--c-success, #4F8A4A);
+  box-shadow: 0 0 12rpx rgba(79, 138, 74, 0.8);
+}
+
+.r-eyebrow-text {
+  font-size: 22rpx;
+  font-weight: 600;
+  color: var(--c-primary-deep);
+  letter-spacing: 4rpx;
+}
+
+/* 大菜名：扑克牌栈前牌的「答案」标题，翻牌时随 this.data.dish 联动 */
+.r-name {
+  margin-top: 16rpx;
+  font-size: 64rpx;
+  /* 800 → 700：iOS 的 PingFang SC 最粗只到 Semibold(600)，写 800 会被静默 fallback 成 600，
+     而 Android 思源黑体有真 700，两端粗细不一致。统一 700 才能保证两端都是实打实的粗体。 */
+  font-weight: 700;
+  color: var(--c-text);
+  letter-spacing: 2rpx;
+  line-height: 1.2;
+}
+
+.r-fun {
+  margin-top: 10rpx;
+  font-size: 26rpx;
+  color: #9B7B5E;
+  letter-spacing: 1rpx;
+  line-height: 1.5;
+}
+
+/* ============================================================
+   6. 扑克牌卡片栈：层叠玻璃卡 + 3D 邻牌露边
+   ============================================================ */
+.r-stack {
+  position: relative;
+  width: 100%;
+}
+
+/* 整摞卡片入场：淡入 + 上移微缩放（飞牌/翻牌由 JS inline style 接管，互不冲突） */
+.r-stack.is-in {
+  animation: stackIn 0.42s var(--ease) both;
+}
+
+@keyframes stackIn {
+  from { opacity: 0; transform: translateY(28rpx) scale(0.975); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.rstack-card {
+  position: absolute;
+  left: 7%;
+  top: 0;
+  width: 86%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 40rpx 40rpx 40rpx;
+  border-radius: 56rpx;
+  /* 性能：去掉 backdrop-filter blur（手势动画时每帧重算模糊是真机卡顿主因），
+     背景提到近实色，视觉上几乎无差 */
+  background: linear-gradient(180deg,
+    rgba(255, 254, 248, 0.97) 0%,
+    rgba(248, 240, 229, 0.99) 100%);
+  border: 2rpx solid rgba(255, 255, 255, 0.55);
+  /* 侧卡（半透明 0.55）单层轻投影即可：多层阴影 + 大圆角裁剪在拖动时
+     会随每层合成反复光栅化，是中低端机掉帧的隐形大户；顶部高光
+     已由 .rcard-topHi 承担，inset 高光这里不重复 */
+  box-shadow: 0 16rpx 36rpx rgba(74, 52, 32, 0.13);
+  overflow: hidden;
+  transform-origin: center bottom;
+  /* 提示合成层：transform 动画走 GPU，避免逐帧重排重绘 */
+  will-change: transform;
+}
+
+/* 前牌：投影稍强，强调「当前这一张」（位移/旋转/透明由 JS inline style 决定） */
+.rstack-card.is-front {
+  box-shadow:
+    0 28rpx 56rpx rgba(74, 52, 32, 0.18),
+    0 12rpx 28rpx rgba(221, 122, 60, 0.16),
+    inset 0 2rpx 4rpx rgba(255, 255, 255, 0.6);
+}
+
+/* 卡片内顶部白高光斜带 */
+.rcard-topHi {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 72rpx;
+  border-radius: 56rpx 56rpx 0 0;
+  background: linear-gradient(180deg,
+    rgba(255, 255, 255, 0.50) 0%,
+    rgba(255, 255, 255, 0) 100%);
+  pointer-events: none;
+}
+
+/* 卡片左上角彩色细带锚点（uiverse 标志手法：金→橙→淡橙渐变 + 暖光晕） */
+.rcard-strip {
+  position: absolute;
+  left: 40rpx;
+  top: -4rpx;
+  width: 192rpx;
+  height: 8rpx;
+  border-radius: 999rpx;
+  background: linear-gradient(90deg,
+    #C9A24B 0%, #DD7A3C 50%, #F2A06A 100%);
+  box-shadow: 0 0 16rpx rgba(221, 122, 60, 0.6);
+  pointer-events: none;
+}
+
+/* 卡片入场动画已迁移到 .r-stack.is-in / @keyframes stackIn（见上方） */
+
+/* ---- Top Row：category chip + price chip ---- */
+.rcard-top {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16rpx;
+}
+
+.r-cat-chip {
+  display: inline-block;
+  padding: 12rpx 28rpx;
+  border-radius: var(--r-pill);
+  background: linear-gradient(135deg, #F8D7B6 0%, #EBBC8C 100%);
+  border: 1rpx solid rgba(221, 122, 60, 0.4);
+  color: #7A3D17;
+  font-size: 24rpx;
+  font-weight: 600;
+  letter-spacing: 2rpx;
+  box-shadow: inset 0 2rpx 2rpx rgba(255, 255, 255, 0.4);
+}
+
+.r-price-chip {
+  padding: 12rpx 24rpx;
+  border-radius: var(--r-pill);
+  background: linear-gradient(135deg, var(--c-primary) 0%, var(--c-primary-deep) 100%);
+  color: var(--c-white);
+  font-size: 24rpx;
+  font-weight: 600;
+  letter-spacing: 1rpx;
+  box-shadow:
+    inset 0 2rpx 2rpx rgba(255, 255, 255, 0.35),
+    0 8rpx 20rpx rgba(221, 122, 60, 0.4);
+}
+
+/* ---- 描述 ---- */
+.r-desc {
+  position: relative;
+  font-size: 28rpx;
+  color: var(--c-text-2);
+  line-height: 1.55;
+  letter-spacing: 1rpx;
+}
+
+/* ---- Tags 行 ---- */
+.r-tags {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+  margin-top: 24rpx;
+}
+
+.r-tag {
+  padding: 10rpx 22rpx;
+  border-radius: var(--r-pill);
+  background: rgba(255, 252, 247, 0.7);
+  border: 1rpx solid rgba(221, 184, 148, 0.9);
+  color: var(--c-text-sub);
+  font-size: 22rpx;
+  font-weight: 500;
+  letter-spacing: 2rpx;
+  box-shadow: inset 0 2rpx 2rpx rgba(255, 255, 255, 0.5);
+}
+
+/* 命中口味画像的标签：只加一个小小的「你爱」前缀，不做进度条 */
+.r-tag--loved {
+  color: var(--c-primary-deep);
+  background: var(--c-primary-soft);
+  border-color: rgba(190, 94, 39, 0.35);
+}
+
+.r-tag-love {
+  font-size: 20rpx;
+  font-weight: 600;
+  opacity: 0.75;
+}
+
+.r-tag--accent {
+  background: linear-gradient(135deg, rgba(221, 122, 60, 0.18) 0%, rgba(221, 122, 60, 0.08) 100%);
+  border-color: rgba(221, 122, 60, 0.45);
+  color: var(--c-primary-deep);
+  font-weight: 600;
+}
+
+/* ---- 推荐理由 Box ---- */
+.r-reason {
+  position: relative;
+  margin-top: 32rpx;
+  padding: 28rpx 32rpx;
+  border-radius: 28rpx;
+  background: linear-gradient(135deg, rgba(248, 215, 182, 0.50) 0%, rgba(235, 188, 140, 0.30) 100%);
+  border: 1rpx solid rgba(221, 122, 60, 0.25);
+  box-shadow: inset 0 2rpx 4rpx rgba(255, 255, 255, 0.4);
+}
+
+.r-reason-label {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+  margin-bottom: 10rpx;
+}
+
+.r-reason-dot {
+  width: 8rpx;
+  height: 8rpx;
+  border-radius: 50%;
+  background: var(--c-primary);
+  box-shadow: 0 0 6rpx rgba(221, 122, 60, 0.6);
+}
+
+.r-reason-label text {
+  font-size: 22rpx;
+  font-weight: 600;
+  color: var(--c-primary-deep);
+  letter-spacing: 4rpx;
+}
+
+.r-reason-text {
+  font-size: 26rpx;
+  color: var(--c-text-2);
+  line-height: 1.6;
+  letter-spacing: 1rpx;
+}
+
+/* ---- 卡片内细分隔线 ---- */
+.rcard-divider {
+  position: relative;
+  margin: 28rpx 0 22rpx;
+  height: 2rpx;
+  background: linear-gradient(90deg,
+    rgba(221, 122, 60, 0) 0%,
+    rgba(221, 122, 60, 0.30) 50%,
+    rgba(221, 122, 60, 0) 100%);
+}
+
+/* ---- 卡片内「查看做菜教程 →」链接 ---- */
+.r-recipe {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12rpx;
+  padding: 8rpx 0;
+  font-size: 26rpx;
+  font-weight: 500;
+  color: var(--c-primary-deep);
+  letter-spacing: 2rpx;
+  transition: opacity 0.2s var(--ease);
+}
+
+.r-recipe:active {
+  opacity: 0.55;
+}
+
+.r-recipe-arrow {
+  font-weight: 700;
+  font-size: 28rpx;
+}
+
+/* ---- 扑克牌栈底部：翻牌进度点 + 滑动提示 ---- */
+.r-stack-foot {
+  margin-top: 28rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.r-dots {
+  display: flex;
+  gap: 14rpx;
+}
+
+.r-dot {
+  width: 14rpx;
+  height: 14rpx;
+  border-radius: 50%;
+  background: rgba(122, 86, 56, 0.25);
+  transition: all 0.3s var(--ease);
+}
+
+.r-dot.is-on {
+  width: 36rpx;
+  border-radius: 999rpx;
+  background: var(--c-primary);
+}
+
+.r-swipe-tip {
+  font-size: 24rpx;
+  color: var(--c-text-sub);
+  letter-spacing: 2rpx;
+}
+
+/* ============================================================
+   7. 工具条：4 个玻璃按钮（每个带 SVG 图标 + 文字）
+   ============================================================ */
+.r-tools {
+  margin-top: 36rpx;
+  display: flex;
+  gap: 16rpx;
+}
+
+.r-tool {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12rpx;
+  height: 152rpx;
+  padding: 16rpx 8rpx;
+  border-radius: 36rpx;
+  background: rgba(255, 252, 247, 0.65);
+  border: 1rpx solid rgba(255, 255, 255, 0.6);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  box-shadow:
+    inset 0 2rpx 2rpx rgba(255, 255, 255, 0.4),
+    0 8rpx 16rpx rgba(74, 52, 32, 0.10);
+  transition: transform 0.2s var(--ease), background-color 0.2s var(--ease);
+}
+
+.r-tool:active {
+  transform: scale(0.96);
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.r-tool-icon {
+  width: 44rpx;
+  height: 44rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.r-tool-icon image {
+  width: 100%;
+  height: 100%;
+}
+
+.r-tool-text {
+  font-size: 20rpx;
+  font-weight: 500;
+  color: var(--c-text-sub);
+  letter-spacing: 1rpx;
+}
+
+/* 选中态（收藏） */
+.r-tool.is-on {
+  background: rgba(221, 122, 60, 0.16);
+  border-color: rgba(221, 122, 60, 0.45);
+}
+
+.r-tool.is-on .r-tool-text {
+  color: var(--c-primary-deep);
+  font-weight: 600;
+}
+
+/* 选中态（拉黑） */
+.r-tool.is-black.is-on {
+  background: rgba(192, 65, 62, 0.14);
+  border-color: rgba(192, 65, 62, 0.45);
+}
+
+.r-tool.is-black.is-on .r-tool-text {
+  color: var(--c-danger);
+  font-weight: 600;
+}
+
+/* 原生转发按钮：去掉 button 默认样式 */
+.r-tool-share {
+  padding: 16rpx 8rpx;
+}
+
+.r-tool-share::after {
+  border: none;
+}
+
+/* ============================================================
+   8. 工具条锁定态：收藏与拉黑互斥
+   已收藏时「不想吃」锁定 / 已拉黑时「收藏」锁定：
+   降透明度 + 取消按压缩放，点击只弹提示不改状态
+   ============================================================ */
+.r-tool.is-locked {
+  opacity: 0.4;
+}
+
+.r-tool.is-locked:active {
+  transform: none;
+  background: rgba(255, 252, 247, 0.65);
+}
+
+/* ============================================================
+   8.5 吃完打卡胶囊（口味画像入口）
+   ============================================================ */
+.r-rate {
+  margin-top: 24rpx;
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  padding: 24rpx 28rpx;
+  border-radius: 28rpx;
+  background: rgba(255, 252, 247, 0.55);
+  border: 1rpx solid rgba(255, 255, 255, 0.6);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  box-shadow: inset 0 2rpx 2rpx rgba(255, 255, 255, 0.4), 0 8rpx 16rpx rgba(74, 52, 32, 0.08);
+}
+
+.r-rate:active {
+  transform: scale(0.985);
+}
+
+.r-rate-emoji {
+  width: 52rpx;
+  height: 52rpx;
+  flex-shrink: 0;
+}
+
+.r-rate-texts {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+  min-width: 0;
+}
+
+.r-rate-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--c-text);
+}
+
+.r-rate-sub {
+  font-size: 20rpx;
+  color: var(--c-text-sub);
+  letter-spacing: 0.5rpx;
+}
+
+.r-rate-arrow {
+  font-size: 40rpx;
+  color: var(--c-text-sub);
+  line-height: 1;
+}
+
+/* 评分弹层 */
+.rate-mask {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  z-index: 60;                   /* 高于底部 CTA(50)：两者原本同为 50，靠 DOM 顺序让 CTA 压在了弹层之上 */
+  background: rgba(50, 34, 22, 0);
+  visibility: hidden;
+  display: flex;
+  align-items: flex-end;
+  transition: background-color 0.28s var(--ease), visibility 0.28s var(--ease);
+}
+
+.rate-mask.is-open {
+  background: rgba(50, 34, 22, 0.42);
+  visibility: visible;
+}
+
+.rate-sheet {
+  width: 100%;
+  background: linear-gradient(180deg, #FFFDF9 0%, #FCF4E9 100%);
+  border-radius: 40rpx 40rpx 0 0;
+  padding: 40rpx 40rpx calc(40rpx + env(safe-area-inset-bottom));
+  box-shadow: 0 -12rpx 40rpx rgba(74, 52, 32, 0.18);
+  transform: translateY(100%);
+  transition: transform 0.32s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.rate-mask.is-open .rate-sheet {
+  transform: translateY(0);
+}
+
+.rate-sheet-title {
+  text-align: center;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--c-text);
+  margin-bottom: 36rpx;
+}
+
+.rate-options {
+  display: flex;
+  gap: 20rpx;
+}
+
+.rate-opt {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12rpx;
+  padding: 32rpx 0;
+  border-radius: 28rpx;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1rpx solid rgba(255, 255, 255, 0.8);
+  transition: transform 0.18s var(--ease), background-color 0.18s var(--ease);
+}
+
+.rate-opt:active {
+  transform: scale(0.94);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.rate-opt-emoji {
+  width: 72rpx;
+  height: 72rpx;
+}
+
+.rate-opt-text {
+  font-size: 24rpx;
+  font-weight: 600;
+  color: var(--c-text-sub);
+}
+
+.rate-close {
+  margin-top: 32rpx;
+  text-align: center;
+  font-size: 26rpx;
+  color: var(--c-text-sub);
+  padding: 20rpx 0;
+}
+
+/* ============================================================
+   9. 底部 sticky CTA（uiverse tabBar 风格的 2-tab 变体）
+   - 胶囊容器 = tabBar .radio-inputs 同款（玻璃底 + 玻璃边 + 玻璃阴影 + 模糊）
+   - 「就吃这个」 = tabBar .radio.is-on 同款（暖橙渐变 + 缩放回弹 + 上下粒子）
+   - 「换一个」 = tabBar .radio 未选态（透明 + 暖色文字 + 按下瞬时白高光）
+   - 之所以不用 tabBar 的"互斥高亮 + 切换"语义：这里只有 2 个按钮，
+     主操作永远固定在「就吃这个」上；用户切到「换一个」= 翻菜，回到「就吃这个」= 接受
+   ============================================================ */
+.r-cta {
+  --glass-bg: var(--c-glass-bg-strong);
+
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: calc(env(safe-area-inset-bottom) + 24rpx);
+  z-index: 50;
+  width: 620rpx;
+  height: 112rpx;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  border-radius: 56rpx;
+  background: var(--c-glass-bg-strong);
+  border: 1rpx solid var(--c-glass-border);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow:
+    inset 0 2rpx 6rpx var(--c-glass-hi),
+    inset 0 -2rpx 6rpx rgba(120, 90, 60, 0.12),
+    0 16rpx 40rpx rgba(74, 52, 32, 0.28),
+    0 4rpx 12rpx rgba(74, 52, 32, 0.18);
+  padding: 8rpx;
+  box-sizing: border-box;
+  overflow: visible;
+  /* 评分弹层打开时整条收起（与 custom-tab-bar 的 is-hidden 同款手感） */
+  transition: transform 0.34s var(--ease), opacity 0.28s ease;
+}
+
+/* 评分弹层打开期间：CTA 落下 + 淡出 + 不可点。
+   否则 .r-cta 会盖住弹层里的「暂不评价」，那一块既看不见也点不到，
+   点下去反而命中「换一批 / 就吃这个」。 */
+.r-cta.is-hidden {
+  opacity: 0;
+  transform: translateX(-50%) translateY(160rpx);
+  pointer-events: none;
+}
+
+.r-cta-btn {
+  flex: 1 1 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12rpx;
+  height: 96rpx;
+  border-radius: 44rpx;
+  color: var(--c-text-2);
+  position: relative;
+  overflow: visible;
+  transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+/* 按下时白色半透明高光，仿 tabBar 玻璃瞬时反馈 */
+.r-cta-btn:active {
+  background-color: var(--c-glass-press);
+}
+
+.r-cta-text {
+  font-size: 30rpx;
+  font-weight: 600;
+  letter-spacing: 2rpx;
+}
+
+.r-cta-icon {
+  width: 40rpx;
+  height: 40rpx;
+}
+
+.r-cta-icon image {
+  width: 100%;
+  height: 100%;
+}
+
+/* ===== 「就吃这个」：永久高亮 + 入场 / 翻菜后回弹 + 粒子 ===== */
+.r-cta-btn--eat {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0) 45%),
+    linear-gradient(135deg, var(--c-primary, #DD7A3C) 0%, var(--c-primary-deep, #BE5E27) 100%);
+  box-shadow:
+    var(--shadow-primary, 0 10rpx 26rpx rgba(221, 122, 60, 0.30), 0 2rpx 6rpx rgba(221, 122, 60, 0.20)),
+    inset 0 2rpx 4rpx rgba(255, 255, 255, 0.45);
+}
+
+.r-cta-btn--eat .r-cta-text {
+  color: var(--c-white);
+  font-weight: 700;
+  letter-spacing: 4rpx;
+}
+
+/* 缩放回弹：与 tabBar 用同名 keyframe（各自作用域，不冲突） */
+@keyframes ctaSelect {
+  0%   { transform: scale(0.95); }
+  50%  { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.r-cta-btn--eat.is-replay {
+  animation: ctaSelect 0.32s ease;
+}
+
+/* 上下粒子（00Kubi 风格） */
+.r-cta-btn--eat.is-replay::before,
+.r-cta-btn--eat.is-replay::after {
+  content: "";
+  position: absolute;
+  width: 8rpx;
+  height: 8rpx;
+  border-radius: 50%;
+  background: var(--c-primary, #DD7A3C);
+  pointer-events: none;
+}
+
+.r-cta-btn--eat.is-replay::before {
+  top: -10rpx;
+  left: 50%;
+  animation: ctaParticleUp 0.5s ease forwards;
+}
+
+.r-cta-btn--eat.is-replay::after {
+  bottom: -10rpx;
+  left: 50%;
+  animation: ctaParticleDown 0.5s ease forwards;
+}
+
+@keyframes ctaParticleUp {
+  0%   { opacity: 0; transform: translateX(-50%) translateY(0); }
+  40%  { opacity: 1; }
+  100% { opacity: 0; transform: translateX(-50%) translateY(-18rpx); }
+}
+
+@keyframes ctaParticleDown {
+  0%   { opacity: 0; transform: translateX(-50%) translateY(0); }
+  40%  { opacity: 1; }
+  100% { opacity: 0; transform: translateX(-50%) translateY(18rpx); }
+}
+
+/* ===== 「换一个」：未选态 = 透明 + 暖棕文字 + 深棕图标（refresh.png 已生成深棕版） ===== */
+.r-cta-btn--refresh .r-cta-text {
+  color: var(--c-text-2);
+  font-weight: 600;
+}
+
+.r-cta-btn--refresh .r-cta-icon image {
+  /* refresh.png 已是深棕色 (122, 86, 56) 直接显示 */
+  transform: scale(1);
+}
+
+/* ============================================================
+   10. 隐藏的海报 canvas（保持 savePoster 可用）
+   ============================================================ */
+.poster-canvas {
+  position: fixed;
+  left: -9999rpx;
+  top: 0;
+  width: 300px;
+  height: 430px;
+}

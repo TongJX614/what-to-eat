@@ -1,0 +1,306 @@
+.recipe-page {
+  min-height: 100vh;
+  padding: 40rpx 32rpx 0;
+  box-sizing: border-box;
+}
+
+/* 头部 */
+.rp-head {
+  background: linear-gradient(180deg, var(--c-white) 0%, var(--c-card-2) 100%);
+  border-radius: var(--r-lg);
+  padding: 40rpx 36rpx;
+  box-shadow: var(--shadow-1);
+}
+
+.rp-name {
+  font-size: var(--fs-3xl);
+  font-weight: 500;
+  color: var(--c-text);
+  letter-spacing: 2rpx;
+  line-height: 1.3;
+}
+
+.rp-meta {
+  margin-top: 18rpx;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.rp-cat {
+  font-size: var(--fs-sm);
+  color: var(--c-white);
+  background: var(--c-primary);
+  padding: 4rpx 18rpx;
+  border-radius: var(--r-pill);
+  margin-right: 14rpx;
+}
+
+.rp-tag {
+  font-size: var(--fs-sm);
+  color: var(--c-primary-deep);
+  background: var(--c-primary-soft);
+  padding: 4rpx 16rpx;
+  border-radius: var(--r-pill);
+  margin: 8rpx 12rpx 0 0;
+}
+
+.rp-desc {
+  margin-top: 20rpx;
+  font-size: var(--fs-md);
+  color: var(--c-text-2);
+  line-height: 1.7;
+}
+
+/* 信息条：份量/时长/难度 */
+.rp-info {
+  margin-top: 28rpx;
+  display: flex;
+  background: var(--c-card-2);
+  border: 1rpx solid var(--c-line-soft);
+  border-radius: var(--r-md);
+  padding: 22rpx 10rpx;
+}
+
+.rp-info-item {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.rp-info-item + .rp-info-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 14rpx;
+  bottom: 14rpx;
+  width: 1rpx;
+  background: var(--c-line-soft);
+}
+
+.rp-info-ico {
+  flex: 0 0 auto;
+  width: 52rpx;
+  height: 52rpx;
+  line-height: 52rpx;
+  text-align: center;
+  font-size: var(--fs-sm);
+  color: var(--c-primary-deep);
+  background: var(--c-primary-soft);
+  border-radius: 50%;
+  margin-right: 14rpx;
+}
+
+.rp-info-c {
+  display: flex;
+  flex-direction: column;
+}
+
+.rp-info-k {
+  font-size: var(--fs-xs);
+  color: var(--c-text-weak);
+  letter-spacing: 1rpx;
+}
+
+.rp-info-v {
+  font-size: var(--fs-md);
+  color: var(--c-text);
+  font-weight: 500;
+  margin-top: 4rpx;
+}
+
+/* 区块 */
+.rp-block {
+  margin-top: 32rpx;
+  background: linear-gradient(180deg, var(--c-white) 0%, var(--c-card-2) 100%);
+  border-radius: var(--r-lg);
+  padding: 36rpx 36rpx 40rpx;
+  box-shadow: var(--shadow-1);
+}
+
+.rp-block-title {
+  position: relative;
+  padding-left: 22rpx;
+  font-size: var(--fs-lg);
+  font-weight: 500;
+  color: var(--c-text);
+  margin-bottom: 26rpx;
+}
+
+.rp-block-title::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 6rpx;
+  bottom: 6rpx;
+  width: 8rpx;
+  border-radius: 8rpx;
+  background: var(--c-gold);
+}
+
+/* 食材 */
+.rp-ings {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.rp-ing {
+  font-size: var(--fs-md);
+  color: var(--c-text-2);
+  background: var(--c-card-2);
+  border: 1rpx solid var(--c-line);
+  padding: 12rpx 22rpx;
+  border-radius: var(--r-md);
+  margin: 0 16rpx 16rpx 0;
+}
+
+/* 风味档案：口味 / 热量 / 适合时段 / 搭配建议 */
+.rp-flavor .rp-fv-row {
+  display: flex;
+  align-items: flex-start;
+  padding: 14rpx 0;
+  border-bottom: 1rpx solid var(--c-line-soft);
+}
+
+.rp-flavor .rp-fv-row:last-child {
+  border-bottom: none;
+}
+
+.rp-fv-k {
+  flex: 0 0 auto;
+  width: 96rpx;
+  font-size: var(--fs-sm);
+  color: var(--c-text-weak);
+  letter-spacing: 1rpx;
+  padding-top: 2rpx;
+}
+
+.rp-fv-v {
+  flex: 1;
+  font-size: var(--fs-md);
+  color: var(--c-text);
+  line-height: 1.6;
+}
+
+.rp-fv-pills {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.rp-fv-pill {
+  font-size: var(--fs-sm);
+  color: var(--c-primary-deep);
+  background: var(--c-primary-soft);
+  padding: 4rpx 18rpx;
+  border-radius: var(--r-pill);
+  margin: 0 12rpx 8rpx 0;
+}
+
+/* 步骤 */
+.rp-step {
+  display: flex;
+  align-items: flex-start;
+  padding: 22rpx 0;
+  border-bottom: 1rpx solid var(--c-line-soft);
+}
+
+.rp-step:last-child {
+  border-bottom: none;
+}
+
+.rp-step-no {
+  flex: 0 0 auto;
+  width: 48rpx;
+  height: 48rpx;
+  line-height: 48rpx;
+  text-align: center;
+  font-size: var(--fs-md);
+  font-weight: 500;
+  color: var(--c-white);
+  background: var(--c-primary);
+  border-radius: 50%;
+  margin-right: 22rpx;
+}
+
+.rp-step-text {
+  flex: 1;
+  font-size: var(--fs-md);
+  color: var(--c-text);
+  line-height: 1.7;
+  padding-top: 4rpx;
+}
+
+.rp-empty {
+  margin-top: 32rpx;
+  text-align: center;
+  font-size: var(--fs-md);
+  color: var(--c-text-weak);
+}
+
+/* 小贴士 */
+.rp-tips .rp-tip {
+  display: flex;
+  align-items: flex-start;
+  padding: 16rpx 0;
+  border-bottom: 1rpx solid var(--c-line-soft);
+}
+
+.rp-tips .rp-tip:last-child {
+  border-bottom: none;
+}
+
+.rp-tip-dot {
+  flex: 0 0 auto;
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 50%;
+  background: var(--c-gold);
+  margin: 14rpx 18rpx 0 4rpx;
+}
+
+.rp-tip-text {
+  flex: 1;
+  font-size: var(--fs-md);
+  color: var(--c-text-2);
+  line-height: 1.7;
+}
+
+.rp-fun {
+  margin: 36rpx 8rpx 0;
+  text-align: center;
+  font-size: var(--fs-md);
+  color: var(--c-gold);
+  letter-spacing: 1rpx;
+}
+
+.rp-back {
+  margin: 40rpx auto 0;
+  width: 360rpx;
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  font-size: var(--fs-lg);
+  color: var(--c-primary-deep);
+  background: var(--c-glass-bg-strong);
+  border: 1rpx solid var(--c-glass-border);
+  border-radius: var(--r-pill);
+  -webkit-backdrop-filter: blur(var(--c-glass-blur)) saturate(160%);
+  backdrop-filter: blur(var(--c-glass-blur)) saturate(160%);
+  box-shadow:
+    var(--shadow-glass),
+    inset 0 1rpx 4rpx var(--c-glass-hi);
+}
+
+/* 按压反馈：.rp-back 之前完全没有按压态 */
+.rp-back:active {
+  background: var(--c-primary-tint);
+}
+
+.rp-safe {
+  height: 60rpx;
+}
+
+/* 整页空状态已改用 app.wxss 的全局 .empty / .empty-art，本页不再维护 .rp-missing */

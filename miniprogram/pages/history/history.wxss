@@ -1,0 +1,413 @@
+.history-page {
+  padding-bottom: 80rpx;
+}
+
+/* 分段控件：玻璃轨道 + 白片选中（Apple 分段控件质感） */
+.tabs {
+  display: flex;
+  padding: 8rpx;
+  background: var(--c-glass-bg);
+  border: 1rpx solid var(--c-glass-border);
+  border-radius: var(--r-pill);
+  -webkit-backdrop-filter: blur(var(--c-glass-blur)) saturate(160%);
+  backdrop-filter: blur(var(--c-glass-blur)) saturate(160%);
+  box-shadow:
+    var(--shadow-glass),
+    inset 0 1rpx 4rpx var(--c-glass-hi);
+}
+
+.tab {
+  flex: 1;
+  height: 76rpx;
+  line-height: 76rpx;
+  text-align: center;
+  font-size: var(--fs-md);
+  letter-spacing: 1rpx;
+  color: var(--c-text-sub);
+  border-radius: var(--r-pill);
+  transition: all 0.2s var(--ease);
+}
+
+.tab.is-on {
+  background: var(--c-card);
+  color: var(--c-primary-deep);
+  font-weight: 500;
+  box-shadow: var(--shadow-1);
+}
+
+/* 概览统计 */
+.summary {
+  margin-top: 28rpx;
+  display: flex;
+  background: linear-gradient(180deg, var(--c-white) 0%, var(--c-card-2) 100%);
+  border-radius: var(--r-md);
+  padding: 28rpx 12rpx;
+  box-shadow: var(--shadow-1);
+  border: 1rpx solid var(--c-line-soft);
+}
+
+.sum-item {
+  flex: 1;
+  text-align: center;
+  position: relative;
+}
+
+.sum-item + .sum-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 12rpx;
+  bottom: 12rpx;
+  width: 1rpx;
+  background: var(--c-line);
+}
+
+.sum-num {
+  font-size: var(--fs-2xl);
+  font-weight: 500;
+  color: var(--c-primary-deep);  line-height: 1.2;
+}
+
+.sum-num.sum-text {
+  font-size: var(--fs-md);
+  color: var(--c-text);
+  padding: 0 12rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sum-label {
+  margin-top: 8rpx;
+  font-size: var(--fs-xs);
+  color: var(--c-text-weak);
+  letter-spacing: 1rpx;
+}
+
+/* 本周日历 */
+.week {
+  margin-top: 24rpx;
+  background: linear-gradient(180deg, var(--c-white) 0%, var(--c-card-2) 100%);
+  border-radius: var(--r-md);
+  padding: 26rpx 20rpx 22rpx;
+  box-shadow: var(--shadow-1);
+  border: 1rpx solid var(--c-line-soft);
+}
+
+.week-title {
+  font-size: var(--fs-sm);
+  color: var(--c-text-sub);
+  letter-spacing: 1rpx;
+  margin-bottom: 18rpx;
+}
+
+.week-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.day {
+  flex: 1;
+  margin: 0 4rpx;
+  border-radius: var(--r-sm);
+  padding: 12rpx 4rpx;
+  text-align: center;
+  background: var(--c-bg-2);
+  min-height: 96rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.day.has {
+  background: var(--c-primary-soft);
+}
+
+.day.is-today {
+  outline: 2rpx solid var(--c-gold);
+  outline-offset: -2rpx;
+}
+
+.day-label {
+  font-size: var(--fs-xs);
+  color: var(--c-text-weak);
+  letter-spacing: 1rpx;
+}
+
+.day-name {
+  margin-top: 8rpx;
+  font-size: var(--fs-xs);
+  color: var(--c-text-2);
+  line-height: 1.3;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 0 2rpx;
+}
+
+.day.has .day-name {
+  color: var(--c-primary-deep);
+}
+
+.fav-roll {
+  margin-top: 28rpx;
+  height: 92rpx;
+  line-height: 92rpx;
+  text-align: center;
+  background: var(--c-primary-soft);
+  color: var(--c-primary-deep);
+  font-size: var(--fs-md);
+  letter-spacing: 2rpx;
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-1);
+}
+
+/* 分组：已选择 / 抽过没选 */
+.group {
+  margin-top: 36rpx;
+}
+
+.group:first-child {
+  margin-top: 28rpx;
+}
+
+.group-head {
+  display: flex;
+  align-items: center;
+  padding: 0 8rpx 16rpx;
+}
+
+.group-title {
+  font-size: var(--fs-md);
+  font-weight: 500;
+  color: var(--c-text);
+  letter-spacing: 2rpx;
+}
+
+.group-count {
+  margin-left: 14rpx;
+  min-width: 36rpx;
+  height: 34rpx;
+  line-height: 34rpx;
+  padding: 0 12rpx;
+  border-radius: var(--r-pill);
+  background: var(--c-primary-soft);
+  color: var(--c-primary-deep);
+  font-size: var(--fs-xs);
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.list {
+  margin-top: 0;
+}
+
+.group .list {
+  margin-top: 0;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(180deg, var(--c-white) 0%, var(--c-card-2) 100%);
+  border-radius: var(--r-md);
+  padding: 26rpx 24rpx 26rpx 32rpx;
+  margin-bottom: 20rpx;
+  box-shadow: var(--shadow-1);
+  border: 1rpx solid var(--c-line-soft);
+}
+
+.item-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.item-hover {
+  background: var(--c-card-2);
+}
+
+.item-name {
+  font-size: var(--fs-xl);
+  font-weight: 500;
+  color: var(--c-text);
+  letter-spacing: 1rpx;
+  line-height: 1.4;
+  word-break: break-all;
+}
+
+.item-meta {
+  margin-top: 10rpx;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.item-cat {
+  font-size: var(--fs-xs);
+  color: var(--c-primary-deep);
+  background: var(--c-primary-soft);
+  padding: 2rpx 14rpx;
+  border-radius: var(--r-pill);
+  letter-spacing: 1rpx;
+}
+
+.item-time {
+  margin-left: 14rpx;
+  font-size: var(--fs-xs);
+  color: var(--c-text-weak);
+}
+
+/* 打卡评分控件（历史项内） */
+.item-rate {
+  margin-top: 16rpx;
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.item-rate-label {
+  font-size: var(--fs-xs);
+  color: var(--c-text-weak);
+  letter-spacing: 1rpx;
+}
+
+.item-rate-opt {
+  width: 56rpx;
+  height: 56rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 18rpx;
+  background: var(--c-primary-soft);
+  border: 1rpx solid transparent;
+  transition: transform 0.16s var(--ease), border-color 0.16s var(--ease);
+}
+
+/* 打卡行：图标尺寸按 56rpx 药丸 + 40rpx 图形（20/24 视觉框，与 like/unlike 同源） */
+.item-rate-ico {
+  width: 40rpx;
+  height: 40rpx;
+  display: block;
+}
+
+.item-rate-opt:active {
+  transform: scale(0.92);
+}
+
+.item-rate-opt.is-on {
+  border-color: var(--c-primary-deep);
+  background: #fff;
+  box-shadow: 0 4rpx 10rpx rgba(190, 94, 39, 0.18);
+}
+
+.badge {
+  margin-left: 14rpx;
+  font-size: var(--fs-xs);
+  color: var(--c-success);
+  background: var(--c-success-soft);
+  padding: 2rpx 14rpx;
+  border-radius: var(--r-pill);
+  letter-spacing: 1rpx;
+}
+
+.badge-manual {
+  color: var(--c-primary-deep);
+  background: var(--c-gold-soft);
+}
+
+.item-desc {
+  margin-top: 10rpx;
+  font-size: var(--fs-sm);
+  color: var(--c-text-weak);
+  line-height: 1.5;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---------- 赞/踩按钮：Uiverse like-unlike-radio 风格改写 ---------- */
+.item-actions.like-unlike {
+  display: flex;
+  margin-left: 16rpx;
+  column-gap: 8rpx;
+}
+
+.act {
+  width: 72rpx;
+  height: 72rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--c-bg-2);
+  color: var(--c-text-sub);
+  transition: background-color 0.25s ease-in-out, transform 0.2s ease-in-out;
+  position: relative;
+  overflow: visible;
+}
+
+.act-icon {
+  width: 36rpx;
+  height: 36rpx;
+  transition: transform 0.25s ease-in-out;
+}
+
+.act:active {
+  transform: scale(0.92);
+}
+
+.act.is-on {
+  background: var(--c-primary-soft);
+}
+
+.act-black.is-on {
+  background: var(--c-danger-soft);
+}
+
+/* 选中时图标弹一下（仿 keyframes-fill：scale 0 → 1.2 → 1） */
+.act.is-on .act-icon,
+.act-black.is-on .act-icon {
+  animation: actFill 0.4s ease-in-out;
+}
+
+@keyframes actFill {
+  0%   { transform: scale(0.6); opacity: 0; }
+  50%  { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+/* 空状态样式已上提为 app.wxss 的全局 .empty / .empty-art / .empty-title / .empty-desc，
+   全站（历史 / 我的菜 / 菜谱 / 附近）统一复用这一套，本页不再单独维护。 */
+
+/* 清空 */
+.clear-wrap {
+  margin-top: 48rpx;
+}
+
+.clear-btn {
+  height: 92rpx;
+  line-height: 92rpx;
+  text-align: center;
+  background: linear-gradient(180deg, var(--c-white) 0%, var(--c-card-2) 100%);
+  color: var(--c-danger);
+  font-size: var(--fs-md);
+  letter-spacing: 2rpx;
+  border-radius: var(--r-md);
+  border: 1rpx solid var(--c-danger-soft);
+  box-shadow: var(--shadow-1);
+}
+
+.clear-btn:active {
+  background: var(--c-danger-soft);
+}
+
+.clear-tip {
+  margin-top: 16rpx;
+  text-align: center;
+  font-size: var(--fs-xs);
+  color: var(--c-text-weak);
+  letter-spacing: 0.5rpx;
+}
+

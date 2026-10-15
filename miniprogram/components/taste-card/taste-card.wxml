@@ -1,0 +1,41 @@
+<!-- components/taste-card/taste-card.wxml
+     原 history 页的口味画像块整体迁过来。结构、空状态文案、强度点亮规则
+     与原版完全一致，新增 .hasAny 控制外层整张卡的可见性（首页用它）。
+     整张卡可点 → 跳到 history 的 history tab，整链路打通。 -->
+<view class="taste-card-wrap" wx:if="{{hasAny || forceShow}}" bindtap="goHistory" hover-class="taste-card-hover">
+  <view class="taste-head">
+    <text class="taste-title">口味画像</text>
+    <text class="taste-hint">来自你的打卡评分 ›</text>
+  </view>
+
+  <!-- 还没打过卡：给引导，而不是让整块消失（仅 forceShow 场景会走到这里） -->
+  <view class="taste-empty" wx:if="{{!hasAny}}">
+    还没打过卡。吃完点一下「好吃 / 一般 / 踩雷」，它就会越来越懂你
+  </view>
+
+  <view class="taste-block" wx:if="{{loved.length}}">
+    <view class="taste-cap taste-cap--love">偏爱的口味</view>
+    <view class="taste-tags">
+      <view class="taste-tag taste-tag--love" wx:for="{{loved}}" wx:key="tag">
+        <text>{{item.tag}}</text>
+        <view class="taste-lv">
+          <view class="taste-lv-dot {{n <= item.level ? 'is-on' : ''}}"
+                wx:for="{{item.dots}}" wx:for-item="n" wx:key="*this"></view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="taste-block" wx:if="{{hated.length}}">
+    <view class="taste-cap taste-cap--hate">想避开的</view>
+    <view class="taste-tags">
+      <view class="taste-tag taste-tag--hate" wx:for="{{hated}}" wx:key="tag">
+        <text>{{item.tag}}</text>
+        <view class="taste-lv">
+          <view class="taste-lv-dot is-hate {{n <= item.level ? 'is-on' : ''}}"
+                wx:for="{{item.dots}}" wx:for-item="n" wx:key="*this"></view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

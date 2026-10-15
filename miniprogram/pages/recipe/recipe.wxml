@@ -1,0 +1,106 @@
+<view class="page recipe-page theme-{{theme}}">
+  <block wx:if="{{dish}}">
+    <view class="rp-head">
+      <view class="rp-name">{{dish.name}}</view>
+      <view class="rp-meta">
+        <text class="rp-cat">{{dish.category}}</text>
+        <text class="rp-tag" wx:for="{{dish.tags}}" wx:key="*this">{{item}}</text>
+      </view>
+      <view class="rp-desc" wx:if="{{dish.desc}}">{{dish.desc}}</view>
+      <view class="rp-info" wx:if="{{dish.meta.servings || dish.meta.time || dish.meta.level}}">
+        <view class="rp-info-item" wx:if="{{dish.meta.servings}}">
+          <view class="rp-info-ico">份</view>
+          <view class="rp-info-c">
+            <view class="rp-info-k">份量</view>
+            <view class="rp-info-v">{{dish.meta.servings}}</view>
+          </view>
+        </view>
+        <view class="rp-info-item" wx:if="{{dish.meta.time}}">
+          <view class="rp-info-ico">时</view>
+          <view class="rp-info-c">
+            <view class="rp-info-k">总时长</view>
+            <view class="rp-info-v">{{dish.meta.time}}</view>
+          </view>
+        </view>
+        <view class="rp-info-item" wx:if="{{dish.meta.level}}">
+          <view class="rp-info-ico">难</view>
+          <view class="rp-info-c">
+            <view class="rp-info-k">难度</view>
+            <view class="rp-info-v">{{dish.meta.level}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="rp-block" wx:if="{{dish.ingredients.length}}">
+      <view class="rp-block-title">食材准备</view>
+      <view class="rp-ings">
+        <view class="rp-ing" wx:for="{{dish.ingredients}}" wx:key="*this">{{item}}</view>
+      </view>
+    </view>
+
+    <!-- 风味档案：口味 / 热量 / 适合时段 / 搭配建议，让教程更详实 -->
+    <view class="rp-block rp-flavor" wx:if="{{dish.flavor || dish.kcal || dish.slots.length || dish.pairings.length}}">
+      <view class="rp-block-title">风味档案</view>
+      <view class="rp-fv-row" wx:if="{{dish.flavor}}">
+        <text class="rp-fv-k">口味</text>
+        <text class="rp-fv-v">{{dish.flavor}}</text>
+      </view>
+      <view class="rp-fv-row" wx:if="{{dish.kcal}}">
+        <text class="rp-fv-k">热量</text>
+        <text class="rp-fv-v">{{dish.kcal}}热量</text>
+      </view>
+      <view class="rp-fv-row" wx:if="{{dish.slots.length}}">
+        <text class="rp-fv-k">适合</text>
+        <view class="rp-fv-pills">
+          <text class="rp-fv-pill" wx:for="{{dish.slots}}" wx:key="*this">{{item}}</text>
+        </view>
+      </view>
+      <view class="rp-fv-row" wx:if="{{dish.pairings.length}}">
+        <text class="rp-fv-k">搭配</text>
+        <view class="rp-fv-pills">
+          <text class="rp-fv-pill" wx:for="{{dish.pairings}}" wx:key="*this">{{item}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="rp-block" wx:if="{{dish.steps.length}}">
+      <view class="rp-block-title">做法步骤</view>
+      <view class="rp-step" wx:for="{{dish.steps}}" wx:key="index">
+        <view class="rp-step-no">{{index + 1}}</view>
+        <view class="rp-step-text">{{item}}</view>
+      </view>
+    </view>
+
+    <view class="rp-empty" wx:if="{{!dish.ingredients.length && !dish.steps.length}}">
+      这道菜暂时还没有详细教程，去试试别的吧～
+    </view>
+
+    <view class="rp-block rp-tips" wx:if="{{dish.tips.length}}">
+      <view class="rp-block-title">小贴士</view>
+      <view class="rp-tip" wx:for="{{dish.tips}}" wx:key="index">
+        <view class="rp-tip-dot"></view>
+        <view class="rp-tip-text">{{item}}</view>
+      </view>
+    </view>
+
+    <view class="rp-fun" wx:if="{{dish.fun}}">{{dish.fun}}</view>
+
+    <view class="rp-back tapable" bindtap="goBack">返回</view>
+    <view class="rp-safe"></view>
+  </block>
+
+  <!-- 整页空状态：复用 app.wxss 的全局 .empty / .empty-art（全站统一） -->
+  <view class="empty" wx:else>
+    <view class="empty-art">
+      <view class="empty-steam s1"></view>
+      <view class="empty-steam s2"></view>
+      <view class="empty-steam s3"></view>
+      <view class="empty-bowl"></view>
+      <view class="empty-base"></view>
+    </view>
+    <view class="empty-title">没找到这道菜</view>
+    <view class="empty-desc">它可能已经被移除了，换个菜试试</view>
+    <view class="rp-back tapable" bindtap="goBack">返回首页</view>
+  </view>
+</view>

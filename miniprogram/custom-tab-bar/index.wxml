@@ -1,0 +1,8 @@
+<view class="radio-inputs {{visible ? '' : 'is-hidden'}}">
+  <view wx:for="{{list}}" wx:key="pagePath"
+        class="radio {{active === index ? 'is-on' : ''}} {{active === index && replay === index ? 'is-replay' : ''}}"
+        data-index="{{index}}" bindtap="onSwitch">
+    <image class="ctab-icon" src="{{active === index ? item.iconWhite : item.icon}}" mode="aspectFit" />
+    <text class="ctab-label">{{item.text}}</text>
+  </view>
+</view>

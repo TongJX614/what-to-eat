@@ -1,0 +1,301 @@
+.my-page {
+  min-height: 100vh;
+  /* 底部留白给浮动 tabBar。之前靠在文件末尾覆盖全局 .page 实现，
+     页面 WXSS 无作用域隔离，会污染所有用到 .page 的页面，故收回本类。 */
+  padding: 56rpx 36rpx calc(env(safe-area-inset-bottom) + 168rpx);
+}
+
+.my-head {
+  margin-bottom: 36rpx;
+}
+
+.my-title {
+  font-size: var(--fs-2xl);
+  font-weight: 700;
+  color: var(--c-text);
+  letter-spacing: 3rpx;
+}
+
+.my-sub {
+  margin-top: 10rpx;
+  font-size: var(--fs-sm);
+  color: var(--c-text-weak);
+  letter-spacing: 1rpx;
+}
+
+/* 列表 */
+.my-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.my-item {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(180deg, var(--c-white) 0%, var(--c-card-2) 100%);
+  border: 1rpx solid var(--c-line-soft);
+  border-radius: var(--r-md);
+  padding: 26rpx 24rpx 26rpx 32rpx;
+  margin-bottom: 20rpx;
+  box-shadow: var(--shadow-1);
+}
+
+.my-item-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.my-name {
+  font-size: var(--fs-xl);
+  font-weight: 500;
+  color: var(--c-text);
+  letter-spacing: 1rpx;
+}
+
+.my-meta {
+  margin-top: 8rpx;
+  display: flex;
+  align-items: center;
+}
+
+.my-cat {
+  font-size: var(--fs-xs);
+  color: var(--c-primary-deep);
+  background: var(--c-primary-soft);
+  padding: 2rpx 14rpx;
+  border-radius: var(--r-pill);
+  letter-spacing: 1rpx;
+}
+
+.my-price {
+  margin-left: 14rpx;
+  font-size: var(--fs-xs);
+  color: var(--c-text-weak);
+}
+
+.my-tags {
+  margin-top: 10rpx;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.my-tag {
+  font-size: var(--fs-xs);
+  color: var(--c-text-sub);
+  background: var(--c-bg-2);
+  padding: 2rpx 14rpx;
+  border-radius: var(--r-pill);
+  margin: 0 10rpx 8rpx 0;
+}
+
+.my-del {
+  flex: none;
+  margin-left: 16rpx;
+  font-size: var(--fs-sm);
+  color: var(--c-danger);
+  padding: 12rpx 18rpx;
+}
+
+/* 删除：破坏性操作，按压时给出明确的危险色反馈 */
+.my-del:active {
+  background: var(--c-danger-soft);
+}
+
+/* 空状态已上提为 app.wxss 的全局 .empty / .empty-art / .empty-title / .empty-desc，
+   本页直接复用，不再单独维护一套。 */
+
+/* 表单 */
+.my-form {
+  background: linear-gradient(180deg, var(--c-white) 0%, var(--c-card-2) 100%);
+  border: 1rpx solid var(--c-line-soft);
+  border-radius: var(--r-lg);
+  padding: 36rpx 30rpx;
+  box-shadow: var(--shadow-2);
+}
+
+/* 顶部自定义导航：固定钉顶（结果页同款）。状态栏留白 JS 注入，圆玻璃返回键贴左 */
+.my-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  background: rgba(251, 237, 219, 0.72);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  backdrop-filter: blur(14px) saturate(160%);
+}
+
+.my-nav-ph {
+  height: 112rpx;
+}
+
+.my-nav {
+  position: relative;
+  height: 100rpx;
+}
+
+.my-nav-back {
+  position: absolute;
+  left: 32rpx;
+  top: 10rpx;
+  width: 80rpx;
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(255, 252, 247, 0.72);
+  border: 1rpx solid rgba(255, 255, 255, 0.6);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  backdrop-filter: blur(12px) saturate(180%);
+  box-shadow: 0 4rpx 14rpx rgba(160, 110, 60, 0.14);
+  font-size: 34rpx;
+  color: var(--c-text);
+}
+
+.my-nav-title {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 32rpx;
+  font-weight: 600;
+  color: var(--c-text);
+  letter-spacing: 2rpx;
+  white-space: nowrap;
+}
+
+/* 表单顶部标题 */
+.my-form-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24rpx;
+}
+
+.my-form-title {
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  color: var(--c-text);
+  letter-spacing: 2rpx;
+}
+
+.my-field {
+  display: flex;
+  align-items: flex-start;
+  padding: 22rpx 0;
+  border-bottom: 1rpx solid var(--c-line-soft);
+}
+
+.my-label {
+  width: 120rpx;
+  flex: none;
+  font-size: var(--fs-md);
+  color: var(--c-text-2);
+  letter-spacing: 1rpx;
+  padding-top: 6rpx;
+}
+
+.my-input {
+  flex: 1;
+  font-size: var(--fs-md);
+  color: var(--c-text);
+}
+
+.my-field-area {
+  align-items: flex-start;
+}
+
+.my-area {
+  flex: 1;
+  width: 100%;
+  min-height: 150rpx;
+  font-size: var(--fs-md);
+  color: var(--c-text);
+  line-height: 1.6;
+  background: var(--c-card-2);
+  border: 1rpx solid var(--c-line);
+  border-radius: var(--r-md);
+  padding: 18rpx 20rpx;
+  box-sizing: border-box;
+}
+
+.my-picker {
+  flex: 1;
+}
+
+.my-picker-val {
+  font-size: var(--fs-md);
+  color: var(--c-text);
+}
+
+.my-picker-val.is-ph {
+  color: var(--c-text-weak);
+}
+
+.my-tags-edit {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.my-chip {
+  font-size: var(--fs-sm);
+  color: var(--c-text-sub);
+  background: var(--c-bg-2);
+  border: 1rpx solid var(--c-line);
+  padding: 8rpx 20rpx;
+  border-radius: var(--r-pill);
+  margin: 0 12rpx 12rpx 0;
+}
+
+.my-chip.is-on {
+  color: var(--c-primary-deep);
+  background: var(--c-primary-soft);
+  border-color: transparent;
+}
+
+.my-form-btns {
+  display: flex;
+  margin-top: 32rpx;
+}
+
+.my-btn-ghost,
+.my-btn-primary {
+  flex: 1;
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  border-radius: var(--r-pill);
+  font-size: var(--fs-md);
+  letter-spacing: 2rpx;
+}
+
+.my-btn-ghost {
+  background: var(--c-bg-2);
+  color: var(--c-text-sub);
+  margin-right: 18rpx;
+}
+
+.my-btn-primary {
+  background: var(--c-primary);
+  color: var(--c-white);
+}
+
+/* 添加按钮 */
+.my-add {
+  margin-top: 36rpx;
+  height: 96rpx;
+  line-height: 96rpx;
+  text-align: center;
+  background: var(--c-primary-soft);
+  color: var(--c-primary-deep);
+  font-size: var(--fs-lg);
+  letter-spacing: 2rpx;
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-1);
+}
+
+/* 这里原本有一条 .page { padding-bottom: 190rpx }。
+   页面 WXSS 无作用域隔离，覆盖全局 .page 会污染所有用到该类的页面；
+   本页需要的底部留白已并入 .my-page，故删除此条。 */

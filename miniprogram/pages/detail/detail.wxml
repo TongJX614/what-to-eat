@@ -1,0 +1,77 @@
+<view class="page dt-page theme-warm">
+  <block wx:if="{{dish}}">
+    <!-- Hero：菜名 + 分类 + 风味关键词 -->
+    <view class="dt-hero">
+      <view class="dt-cat">{{dish.category}}</view>
+      <view class="dt-name">{{dish.name}}</view>
+      <view class="dt-flavor" wx:if="{{dish.flavor}}">{{dish.flavor}}</view>
+      <view class="dt-price">参考价 ¥{{dish.price}}</view>
+    </view>
+
+    <!-- 风味标签：复用菜品自带 tags -->
+    <view class="dt-tags" wx:if="{{dish.tags.length}}">
+      <view class="dt-tag" wx:for="{{dish.tags}}" wx:key="*this">{{item}}</view>
+    </view>
+
+    <!-- 一句话介绍 -->
+    <view class="dt-card" wx:if="{{dish.desc}}">
+      <view class="dt-card-label">简介</view>
+      <view class="dt-card-text">{{dish.desc}}</view>
+    </view>
+
+    <!-- 推荐理由 -->
+    <view class="dt-card" wx:if="{{dish.reason}}">
+      <view class="dt-card-label">推荐理由</view>
+      <view class="dt-card-text dt-card-text--quote">{{dish.reason}}</view>
+    </view>
+
+    <!-- 适合时段 + 卡路里 -->
+    <view class="dt-meta">
+      <view class="dt-meta-block">
+        <view class="dt-meta-k">适合</view>
+        <view class="dt-meta-v">
+          <text class="dt-meta-pill" wx:for="{{slots}}" wx:key="key">{{item.label}}</text>
+          <text class="dt-meta-empty" wx:if="{{!slots.length}}">随时</text>
+        </view>
+      </view>
+      <view class="dt-meta-block">
+        <view class="dt-meta-k">热量</view>
+        <view class="dt-meta-v">
+          <text class="dt-meta-pill dt-meta-pill--gold">{{dish.kcal}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 主料 -->
+    <view class="dt-card">
+      <view class="dt-card-label">主料</view>
+      <view class="dt-ings">
+        <text class="dt-ing" wx:for="{{ingredients}}" wx:key="*this">{{item}}</text>
+      </view>
+    </view>
+
+    <!-- 搭配 -->
+    <view class="dt-card" wx:if="{{pairings.length}}">
+      <view class="dt-card-label">搭配建议</view>
+      <view class="dt-ings">
+        <text class="dt-ing dt-ing--soft" wx:for="{{pairings}}" wx:key="*this">{{item}}</text>
+      </view>
+    </view>
+
+    <!-- 行动区：就吃这个 / 收藏 / 黑名单 / 做菜教程 -->
+    <view class="dt-actions">
+      <view class="dt-btn dt-btn--ghost" bindtap="toggleBlack">
+        {{isBlack ? '已拉黑 · 移出' : '拉黑'}}
+      </view>
+      <view class="dt-btn dt-btn--ghost dt-btn--fav" bindtap="toggleFav">
+        {{isFav ? '★ 已收藏' : '☆ 收藏'}}
+      </view>
+      <view class="dt-btn dt-btn--primary" bindtap="goOrbit">就吃这个</view>
+    </view>
+
+    <view class="dt-side-row" bindtap="goRecipe">
+      <text class="dt-side-row-t">查看做菜教程</text>
+      <text class="dt-side-row-a">→</text>
+    </view>
+  </block>
+</view>

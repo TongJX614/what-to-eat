@@ -1,0 +1,600 @@
+.nb-page {
+  /* 地图钉死在顶部、列表独立滚动：整页改成 flex 列布局 + 撑满屏高。
+     覆盖 .page 的 min-height:100% 与 padding-bottom。 */
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 0;
+  box-sizing: border-box;
+  /* 任何子元素横向溢出都裁掉，避免整页被撑宽后内容偏右 */
+  overflow-x: hidden;
+}
+
+/* ---------- 地图：固定不滚动 ---------- */
+.nb-map-wrap {
+  position: relative;
+  flex: none;
+  width: 100%;
+  height: 520rpx;
+  background: var(--c-card-2);
+}
+
+.nb-map {
+  width: 100%;
+  height: 520rpx;
+}
+
+.nb-map-ph {
+  width: 100%;
+  height: 520rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nb-map-ph-txt {
+  font-size: var(--fs-md);
+  color: var(--c-text-weak);
+}
+
+/* ---------- 下方滚动区：地图不动，只滚这里 ----------
+   背景/圆角/阴影放在滚动窗口上而不是里面的 .nb-list：
+   否则一滚动，圆角顶边跟着内容滚出窗口，露出的就是窗口直角。
+   放在窗口上，任何滚动位置裁切出来的都是圆角。 */
+.nb-scroll {
+  flex: 1;
+  overflow: hidden;
+  margin: 0 32rpx;
+  /* ⚠ 必须给显式宽度：scroll-view 是 flex item，内部 nowrap 的长店名/长地址
+     会以 min-content 把它撑宽——左边缘不动、整体向右长出屏幕，右侧就被裁掉。
+     显式宽度 + min-width:0 后，超长内容走省略号，不再反过来撑破容器。 */
+  width: calc(100% - 64rpx);
+  min-width: 0;
+  box-sizing: border-box;
+  background: linear-gradient(180deg, var(--c-white) 0%, var(--c-card-2) 100%);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-1);
+}
+
+/* 底部留白：给浮动 tabBar 留出空间，避免最后一项被遮 */
+.nb-scroll-pad {
+  height: calc(env(safe-area-inset-bottom) + 200rpx);
+}
+
+/* 演示数据提示 */
+.nb-mock {
+  margin: 20rpx 32rpx 0;
+  padding: 16rpx 24rpx;
+  font-size: var(--fs-sm);
+  color: var(--c-text-sub);
+  background: var(--c-gold-soft);
+  border-radius: var(--r-md);
+  text-align: center;
+  line-height: 1.6;
+}
+
+/* ---------- 状态 ---------- */
+.nb-state {
+  margin-top: 120rpx;
+  padding: 0 60rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.nb-spin {
+  width: 56rpx;
+  height: 56rpx;
+  border: 5rpx solid var(--c-line);
+  border-top-color: var(--c-primary);
+  border-radius: 50%;
+  animation: nbSpin 0.9s linear infinite;
+  margin-bottom: 28rpx;
+}
+
+@keyframes nbSpin {
+  to { transform: rotate(360deg); }
+}
+
+.nb-state-ico {
+  width: 88rpx;
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  font-size: 36rpx;
+  color: var(--c-primary-deep);
+  background: var(--c-primary-soft);
+  border-radius: 50%;
+  margin-bottom: 24rpx;
+}
+
+.nb-state-txt {
+  font-size: var(--fs-lg);
+  color: var(--c-text);
+  text-align: center;
+  line-height: 1.7;
+}
+
+.nb-state-sub {
+  margin-top: 12rpx;
+  font-size: var(--fs-sm);
+  color: var(--c-text-weak);
+  text-align: center;
+}
+
+.nb-btn {
+  margin-top: 36rpx;
+  padding: 0 56rpx;
+  height: 84rpx;
+  line-height: 84rpx;
+  font-size: var(--fs-lg);
+  color: var(--c-white);
+  background: var(--c-primary);
+  border-radius: var(--r-pill);
+  box-shadow: var(--shadow-primary);
+}
+
+/* ---------- 餐厅数提示：固定在 nb-list 之上，跟着地图/mock 一起不滚 ---------- */
+.nb-count {
+  flex: none;
+  margin: 36rpx 32rpx 18rpx;
+  display: flex;
+  align-items: baseline;
+}
+
+.nb-count-n {
+  font-size: var(--fs-2xl);
+  color: var(--c-primary-deep);
+  font-weight: 500;
+}
+
+.nb-count-t {
+  margin-left: 10rpx;
+  font-size: var(--fs-md);
+  color: var(--c-text-2);
+}
+
+/* ---------- 排序 + 夜宵过滤 ---------- */
+.nb-tools {
+  flex: none;
+  margin: 0 32rpx 18rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nb-sort {
+  display: flex;
+  background: linear-gradient(180deg, var(--c-white) 0%, var(--c-card-2) 100%);
+  border-radius: var(--r-pill);
+  padding: 6rpx;
+  box-shadow: var(--shadow-1);
+  border: 1rpx solid var(--c-line-soft);
+}
+
+.nb-sort-btn {
+  padding: 6rpx 18rpx;
+  border-radius: var(--r-pill);
+  font-size: var(--fs-xs);
+  color: var(--c-text-sub);
+  letter-spacing: 0.5rpx;
+}
+
+/* 无营业时间数据时的置灰态（腾讯 POI 搜索不返回该字段） */
+.nb-sort-btn.is-off,
+.nb-night-toggle.is-off {
+  opacity: 0.4;
+}
+
+.nb-sort-btn.is-on {
+  background: var(--c-primary);
+  color: var(--c-white);
+  font-weight: 500;
+}
+
+.nb-night-toggle {
+  display: flex;
+  align-items: center;
+  padding: 8rpx 18rpx;
+  background: linear-gradient(180deg, var(--c-white) 0%, var(--c-card-2) 100%);
+  border-radius: var(--r-pill);
+  border: 1rpx solid var(--c-line-soft);
+  box-shadow: var(--shadow-1);
+}
+
+.nb-night-toggle.is-on {
+  background: var(--c-primary-deep);
+  border-color: transparent;
+}
+
+.nb-night-ico {
+  margin-right: 6rpx;
+  font-size: var(--fs-sm);
+  color: var(--c-primary-deep);
+}
+
+.nb-night-toggle.is-on .nb-night-ico {
+  color: var(--c-white);
+}
+
+.nb-night-t {
+  font-size: var(--fs-xs);
+  color: var(--c-text-sub);
+  letter-spacing: 0.5rpx;
+}
+
+.nb-night-toggle.is-on .nb-night-t {
+  color: var(--c-white);
+}
+
+/* 面板视觉（背景/圆角/阴影）已上移到 .nb-scroll，这里只做内容容器 */
+.nb-list {
+  overflow: hidden;      /* 横向也裁：长店名/长地址不再把容器撑宽 */
+  min-width: 0;
+  max-width: 100%;
+}
+
+.nb-item {
+  display: flex;
+  align-items: center;
+  padding: 30rpx 32rpx;
+  box-sizing: border-box;
+  max-width: 100%;
+  border-bottom: 1rpx solid var(--c-line-soft);
+}
+
+.nb-item:last-child {
+  border-bottom: none;
+}
+
+.nb-item-hover {
+  background: var(--c-card-2);
+}
+
+.nb-item.is-on {
+  background: var(--c-primary-tint);
+}
+
+.nb-item-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.nb-item-name {
+  font-size: var(--fs-lg);
+  color: var(--c-text);
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.nb-item-addr {
+  margin-top: 8rpx;
+  font-size: var(--fs-sm);
+  color: var(--c-text-sub);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.nb-item-tags {
+  margin-top: 12rpx;
+}
+
+.nb-item-cat {
+  display: inline-block;
+  font-size: var(--fs-xs);
+  color: var(--c-primary-deep);
+  background: var(--c-primary-soft);
+  padding: 4rpx 16rpx;
+  border-radius: var(--r-pill);
+}
+
+.nb-item-open {
+  display: inline-block;
+  margin-left: 12rpx;
+  font-size: var(--fs-xs);
+  color: #2F9B5E;
+  background: rgba(47, 155, 94, 0.10);
+  padding: 4rpx 14rpx;
+  border-radius: var(--r-pill);
+}
+
+.nb-item-night {
+  display: inline-block;
+  margin-left: 12rpx;
+  font-size: var(--fs-xs);
+  color: var(--c-primary-deep);
+  background: var(--c-gold-soft);
+  padding: 4rpx 14rpx;
+  border-radius: var(--r-pill);
+}
+
+.nb-item-name .nb-item-mark {
+  margin-left: 12rpx;
+  padding: 2rpx 12rpx;
+  border-radius: var(--r-pill);
+  font-size: var(--fs-xs);
+  font-weight: 400;
+  letter-spacing: 0.5rpx;
+  vertical-align: middle;
+}
+
+.nb-item-mark--visited {
+  color: #2F9B5E;
+  background: rgba(47, 155, 94, 0.10);
+}
+
+.nb-item-mark--fav {
+  color: var(--c-primary-deep);
+  background: var(--c-primary-soft);
+}
+
+.nb-item-side {
+  flex: 0 0 auto;
+  margin-left: 20rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.nb-item-dist {
+  font-size: var(--fs-md);
+  color: var(--c-gold);
+  font-weight: 500;
+}
+
+.nb-item-row-btns {
+  margin-top: 12rpx;
+  display: flex;
+  gap: 10rpx;
+}
+
+.nb-item-btn {
+  padding: 4rpx 14rpx;
+  border-radius: var(--r-pill);
+  background: var(--c-card-2);
+  color: var(--c-text-sub);
+  font-size: var(--fs-xs);
+  border: 1rpx solid var(--c-line-soft);
+}
+
+.nb-item-btn.is-on {
+  background: var(--c-primary);
+  color: var(--c-white);
+  border-color: transparent;
+}
+
+.nb-empty {
+  margin: 40rpx 32rpx;
+  text-align: center;
+  font-size: var(--fs-md);
+  color: var(--c-text-weak);
+}
+
+.nb-foot {
+  margin: 36rpx 32rpx 0;
+  text-align: center;
+  font-size: var(--fs-xs);
+  color: var(--c-text-weak);
+}
+
+/* ---------- 半屏详情 ---------- */
+.nb-mask {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: var(--c-mask-sheet);
+  /* 轻模糊：让地图在详情表后面透出 frosted 质感（玻璃表的"内容"来源） */
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.24s var(--ease);
+  z-index: 90;
+}
+
+.nb-mask.is-on {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.nb-sheet {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 24rpx 40rpx 48rpx;
+  background: var(--c-glass-bg-strong);
+  border: 1rpx solid var(--c-glass-border);
+  border-radius: var(--r-xl) var(--r-xl) 0 0;
+  -webkit-backdrop-filter: blur(var(--c-glass-blur)) saturate(160%);
+  backdrop-filter: blur(var(--c-glass-blur)) saturate(160%);
+  box-shadow:
+    var(--shadow-glass),
+    inset 0 2rpx 8rpx var(--c-glass-hi);
+  transform: translateY(100%);
+  pointer-events: none;
+  transition: transform 0.28s var(--ease);
+  z-index: 100;
+}
+
+.nb-sheet.is-on {
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.nb-sheet-bar {
+  width: 72rpx;
+  height: 8rpx;
+  border-radius: 8rpx;
+  background: var(--c-line);
+  margin: 0 auto 28rpx;
+}
+
+.nb-sheet-name {
+  font-size: var(--fs-2xl);
+  color: var(--c-text);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.nb-sheet-meta {
+  margin-top: 16rpx;
+  display: flex;
+  align-items: center;
+}
+
+.nb-sheet-cat {
+  font-size: var(--fs-sm);
+  color: var(--c-primary-deep);
+  background: var(--c-primary-soft);
+  padding: 4rpx 18rpx;
+  border-radius: var(--r-pill);
+  margin-right: 16rpx;
+}
+
+.nb-sheet-dist {
+  font-size: var(--fs-sm);
+  color: var(--c-gold);
+}
+
+.nb-sheet-row {
+  margin-top: 24rpx;
+  display: flex;
+  align-items: flex-start;
+}
+
+.nb-sheet-k {
+  flex: 0 0 auto;
+  width: 80rpx;
+  font-size: var(--fs-sm);
+  color: var(--c-text-weak);
+}
+
+.nb-sheet-v {
+  flex: 1;
+  font-size: var(--fs-md);
+  color: var(--c-text-2);
+  line-height: 1.7;
+}
+
+.nb-sheet-note {
+  margin-top: 28rpx;
+  padding: 18rpx 22rpx;
+  font-size: var(--fs-sm);
+  color: var(--c-text-sub);
+  background: var(--c-card-2);
+  border-radius: var(--r-md);
+  line-height: 1.6;
+}
+
+.nb-sheet-btn {
+  margin-top: 32rpx;
+  height: 92rpx;
+  line-height: 92rpx;
+  text-align: center;
+  font-size: var(--fs-lg);
+  color: var(--c-white);
+  background: var(--c-primary);
+  border-radius: var(--r-pill);
+  box-shadow: var(--shadow-primary);
+}
+
+.nb-sheet-btn-hover {
+  opacity: 0.9;
+}
+
+.nb-sheet-close {
+  margin-top: 20rpx;
+  text-align: center;
+  font-size: var(--fs-md);
+  color: var(--c-text-weak);
+}
+
+/* 半屏里的营业时间 + 标记按钮 */
+.nb-sheet-open {
+  font-size: var(--fs-sm);
+  color: #2F9B5E;
+}
+
+.nb-sheet-night {
+  font-size: var(--fs-sm);
+  color: var(--c-primary-deep);
+}
+
+.nb-sheet-actions {
+  margin-top: 28rpx;
+  display: flex;
+  gap: 16rpx;
+}
+
+.nb-sheet-mini {
+  flex: 1;
+  height: 72rpx;
+  line-height: 72rpx;
+  text-align: center;
+  border-radius: var(--r-pill);
+  background: var(--c-card);
+  color: var(--c-text-sub);
+  font-size: var(--fs-sm);
+  border: 1rpx solid var(--c-line-soft);
+}
+
+.nb-sheet-mini.is-on {
+  background: var(--c-primary);
+  color: var(--c-white);
+  border-color: transparent;
+}
+
+/* ---------- 菜名关键词条（结果页带过来的菜名） ---------- */
+.nb-kw {
+  flex: none;
+  margin: 16rpx 32rpx 0;
+  padding: 20rpx 24rpx;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(180deg, var(--c-white) 0%, var(--c-card-2) 100%);
+  border: 2rpx solid rgba(221, 122, 60, 0.28);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-1);
+}
+
+.nb-kw-emoji {
+  flex: none;
+  margin-right: 16rpx;
+  font-size: 40rpx;
+}
+
+.nb-kw-texts {
+  flex: 1;
+  min-width: 0;
+}
+
+.nb-kw-title {
+  font-size: var(--fs-md);
+  font-weight: 600;
+  color: var(--c-text-2);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.nb-kw-sub {
+  margin-top: 4rpx;
+  font-size: var(--fs-xs);
+  color: var(--c-text-weak);
+}
+
+.nb-kw-clear {
+  flex: none;
+  margin-left: 16rpx;
+  padding: 10rpx 20rpx;
+  font-size: var(--fs-xs);
+  color: var(--c-primary-deep);
+  background: var(--c-gold-soft);
+  border-radius: 999rpx;
+}
