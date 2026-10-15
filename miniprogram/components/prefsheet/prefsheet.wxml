@@ -1,0 +1,139 @@
+<view class="ps-mask theme-{{theme}} {{visible ? 'is-show' : ''}}" bindtap="close" catchtouchmove="noop"></view>
+
+<view class="ps-panel theme-{{theme}} {{visible ? 'is-show' : ''}}" catchtouchmove="noop">
+  <view class="ps-head">
+    <text class="ps-title">偏好设置</text>
+    <text class="ps-done" bindtap="close">完成</text>
+  </view>
+
+  <scroll-view scroll-y class="ps-body">
+    <view class="ps-count">
+      当前条件下可抽到 <text class="ps-count-num">{{availableCount}}</text> / {{totalCount}} 道菜
+    </view>
+
+    <view class="ps-block">
+      <view class="ps-block-title">忌口</view>
+      <view class="ps-row">
+        <view class="ps-row-main">
+          <view class="ps-row-name">不吃辣</view>
+          <view class="ps-row-desc">剔除所有带「辣」标签的菜</view>
+        </view>
+        <switch checked="{{local.noSpicy}}" data-field="noSpicy" bindchange="onSwitch" color="#DD7A3C" />
+      </view>
+      <view class="ps-row">
+        <view class="ps-row-main">
+          <view class="ps-row-name">素食</view>
+          <view class="ps-row-desc">只保留不含肉类的菜</view>
+        </view>
+        <switch checked="{{local.vegetarian}}" data-field="vegetarian" bindchange="onSwitch" color="#DD7A3C" />
+      </view>
+      <view class="ps-row">
+        <view class="ps-row-main">
+          <view class="ps-row-name">不吃香菜</view>
+          <view class="ps-row-desc">名字或食材里带香菜的都剔除</view>
+        </view>
+        <switch checked="{{local.noCilantro}}" data-field="noCilantro" bindchange="onSwitch" color="#DD7A3C" />
+      </view>
+      <view class="ps-row">
+        <view class="ps-row-main">
+          <view class="ps-row-name">不吃蒜</view>
+          <view class="ps-row-desc">蒜末、蒜蓉、蒜泥都算</view>
+        </view>
+        <switch checked="{{local.noGarlic}}" data-field="noGarlic" bindchange="onSwitch" color="#DD7A3C" />
+      </view>
+      <view class="ps-row">
+        <view class="ps-row-main">
+          <view class="ps-row-name">不吃葱</view>
+          <view class="ps-row-desc">葱花、大葱、小葱都剔除</view>
+        </view>
+        <switch checked="{{local.noScallion}}" data-field="noScallion" bindchange="onSwitch" color="#DD7A3C" />
+      </view>
+    </view>
+
+    <view class="ps-block">
+      <view class="ps-block-title">人均预算</view>
+      <view class="ps-budget-head">
+        <text class="ps-budget-val">{{budgetText}}</text>
+      </view>
+      <slider min="0" max="120" step="10" value="{{local.budget}}"
+              activeColor="#DD7A3C" backgroundColor="#ECE1D4" block-color="#FFFFFF"
+              block-size="22" bindchange="onBudget" />
+      <view class="ps-budget-tip">拖到最左为「不限」，价格为参考值，不代表实际售价</view>
+    </view>
+
+    <view class="ps-block">
+      <view class="ps-block-title">推荐时段</view>
+      <view class="ps-segs ps-segs-meal">
+        <view wx:for="{{mealList}}" wx:key="key"
+              class="ps-seg {{local.mealSlot === item.key ? 'is-on' : ''}}"
+              data-key="{{item.key}}" bindtap="onMeal">{{item.name}}</view>
+      </view>
+      <view class="ps-budget-tip">默认「自动」按你打开 App 的时间推荐；也可手动锁定早/午/晚</view>
+    </view>
+
+    <view class="ps-block">
+      <view class="ps-block-title">这顿怎么吃</view>
+
+      <view class="ps-sub">在哪吃</view>
+      <view class="ps-segs">
+        <view wx:for="{{modeList}}" wx:key="key"
+              class="ps-seg {{local.mealMode === item.key ? 'is-on' : ''}}"
+              data-field="mealMode" data-value="{{item.key}}" bindtap="onScene">{{item.name}}</view>
+      </view>
+
+      <view class="ps-sub">几个人吃</view>
+      <view class="ps-segs">
+        <view wx:for="{{partyList}}" wx:key="key"
+              class="ps-seg {{local.party === item.key ? 'is-on' : ''}}"
+              data-field="party" data-value="{{item.key}}" bindtap="onScene">{{item.name}}</view>
+      </view>
+
+      <view class="ps-sub">想吃点什么感觉</view>
+      <view class="ps-segs">
+        <view wx:for="{{tasteList}}" wx:key="key"
+              class="ps-seg {{local.taste === item.key ? 'is-on' : ''}}"
+              data-field="taste" data-value="{{item.key}}" bindtap="onScene">{{item.name}}</view>
+      </view>
+
+      <view class="ps-row">
+        <view class="ps-row-main">
+          <view class="ps-row-name">赶时间</view>
+          <view class="ps-row-desc">优先出餐快的，少推慢炖硬菜</view>
+        </view>
+        <switch checked="{{local.hurry}}" data-field="hurry" bindchange="onSwitch" color="#DD7A3C" />
+      </view>
+      <view class="ps-budget-tip">场景只做倾向调整，不会把菜直接排除掉</view>
+    </view>
+
+    <view class="ps-block">
+      <view class="ps-block-title">避免近期重复</view>
+      <view class="ps-segs">
+        <view wx:for="{{excludeOptions}}" wx:key="*this"
+              class="ps-seg {{local.excludeCount === item ? 'is-on' : ''}}"
+              data-value="{{item}}" bindtap="onExclude">最近 {{item}} 次</view>
+      </view>
+      <view class="ps-budget-tip">避免最近抽过的菜重复出现</view>
+    </view>
+
+    <view class="ps-block">
+      <view class="ps-block-title">其他</view>
+      <view class="ps-row">
+        <view class="ps-row-main">
+          <view class="ps-row-name">摇一摇随机</view>
+          <view class="ps-row-desc">在首页摇动手机直接出结果</view>
+        </view>
+        <switch checked="{{local.shake}}" data-field="shake" bindchange="onSwitch" color="#DD7A3C" />
+      </view>
+      <view class="ps-row">
+        <view class="ps-row-main">
+          <view class="ps-row-name">决定时震动与音效</view>
+          <view class="ps-row-desc">选出结果时轻微反馈，音效文件缺失则静默</view>
+        </view>
+        <switch checked="{{local.sound}}" data-field="sound" bindchange="onSwitch" color="#DD7A3C" />
+      </view>
+    </view>
+
+    <view class="ps-reset" bindtap="onReset">恢复默认设置</view>
+    <view class="ps-pad"></view>
+  </scroll-view>
+</view>

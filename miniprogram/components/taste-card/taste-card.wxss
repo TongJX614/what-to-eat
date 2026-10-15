@@ -1,0 +1,124 @@
+/* components/taste-card/taste-card.wxss
+   从 history.wxss 的 .taste* 整段迁过来。外层卡改名叫 .taste-card-wrap，
+   半径用 --r-lg 跟首页主卡片对齐；其它内部类（head / block / tag / lv-dot）保持原名，
+   这样 history 页迁移时只需换外层类名即可。 */
+
+.taste-card-wrap {
+  margin-top: 24rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+  background: linear-gradient(180deg, var(--c-white) 0%, var(--c-card-2) 100%);
+  border-radius: var(--r-lg);
+  padding: 28rpx 26rpx;
+  box-shadow: var(--shadow-1);
+  border: 1rpx solid var(--c-line-soft);
+  transition: transform 0.18s var(--ease), box-shadow 0.18s var(--ease);
+}
+
+.taste-card-hover {
+  transform: translateY(-2rpx);
+  box-shadow: var(--shadow-2);
+}
+
+.taste-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.taste-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--c-text);
+  letter-spacing: 2rpx;
+}
+
+.taste-hint {
+  font-size: 20rpx;
+  color: var(--c-text-weak);
+}
+
+.taste-empty {
+  font-size: 22rpx;
+  line-height: 1.7;
+  color: var(--c-text-sub);
+  background: var(--c-bg-2);
+  border-radius: var(--r-sm);
+  padding: 20rpx 22rpx;
+}
+
+/* 标签后的强度点：累计分越高点得越多，让「偏爱程度」一眼可见 */
+.taste-lv {
+  display: flex;
+  align-items: center;
+  gap: 4rpx;
+  margin-left: 10rpx;
+}
+
+.taste-lv-dot {
+  width: 8rpx;
+  height: 8rpx;
+  border-radius: 999rpx;
+  background: rgba(190, 94, 39, 0.22);
+}
+
+.taste-lv-dot.is-on {
+  background: var(--c-primary);
+}
+
+.taste-lv-dot.is-hate.is-on {
+  background: var(--c-danger);
+}
+
+.taste-block {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  flex-wrap: wrap;
+}
+
+.taste-cap {
+  font-size: 22rpx;
+  font-weight: 600;
+  padding: 4rpx 16rpx;
+  border-radius: 999rpx;
+  white-space: nowrap;
+}
+
+.taste-cap--love {
+  color: var(--c-primary-deep);
+  background: var(--c-primary-soft);
+}
+
+.taste-cap--hate {
+  color: var(--c-danger);
+  background: var(--c-danger-soft);
+}
+
+.taste-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+}
+
+.taste-tag {
+  display: inline-flex;
+  align-items: center;
+  font-size: 22rpx;
+  font-weight: 500;
+  padding: 6rpx 18rpx;
+  border-radius: 999rpx;
+}
+
+.taste-tag--love {
+  color: var(--c-primary-deep);
+  background: var(--c-primary-soft);
+  border: 1rpx solid rgba(190, 94, 39, 0.25);
+}
+
+.taste-tag--hate {
+  color: var(--c-danger);
+  background: var(--c-danger-soft);
+  border: 1rpx solid rgba(192, 65, 62, 0.22);
+}

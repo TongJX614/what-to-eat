@@ -1,2 +1,0 @@
-# what-to-eat
-placeholder

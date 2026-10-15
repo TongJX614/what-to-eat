@@ -1,0 +1,150 @@
+/* 底部导航栏：Uiverse 00Kubi radio-inputs 风格的小程序改写版。
+   保留毛玻璃质感底座 + 选中标记用主题色（暖橙渐变高亮块）+ 选中时缩放回弹 + 上下粒子。
+   无位移滑动高亮块：每个 tab 自身就是选中态容器；点击立即切页，
+   新页 attached 给目标 tab 加 is-replay class 触发一次"登场反馈"，settle 不重播。 */
+
+.radio-inputs {
+  --glass-bg: var(--c-glass-bg-strong);
+
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: calc(env(safe-area-inset-bottom) + 24rpx);
+  width: 620rpx;
+  height: 112rpx;
+  display: flex;
+  flex-wrap: nowrap;
+  border-radius: 56rpx;
+  /* 毛玻璃底座：浅玻璃模糊 + 玻璃边 + 玻璃阴影。
+     底板不明显的修正：底座更"实"（fallback 提高不透明度）、外投影加深以撑住内部高亮块 */
+  background: var(--c-glass-bg-strong);
+  border: 1rpx solid var(--c-glass-border);
+  /* filter 函数内必须用 px，rpx 会被忽略 */
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow:
+    inset 0 2rpx 6rpx var(--c-glass-hi),
+    inset 0 -2rpx 6rpx rgba(120, 90, 60, 0.12),
+    0 16rpx 40rpx rgba(74, 52, 32, 0.28),
+    0 4rpx 12rpx rgba(74, 52, 32, 0.18);
+  padding: 8rpx;
+  box-sizing: border-box;
+  overflow: visible;
+  z-index: 999;
+  transition: transform 0.34s var(--ease), opacity 0.28s ease;
+}
+
+/* 挑选遮罩期间整条收起 */
+.radio-inputs.is-hidden {
+  opacity: 0;
+  transform: translateX(-50%) translateY(160rpx);
+  pointer-events: none;
+}
+
+.radio-inputs .radio {
+  flex: 1 1 0;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 44rpx;
+  padding: 8rpx 0;
+  color: var(--c-text-2);
+  position: relative;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  overflow: visible;
+}
+
+/* 按下时白色半透明高光（玻璃质感里的瞬时高亮，仿 hover） */
+.radio-inputs .radio:active {
+  background-color: var(--c-glass-press);
+}
+
+.radio-inputs .radio .ctab-icon {
+  width: 40rpx;
+  height: 40rpx;
+  transition: transform 0.2s ease-in-out;
+}
+
+.radio-inputs .radio .ctab-label {
+  margin-top: 4rpx;
+  /* 自定义组件内取不到 page 上的 --fs-xs，var 落空会回退 16px（显得很大），
+     这里直接写死字号，比全局 xs 再小一档 */
+  font-size: 20rpx;
+  font-weight: 600;
+  letter-spacing: 1rpx;
+  color: var(--c-text-2);
+  transition: color 0.3s ease-in-out;
+}
+
+/* ---------- 选中态：主题橙色渐变高亮块 + 白字 + 立体阴影 ---------- */
+/* var() 加 fallback 兜底：自定义组件作用域内 linear-gradient(var(--c-primary), ...)
+   在部分基础库上会回退到 transparent，导致高亮块完全看不见底色 */
+.radio-inputs .radio.is-on {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0) 45%),
+    linear-gradient(135deg, var(--c-primary, #DD7A3C) 0%, var(--c-primary-deep, #BE5E27) 100%);
+  box-shadow:
+    var(--shadow-primary, 0 10rpx 26rpx rgba(221, 122, 60, 0.30), 0 2rpx 6rpx rgba(221, 122, 60, 0.20)),
+    inset 0 2rpx 4rpx rgba(255, 255, 255, 0.45);
+}
+
+.radio-inputs .radio.is-on .ctab-icon {
+  transform: scale(1.1);
+}
+
+.radio-inputs .radio.is-on .ctab-label {
+  color: var(--c-white);
+  /* 选中不加粗：高亮块本身已足够表达选中态 */
+  font-weight: 400;
+}
+
+/* ---------- 缩放回弹动画（00Kubi select） ---------- */
+/* 目标 tab "登场" 时播一次：从 0.95 → 1.05 → 1，仅在新页 attached 后播一次 */
+@keyframes tabSelect {
+  0%   { transform: scale(0.95); }
+  50%  { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* 用一个独立 class（is-replay）触发，避免首次匹配动画被 iOS/微信内核吃掉 */
+.radio-inputs .radio.is-on.is-replay {
+  animation: tabSelect 0.32s ease;
+}
+
+/* ---------- 上下粒子（00Kubi particles）：选中时从目标 tab 上下各喷一颗主题色粒子 ---------- */
+.radio-inputs .radio.is-on.is-replay::before,
+.radio-inputs .radio.is-on.is-replay::after {
+  content: "";
+  position: absolute;
+  width: 8rpx;
+  height: 8rpx;
+  border-radius: 50%;
+  background: var(--c-primary, #DD7A3C);
+  opacity: 0;
+  left: 50%;
+  pointer-events: none;
+}
+
+.radio-inputs .radio.is-on.is-replay::before {
+  top: -8rpx;
+  animation: tabParticleUp 0.5s ease forwards;
+}
+
+.radio-inputs .radio.is-on.is-replay::after {
+  bottom: -8rpx;
+  animation: tabParticleDown 0.5s ease forwards;
+}
+
+@keyframes tabParticleUp {
+  0%   { opacity: 0; transform: translateX(-50%) translateY(0); }
+  40%  { opacity: 1; }
+  100% { opacity: 0; transform: translateX(-50%) translateY(-18rpx); }
+}
+
+@keyframes tabParticleDown {
+  0%   { opacity: 0; transform: translateX(-50%) translateY(0); }
+  40%  { opacity: 1; }
+  100% { opacity: 0; transform: translateX(-50%) translateY(18rpx); }
+}

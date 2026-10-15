@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>口味画像卡 · 首页预览</title>
+<style>
+  :root{
+    --r-xl:20px; --r-lg:16px; --r-md:12px; --r-sm:8px; --r-pill:999px;
+    --ease:cubic-bezier(.32,.72,0,1);
+    --c-bg:#F6F0E8; --c-bg-2:#F0E7DB;
+    --c-bg-grad:
+      radial-gradient(150% 100% at 100% 0%, rgba(221,122,60,.16) 0%, rgba(221,122,60,.09) 34%, rgba(221,122,60,.04) 62%, rgba(221,122,60,0) 84%),
+      radial-gradient(110% 60% at 100% 100%, rgba(221,122,60,.06) 0%, rgba(221,122,60,0) 64%),
+      radial-gradient(130% 80% at 0% 100%, rgba(201,162,75,.10) 0%, rgba(201,162,75,0) 62%),
+      linear-gradient(180deg,#FBF4EA 0%,#FDF9F2 100%);
+    --c-card:#fff; --c-card-2:#FCF8F2;
+    --c-primary:#DD7A3C; --c-primary-deep:#BE5E27; --c-primary-soft:#F7E7D8;
+    --c-danger:#C0413E; --c-danger-soft:#F6E0DF;
+    --c-text:#3A2E26; --c-text-sub:#7A6A5C; --c-text-weak:#A89684;
+    --c-line-soft:rgba(58,46,38,.08);
+    --shadow-1:0 1px 4px rgba(58,46,38,.04),0 4px 12px rgba(58,46,38,.05);
+    --shadow-2:0 2px 7px rgba(58,46,38,.05),0 9px 22px rgba(58,46,38,.08);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  body{background:#ddd3c6;display:flex;justify-content:center;padding:32px;font-family:"PingFang SC",-apple-system,"Microsoft YaHei",sans-serif;}
+  .phone{width:390px;min-height:740px;border-radius:40px;overflow:hidden;position:relative;
+    box-shadow:0 24px 60px rgba(0,0,0,.25);background:var(--c-bg-grad);background-attachment:fixed;
+    padding:28px 22px 40px;color:var(--c-text);}
+  .label{font-size:11px;color:var(--c-text-weak);text-align:center;margin-bottom:14px;letter-spacing:1px;}
+
+  /* ---- 上次吃的是（last-card 占位，仅作上下文） ---- */
+  .last-card{background:linear-gradient(180deg,#fff 0%,var(--c-card-2) 100%);border-radius:var(--r-lg);
+    box-shadow:var(--shadow-1);border:1rpx solid var(--c-line-soft);padding:14px 13px;margin-bottom:12px;}
+  .last-head{display:flex;justify-content:space-between;align-items:baseline;}
+  .last-label{font-size:14px;font-weight:700;color:var(--c-text);}
+  .last-more{font-size:10px;color:var(--c-text-weak);}
+  .last-name{font-size:22px;font-weight:700;margin-top:6px;}
+  .last-meta{display:flex;gap:8px;margin-top:4px;font-size:11px;color:var(--c-text-sub);}
+
+  /* ---- 口味画像卡（来自 components/taste-card，0.5x 还原） ---- */
+  .taste-card-wrap{margin-top:12px;display:flex;flex-direction:column;gap:8px;
+    background:linear-gradient(180deg,#fff 0%,var(--c-card-2) 100%);border-radius:var(--r-lg);
+    padding:14px 13px;box-shadow:var(--shadow-1);border:1px solid var(--c-line-soft);
+    transition:transform .18s var(--ease),box-shadow .18s var(--ease);cursor:pointer;}
+  .taste-card-wrap:hover{transform:translateY(-1px);box-shadow:var(--shadow-2);}
+  .taste-head{display:flex;align-items:baseline;justify-content:space-between;}
+  .taste-title{font-size:14px;font-weight:600;letter-spacing:1px;color:var(--c-text);}
+  .taste-hint{font-size:10px;color:var(--c-text-weak);}
+  .taste-empty{font-size:11px;line-height:1.7;color:var(--c-text-sub);background:var(--c-bg-2);
+    border-radius:var(--r-sm);padding:10px 11px;}
+  .taste-lv{display:flex;align-items:center;gap:2px;margin-left:5px;}
+  .taste-lv-dot{width:4px;height:4px;border-radius:999px;background:rgba(190,94,39,.22);}
+  .taste-lv-dot.is-on{background:var(--c-primary);}
+  .taste-lv-dot.is-hate.is-on{background:var(--c-danger);}
+  .taste-block{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .taste-cap{font-size:11px;font-weight:600;padding:2px 8px;border-radius:999px;white-space:nowrap;}
+  .taste-cap--love{color:var(--c-primary-deep);background:var(--c-primary-soft);}
+  .taste-cap--hate{color:var(--c-danger);background:var(--c-danger-soft);}
+  .taste-tags{display:flex;flex-wrap:wrap;gap:6px;}
+  .taste-tag{display:inline-flex;align-items:center;font-size:11px;font-weight:500;padding:3px 9px;border-radius:999px;}
+  .taste-tag--love{color:var(--c-primary-deep);background:var(--c-primary-soft);border:1px solid rgba(190,94,39,.25);}
+  .taste-tag--hate{color:var(--c-danger);background:var(--c-danger-soft);border:1px solid rgba(192,65,62,.22);}
+
+  .note{font-size:10px;color:#9a8a7c;margin-top:18px;line-height:1.6;text-align:center;}
+</style>
+</head>
+<body>
+  <div class="phone">
+    <div class="label">首页 · 上次吃的是 → 口味画像</div>
+
+    <!-- 上下文：last-card -->
+    <div class="last-card">
+      <div class="last-head">
+        <div class="last-label">上次吃的是</div>
+        <div class="last-more">历史记录 ›</div>
+      </div>
+      <div class="last-name">番茄牛腩煲</div>
+      <div class="last-meta"><span class="last-cat">家常菜</span><span class="last-time">昨天 12:30</span></div>
+    </div>
+
+    <!-- 口味画像卡 -->
+    <div class="taste-card-wrap">
+      <div class="taste-head">
+        <div class="taste-title">口味画像</div>
+        <div class="taste-hint">来自你的打卡评分 ›</div>
+      </div>
+
+      <div class="taste-block">
+        <div class="taste-cap taste-cap--love">偏爱的口味</div>
+        <div class="taste-tags">
+          <div class="taste-tag taste-tag--love"><span>微辣</span>
+            <div class="taste-lv"><div class="taste-lv-dot is-on"></div><div class="taste-lv-dot is-on"></div><div class="taste-lv-dot"></div></div>
+          </div>
+          <div class="taste-tag taste-tag--love"><span>酸甜</span>
+            <div class="taste-lv"><div class="taste-lv-dot is-on"></div><div class="taste-lv-dot"></div><div class="taste-lv-dot"></div></div>
+          </div>
+          <div class="taste-tag taste-tag--love"><span>下饭</span>
+            <div class="taste-lv"><div class="taste-lv-dot is-on"></div><div class="taste-lv-dot is-on"></div><div class="taste-lv-dot is-on"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="taste-block">
+        <div class="taste-cap taste-cap--hate">想避开的</div>
+        <div class="taste-tags">
+          <div class="taste-tag taste-tag--hate"><span>太油腻</span>
+            <div class="taste-lv"><div class="taste-lv-dot is-hate is-on"></div><div class="taste-lv-dot is-hate"></div><div class="taste-lv-dot is-hate"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="note">样品数据 · 真实数据由 utils/stats.tasteProfileDetailed(history) 自动聚合<br/>整张卡可点 → 跳到 history 页的「历史记录」tab</div>
+  </div>
+</body>
+</html>

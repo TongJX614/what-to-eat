@@ -1,0 +1,108 @@
+<view class="my-page theme-{{theme}}">
+  <!-- 自定义导航（原生栏已关）：状态栏高度 JS 注入，左上圆玻璃返回键（编辑表单时出现）+ 居中标题 -->
+  <view class="my-header">
+    <view class="my-status" style="height: {{statusBarHeight}}px"></view>
+    <view class="my-nav">
+      <view class="my-nav-back tapable" wx:if="{{editing}}" bindtap="cancelForm" aria-label="返回">
+        <text>←</text>
+      </view>
+      <view class="my-nav-title">我的菜</view>
+    </view>
+  </view>
+  <!-- 顶栏占位：状态栏 px + 导航行 100rpx，把内容顶到顶栏下面 -->
+  <view style="height: {{statusBarHeight}}px"></view>
+  <view class="my-nav-ph"></view>
+
+  <view class="my-head">
+    <view class="my-title">我的菜</view>
+    <view class="my-sub">手动添加常吃的菜，一起参与随机</view>
+  </view>
+
+  <view class="my-list" wx:if="{{list.length}}">
+    <view class="my-item" wx:for="{{list}}" wx:key="id" data-id="{{item.id}}" bindtap="openDish">
+      <view class="my-item-main">
+        <view class="my-name">{{item.name}}</view>
+        <view class="my-meta">
+          <text class="my-cat">{{item.category}}</text>
+          <text class="my-price" wx:if="{{item.price}}">¥{{item.price}}</text>
+        </view>
+        <view class="my-tags" wx:if="{{item.tags.length}}">
+          <text class="my-tag" wx:for="{{item.tags}}" wx:for-item="t" wx:key="*this">{{t}}</text>
+        </view>
+      </view>
+      <view class="my-del tapable" data-id="{{item.id}}" catchtap="remove">删除</view>
+    </view>
+  </view>
+
+  <!-- 空状态：复用 app.wxss 的全局 .empty / .empty-art（全站统一） -->
+  <view class="empty" wx:if="{{!list.length && !editing}}">
+    <view class="empty-art">
+      <view class="empty-steam s1"></view>
+      <view class="empty-steam s2"></view>
+      <view class="empty-steam s3"></view>
+      <view class="empty-bowl"></view>
+      <view class="empty-base"></view>
+    </view>
+    <view class="empty-title">还没有自定义菜</view>
+    <view class="empty-desc">点下面的按钮，把常吃的加进来</view>
+  </view>
+
+  <view class="my-form" wx:if="{{editing}}">
+    <view class="my-form-head">
+      <text class="my-form-title">添加菜品</text>
+    </view>
+    <view class="my-field">
+      <text class="my-label">菜名</text>
+      <input class="my-input" placeholder="例如：老妈红烧肉" value="{{form.name}}"
+             data-field="name" bindinput="onInput" maxlength="20" />
+    </view>
+
+    <view class="my-field">
+      <text class="my-label">分类</text>
+      <picker class="my-picker" range="{{cats}}" value="{{catIndex}}" bindchange="onCat">
+        <view class="my-picker-val {{form.category ? '' : 'is-ph'}}">
+          {{form.category || '请选择分类'}}
+        </view>
+      </picker>
+    </view>
+
+    <view class="my-field">
+      <text class="my-label">标签</text>
+      <view class="my-tags-edit">
+        <text class="my-chip {{item.on ? 'is-on' : ''}}"
+              wx:for="{{tagList}}" wx:key="name" data-name="{{item.name}}" bindtap="toggleTag">{{item.name}}</text>
+      </view>
+    </view>
+
+    <view class="my-field">
+      <text class="my-label">参考价</text>
+      <input class="my-input" type="digit" placeholder="可选，0 表示不限" value="{{form.price}}"
+             data-field="price" bindinput="onInput" />
+    </view>
+
+    <view class="my-field">
+      <text class="my-label">描述</text>
+      <input class="my-input" placeholder="可选，一句话描述" value="{{form.desc}}"
+             data-field="desc" bindinput="onInput" maxlength="40" />
+    </view>
+
+    <view class="my-field my-field-area">
+      <text class="my-label">食材</text>
+      <textarea class="my-area" placeholder="{{phIngredients}}"
+                value="{{form.ingredients}}" data-field="ingredients" bindinput="onInput" maxlength="300" />
+    </view>
+
+    <view class="my-field my-field-area">
+      <text class="my-label">做法</text>
+      <textarea class="my-area" placeholder="{{phSteps}}"
+                value="{{form.steps}}" data-field="steps" bindinput="onInput" maxlength="600" />
+    </view>
+
+    <view class="my-form-btns">
+      <view class="my-btn-ghost" bindtap="cancelForm">取消</view>
+      <view class="my-btn-primary" bindtap="save">保存</view>
+    </view>
+  </view>
+
+  <view class="my-add" wx:if="{{!editing}}" bindtap="openForm">+ 添加一道菜</view>
+</view>

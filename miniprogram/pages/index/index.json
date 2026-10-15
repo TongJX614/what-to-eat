@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "prefsheet": "/components/prefsheet/prefsheet",
+    "taste-card": "/components/taste-card/taste-card"
+  },
+  "navigationBarTitleText": "今天吃什么"
+}

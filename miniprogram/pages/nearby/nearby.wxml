@@ -1,0 +1,163 @@
+<view class="page nb-page theme-{{theme}}">
+  <!-- 地图：固定在顶部，不随列表滚动 -->
+  <view class="nb-map-wrap">
+    <map
+      wx:if="{{lat}}"
+      class="nb-map"
+      latitude="{{lat}}"
+      longitude="{{lng}}"
+      markers="{{markers}}"
+      scale="{{scale}}"
+      show-location
+      enable-poi
+      bindmarkertap="onMarkerTap"
+    ></map>
+    <view class="nb-map-ph" wx:else>
+      <view class="nb-map-ph-txt">定位中…</view>
+    </view>
+  </view>
+
+  <!-- 演示数据提示：固定贴在地图下方，不随列表一起滚 -->
+  <view class="nb-mock" wx:if="{{isMock}}">
+    当前为演示数据，接入腾讯位置服务 Key 后自动切换为真实餐厅
+  </view>
+
+  <!-- 从结果页带来菜名时：把「决定吃什么」接到「去哪吃」 -->
+  <view class="nb-kw" wx:if="{{keyword}}">
+    <text class="nb-kw-emoji">🍽️</text>
+    <view class="nb-kw-texts">
+      <view class="nb-kw-title">找做「{{keyword}}」的店</view>
+      <view class="nb-kw-sub" wx:if="{{kwHint}}">演示数据按「{{kwHint}}」匹配附近</view>
+    </view>
+    <view class="nb-kw-clear tapable" bindtap="clearKeyword">看全部</view>
+  </view>
+
+  <!-- 状态（定位中/未授权/失败）：替代滚动区展示 -->
+  <view wx:if="{{status === 'locating' || status === 'loading' || status === 'denied' || status === 'error'}}">
+    <view class="nb-state" wx:if="{{status === 'locating' || status === 'loading'}}">
+      <view class="nb-spin"></view>
+      <view class="nb-state-txt">{{status === 'locating' ? '正在获取你的位置…' : '正在查找附近餐厅…'}}</view>
+    </view>
+
+    <view class="nb-state" wx:if="{{status === 'denied'}}">
+      <view class="nb-state-ico">位</view>
+      <view class="nb-state-txt">需要位置权限才能查看附近餐厅</view>
+      <view class="nb-state-sub">可在设置里打开「使用我的地理位置」</view>
+      <view class="nb-btn" bindtap="openSetting">去设置授权</view>
+    </view>
+
+    <view class="nb-state" wx:if="{{status === 'error'}}">
+      <view class="nb-state-ico">!</view>
+      <view class="nb-state-txt">{{errMsg}}</view>
+      <view class="nb-btn" bindtap="retry">重新定位</view>
+    </view>
+  </view>
+
+  <!-- 餐厅数提示：固定贴在 nb-mock 下方，不随列表一起滚 -->
+  <view class="nb-count" wx:if="{{status === 'done'}}">
+    <text class="nb-count-n">{{list.length}}</text>
+    <text class="nb-count-t">家餐厅在附近</text>
+  </view>
+
+  <!-- 排序 + 夜宵过滤 -->
+  <view class="nb-tools" wx:if="{{status === 'done'}}">
+    <view class="nb-sort">
+      <view class="nb-sort-btn {{sortBy === item.key ? 'is-on' : ''}} {{(item.key === 'open' || item.key === 'night') && !hoursKnown ? 'is-off' : ''}}"
+            wx:for="{{sortOptions}}" wx:key="key"
+            data-key="{{item.key}}" bindtap="onSort">{{item.label}}</view>
+    </view>
+    <view class="nb-night-toggle {{nightOnly ? 'is-on' : ''}} {{!hoursKnown ? 'is-off' : ''}}" bindtap="onNightToggle">
+      <text class="nb-night-ico">{{nightOnly ? '🌙' : '☽'}}</text>
+      <text class="nb-night-t">仅看夜宵</text>
+    </view>
+  </view>
+
+  <!-- 列表滚动区：只滚动餐厅列表本身（精确到 nb-list 那块） -->
+  <scroll-view wx:if="{{status === 'done'}}" scroll-y class="nb-scroll" enhanced show-scrollbar="{{false}}">
+    <view class="nb-list">
+      <view
+        class="nb-item {{activeIndex === index ? 'is-on' : ''}}"
+        wx:for="{{list}}"
+        wx:key="id"
+        data-index="{{index}}"
+        bindtap="openPoi"
+        hover-class="nb-item-hover"
+      >
+        <view class="nb-item-main">
+          <view class="nb-item-name">
+            <text>{{item.title}}</text>
+            <text class="nb-item-mark nb-item-mark--visited" wx:if="{{item.visited}}">✓去过</text>
+            <text class="nb-item-mark nb-item-mark--fav" wx:if="{{item.fav}}">★收藏</text>
+          </view>
+          <view class="nb-item-addr">{{item.address}}</view>
+          <view class="nb-item-tags">
+            <text class="nb-item-cat" wx:if="{{item.catText}}">{{item.catText}}</text>
+            <text class="nb-item-open" wx:if="{{item.openHours}}">{{item.isOpen ? '营业中' : '休息中'}}</text>
+            <text class="nb-item-night" wx:if="{{item.nightOpen}}">夜宵</text>
+          </view>
+        </view>
+        <view class="nb-item-side">
+          <view class="nb-item-dist">{{item.distText}}</view>
+          <view class="nb-item-row-btns">
+            <view class="nb-item-btn {{item.visited ? 'is-on' : ''}}"
+                  catchtap="toggleVisited" data-id="{{item.id}}">去过</view>
+            <view class="nb-item-btn {{item.fav ? 'is-on' : ''}}"
+                  catchtap="toggleFavPoi" data-id="{{item.id}}">收藏</view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="nb-empty" wx:if="{{!list.length}}">这附近没找到餐厅，换个地方试试～</view>
+    <view class="nb-scroll-pad"></view>
+  </scroll-view>
+
+  <!-- 数据来源：固定在底部 -->
+  <view class="nb-foot" wx:if="{{status === 'done'}}">数据来自腾讯位置服务 · 仅供选餐参考</view>
+</view>
+
+<!-- 半屏详情：常驻渲染、用 class 控制，进出场都有动画 -->
+<view class="nb-mask {{sheetShow ? 'is-on' : ''}}" bindtap="closeSheet"></view>
+<view class="nb-sheet {{sheetShow ? 'is-on' : ''}}">
+  <block wx:if="{{active}}">
+    <view class="nb-sheet-bar"></view>
+    <view class="nb-sheet-name">{{active.title}}</view>
+    <view class="nb-sheet-meta">
+      <text class="nb-sheet-cat" wx:if="{{active.catText}}">{{active.catText}}</text>
+      <text class="nb-sheet-dist">{{active.distText}}</text>
+      <text class="nb-sheet-open" wx:if="{{active.openHours}}">{{active.isOpen ? '· 营业中' : '· 休息中'}}</text>
+      <text class="nb-sheet-night" wx:if="{{active.nightOpen}}">· 夜宵</text>
+    </view>
+
+    <view class="nb-sheet-row" wx:if="{{active.openHours}}">
+      <view class="nb-sheet-k">营业</view>
+      <view class="nb-sheet-v">{{active.openHours}}</view>
+    </view>
+    <view class="nb-sheet-row">
+      <view class="nb-sheet-k">地址</view>
+      <view class="nb-sheet-v">{{active.address}}</view>
+    </view>
+    <view class="nb-sheet-row" wx:if="{{active.district}}">
+      <view class="nb-sheet-k">区域</view>
+      <view class="nb-sheet-v">{{active.district}}</view>
+    </view>
+
+    <view class="nb-sheet-actions">
+      <view class="nb-sheet-mini {{active.visited ? 'is-on' : ''}}"
+            catchtap="toggleVisited" data-id="{{active.id}}">
+        {{active.visited ? '✓ 已去过' : '✓ 标记去过'}}
+      </view>
+      <view class="nb-sheet-mini {{active.fav ? 'is-on' : ''}}"
+            catchtap="toggleFavPoi" data-id="{{active.id}}">
+        {{active.fav ? '★ 已收藏' : '☆ 收藏这家'}}
+      </view>
+    </view>
+
+    <view class="nb-sheet-note">想看菜单、评分和人均？复制店名去点评或美团搜一下</view>
+
+    <view class="nb-sheet-btn" bindtap="copyName" hover-class="nb-sheet-btn-hover">
+      复制店名去点评搜索
+    </view>
+    <view class="nb-sheet-close" bindtap="closeSheet">关闭</view>
+  </block>
+</view>

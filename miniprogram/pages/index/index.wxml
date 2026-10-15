@@ -1,0 +1,209 @@
+<view class="index-page theme-{{theme}} {{rolling ? 'is-rolling' : ''}}">
+  <view class="header">
+    <view class="header-main">
+      <view class="title">{{heroTitle}}</view>
+      <view class="subtitle">别纠结了，我帮你做决定</view>
+    </view>
+    <view class="pref-entry {{prefOn ? 'is-on' : ''}}" bindtap="openPref">
+      <text>偏好</text>
+      <view class="pref-dot" wx:if="{{prefOn}}"></view>
+    </view>
+  </view>
+
+  <view class="hero-wrap">
+    <view class="hero-ring"></view>
+    <view class="hero-floats">
+      <view class="float-planet-wrap"
+            wx:for="{{planets}}" wx:key="id"
+            style="transform: translate({{item.x - item.r}}rpx, {{item.y - item.r}}rpx); transition: transform 0.08s linear;">
+        <view class="float-planet {{planetHover === item.id ? 'is-hover' : ''}}"
+              style="animation-delay:{{index * 0.08}}s;"
+              data-id="{{item.id}}" bindtap="goOrbit" bindtouchstart="onPlanetTouch" bindtouchend="onPlanetTouchEnd">
+          <text class="planet-name">{{item.name}}</text>
+        </view>
+      </view>
+    </view>
+    <view class="hero-btn" hover-class="hero-btn-hover" hover-stay-time="80" bindtap="goRandom">
+      <view class="hero-title">帮我选</view>
+      <view class="hero-sub">{{heroHint}}</view>
+    </view>
+  </view>
+
+  <view class="cuisine-bar">
+    <scroll-view class="cuisine-scroll" scroll-x="true">
+      <view class="cuisine-chip {{catAll ? 'is-on' : ''}}" data-name="__ALL__" bindtap="onCat">全部</view>
+      <view wx:for="{{cats}}" wx:key="name"
+            class="cuisine-chip {{item.on ? 'is-on' : ''}}"
+            data-name="{{item.name}}" bindtap="onCat">{{item.name}}</view>
+    </scroll-view>
+  </view>
+
+  <!-- 连续打卡：给「不纠结」一个可见的连续记录，强化坚持感 -->
+  <view class="streak">
+    <view class="streak-fire"><image class="streak-flame" src="/assets/index/streak.png" mode="aspectFit"/></view>
+    <view class="streak-main">
+      <view class="streak-title">
+        <text class="streak-num">{{streak}}</text>
+        <text class="streak-unit">天</text>
+        <text class="streak-label">连续做决定</text>
+      </view>
+      <view class="streak-sub">
+        {{streak > 0 ? '保持住，别让今天断掉' : '今天决定一次就重新开始'}}
+      </view>
+    </view>
+    <view class="streak-btn tapable" bindtap="showMonthly">月度报告</view>
+  </view>
+
+  <!-- 双入口：菜品库浏览 + 我的成就（上下居中结构，左右卡片内容长短不一也能视觉对称） -->
+  <view class="entry-row">
+    <view class="entry-card tapable" bindtap="goMenu">
+      <view class="entry-arrow">›</view>
+      <image class="entry-emoji" src="/assets/index/menu.png" mode="aspectFit"/>
+      <view class="entry-title">菜品库</view>
+      <view class="entry-sub">不想随机？直接搜 / 按分类找</view>
+    </view>
+    <view class="entry-card tapable" bindtap="openAchieve">
+      <view class="entry-arrow">›</view>
+      <image class="entry-emoji" src="/assets/index/medal.png" mode="aspectFit"/>
+      <view class="entry-title">我的成就</view>
+      <view class="entry-sub">已解锁 {{achievementUnlocked}} / {{achievementTotal}}</view>
+    </view>
+  </view>
+
+  <!-- 历史页入口：必须常驻。
+       之前带 wx:if="{{last}}"，而它是全小程序唯一通往历史页的路径，
+       导致新用户（无历史）进不去历史页，收藏/黑名单两个 tab 完全不可达。
+       现在无记录时改为占位态，入口始终存在。 -->
+  <view class="last-card {{last ? '' : 'is-empty'}}" bindtap="goHistory" hover-class="last-hover">
+    <view class="last-head">
+      <view class="last-label">{{last ? '上次吃的是' : '还没有记录'}}</view>
+      <view class="last-more">{{last ? '历史记录' : '去看看'}} ›</view>
+    </view>
+    <block wx:if="{{last}}">
+      <view class="last-name">{{last.name}}</view>
+      <view class="last-meta">
+        <text class="last-cat">{{last.category}}</text>
+        <text class="last-time">{{lastTime}}</text>
+      </view>
+    </block>
+    <view class="last-name last-placeholder" wx:else>记下吃过的，越用越准</view>
+  </view>
+
+  <!-- 口味画像：抽成 components/taste-card，与 history 页共用同一份视觉与聚合逻辑。
+       首页不传 forceShow，故仅在有评分数据时显示，避免无数据时占空位。 -->
+  <taste-card />
+</view>
+
+<view class="roll-mask theme-{{theme}}" wx:if="{{rolling}}" bindtap="stopRoll">
+  <view class="roll-panel" catchtap="noop">
+    <!-- 玻璃卡：底下游走的光斑 + 上面一层毛玻璃 -->
+    <view class="roll-blob"></view>
+    <view class="roll-blob roll-blob-2"></view>
+    <view class="roll-bg">
+      <view class="roll-hint">{{rollTip}}</view>
+      <view class="roll-stage">
+        <view class="roll-name">{{rollName}}</view>
+        <view class="roll-category" wx:if="{{rollCategory}}">{{rollCategory}}</view>
+      </view>
+      <view class="roll-track">
+        <view class="roll-track-item"></view>
+        <view class="roll-track-item"></view>
+        <view class="roll-track-item"></view>
+        <view class="roll-track-item"></view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<view class="guide-mask theme-{{theme}}" wx:if="{{guide}}" bindtap="closeGuide">
+  <view class="guide-card" catchtap="noop">
+    <image class="guide-emoji" src="/assets/index/bowl.png" mode="aspectFit"/>
+    <view class="guide-title">帮你搞定「今天吃什么」</view>
+    <view class="guide-feat">
+      <view class="guide-line">· 点中间大按钮或<text class="guide-strong">摇一摇</text>，立刻出结果</view>
+      <view class="guide-line">· 大按钮周围<text class="guide-strong">飘着的小球</text>是随机菜名，点一下直接看</view>
+      <view class="guide-line">· <text class="guide-strong">我的菜</text>：把常吃的加进来一起抽</view>
+      <view class="guide-line">· <text class="guide-strong">历史记录</text>：看看之前都吃了啥</view>
+    </view>
+    <view class="guide-add">💡 用得顺手？点右上角 ··· 添加到我的小程序，下次秒开</view>
+    <view class="guide-btn" bindtap="closeGuide" hover-class="guide-btn-hover">开始点菜</view>
+  </view>
+</view>
+
+<prefsheet id="prefsheet" bind:change="onPrefChange" bind:reset="onPrefReset" bind:close="onPrefClose" />
+
+<!-- 成就浮层：纯 WXML，半屏蒙层 + 网格展示 -->
+<view class="ach-mask" wx:if="{{showAchieveModal}}" bindtap="closeAchieve">
+  <view class="ach-card" catchtap="noop">
+    <view class="ach-head">
+      <view class="ach-title">我的成就</view>
+      <view class="ach-close" bindtap="closeAchieve">✕</view>
+    </view>
+    <view class="ach-stat">
+      <text class="ach-stat-n">{{achievementUnlocked}}</text>
+      <text class="ach-stat-t">/ {{achievementTotal}} 已解锁</text>
+    </view>
+
+    <scroll-view class="ach-scroll" scroll-y="true" enhanced show-scrollbar="{{false}}">
+      <view class="ach-grid">
+        <view class="ach-cell {{item.unlocked ? 'is-on' : ''}}"
+              wx:for="{{achievements}}" wx:key="id">
+          <image class="ach-cell-ico" src="/assets/achv/{{item.icon}}{{item.unlocked ? '-on' : ''}}.png" mode="aspectFit"></image>
+          <view class="ach-cell-name">{{item.title}}</view>
+          <view class="ach-cell-desc">{{item.desc}}</view>
+          <view class="ach-cell-tag" wx:if="{{item.unlocked}}">已解锁</view>
+          <view class="ach-cell-tag ach-cell-tag--off" wx:else>未解锁</view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+</view>
+
+<!-- 新解锁提示：顶部 toast 风格 -->
+<view class="ach-unlock" wx:if="{{newlyUnlocked.length}}" bindtap="dismissNewUnlock">
+  <image class="ach-unlock-ico" src="/assets/achv/unlock.png" mode="aspectFit"></image>
+  <view class="ach-unlock-text">
+    解锁了 {{newlyUnlocked.length}} 个新成就 · 点击关闭
+  </view>
+</view>
+
+<!-- 月度报告：在小程序内直接查看（纯 WXML，无需 canvas / 下载） -->
+<view class="monthly-mask" wx:if="{{reportOpen}}" bindtap="closeMonthly">
+  <view class="monthly-card" catchtap="noop">
+    <view class="monthly-head">
+      <text class="monthly-title">月度味觉报告</text>
+      <view class="monthly-close" bindtap="closeMonthly">✕</view>
+    </view>
+
+    <view class="monthly-month">{{monthly.monthLabel}}味觉报告</view>
+
+    <view class="monthly-count">
+      <text class="monthly-num">{{monthly.count}}</text>
+      <text class="monthly-unit">次决定</text>
+    </view>
+    <view class="monthly-sub">打卡 {{monthly.ratedCount}} 次 · 好吃 {{monthly.goodCount}} 次 · 覆盖 {{monthly.days}} 天</view>
+
+    <view class="monthly-line"></view>
+
+    <view class="monthly-block">
+      <view class="monthly-label">本月最常吃</view>
+      <view class="monthly-top">{{monthly.topDish || '还没攒够数据'}}</view>
+      <view class="monthly-cat">最常分类 · {{monthly.topCat || '—'}}</view>
+    </view>
+
+    <view class="monthly-block">
+      <view class="monthly-label">偏爱的口味</view>
+      <view class="monthly-tags" wx:if="{{monthly.loved.length}}">
+        <text class="monthly-tag" wx:for="{{monthly.loved}}" wx:key="*this">{{item}}</text>
+      </view>
+      <view class="monthly-empty" wx:else>多打几次卡，它就知道你爱吃什么了</view>
+    </view>
+
+    <view class="monthly-block" wx:if="{{monthly.hated.length}}">
+      <view class="monthly-label">想避开</view>
+      <view class="monthly-tags">
+        <text class="monthly-tag monthly-tag-muted" wx:for="{{monthly.hated}}" wx:key="*this">{{item}}</text>
+      </view>
+    </view>
+  </view>
+</view>

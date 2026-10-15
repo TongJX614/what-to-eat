@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-node-id="TCp50jYusc6cRyBybjaVJl">
+<head data-page-node-id="5tmSEXgOywoqm9ez8OkqPB">
+<meta charset="UTF-8" data-page-node-id="nsYAyfhKiE0bYRvB6vZSyn">
+<meta name="viewport" content="width=device-width, initial-scale=1" data-page-node-id="w8ilvkXWgALKAiruYE6qDq">
+<title>午饭选择困难症 · 视觉设计预览</title>
+<style>
+/* ========== 与小程序 app.wxss 完全一致的设计 token（rpx 按 1:2 换算为 px） ========== */
+:root{
+  --c-bg:#F6F0E8; --c-bg-2:#F0E7DB; --c-card:#FFFFFF; --c-card-2:#FCF8F2;
+  --c-primary:#DD7A3C; --c-primary-deep:#BE5E27; --c-primary-soft:#F7E7D8; --c-primary-tint:#FBF1E6;
+  --c-gold:#C9A24B; --c-gold-soft:#F3E8CF;
+  --c-text:#3A2E26; --c-text-2:#6E5C4F; --c-text-sub:#8A7565; --c-text-weak:#B5A292;
+  --c-line:#ECE1D4; --c-line-soft:#F2EAE1;
+  --c-danger:#C0413E; --c-danger-soft:#F8E7E6; --c-success:#4F8A4A; --c-success-soft:#EAF3E8;
+  --r-xl:20px; --r-lg:16px; --r-md:12px; --r-sm:8px; --r-pill:999px;
+  --shadow-1:0 1px 4px rgba(58,46,38,.04), 0 4px 12px rgba(58,46,38,.05);
+  --shadow-2:0 2px 7px rgba(58,46,38,.05), 0 9px 22px rgba(58,46,38,.08);
+  --shadow-primary:0 5px 13px rgba(221,122,60,.30), 0 1px 3px rgba(221,122,60,.20);
+  --ease:cubic-bezier(.32,.72,0,1);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  background:#EFE9E1;
+  font-family:"PingFang SC",-apple-system,BlinkMacSystemFont,"Helvetica Neue","Microsoft YaHei",sans-serif;
+  color:var(--c-text);-webkit-font-smoothing:antialiased;
+  padding:56px 32px 96px;
+}
+
+/* ---------- 说明区 ---------- */
+.doc{max-width:1180px;margin:0 auto 64px;}
+.doc-kicker{display:flex;align-items:center;gap:12px;font-size:11px;letter-spacing:3px;color:var(--c-text-weak);text-transform:uppercase;}
+.doc-kicker::before{content:"";width:26px;height:2px;border-radius:2px;background:linear-gradient(90deg,var(--c-primary),var(--c-gold));}
+.doc h1{margin-top:18px;font-size:44px;font-weight:500;letter-spacing:2px;line-height:1.2;}
+.doc h1 em{font-style:normal;color:var(--c-primary-deep);}
+.doc p{margin-top:16px;max-width:620px;font-size:15px;line-height:1.85;color:var(--c-text-2);}
+.swatches{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px;}
+.sw{display:flex;align-items:center;gap:8px;background:var(--c-card);border:1px solid var(--c-line);border-radius:var(--r-pill);padding:6px 14px 6px 8px;font-size:12px;color:var(--c-text-sub);box-shadow:var(--shadow-1);}
+.sw i{width:18px;height:18px;border-radius:50%;display:block;}
+
+/* ---------- 手机框 ---------- */
+.stage{display:flex;flex-wrap:wrap;gap:44px;justify-content:center;max-width:1400px;margin:0 auto;}
+.slot{width:375px;}
+.slot-cap{display:flex;align-items:baseline;gap:10px;margin-bottom:14px;padding-left:4px;}
+.slot-cap b{font-size:16px;font-weight:500;letter-spacing:1px;}
+.slot-cap span{font-size:12px;color:var(--c-text-weak);}
+.phone{
+  position:relative;width:375px;height:720px;border-radius:38px;overflow:hidden;
+  background:var(--c-bg);box-shadow:0 24px 60px rgba(58,46,38,.18),0 2px 6px rgba(58,46,38,.10);
+  border:1px solid rgba(58,46,38,.06);
+}
+.navbar{
+  height:74px;background:var(--c-bg);display:flex;align-items:flex-end;justify-content:center;
+  padding-bottom:10px;font-size:15px;font-weight:500;letter-spacing:1px;color:var(--c-text);
+  position:relative;z-index:5;
+}
+.navbar::before{content:"9:41";position:absolute;left:22px;top:22px;font-size:11px;font-weight:500;color:var(--c-text-2);letter-spacing:0;}
+.navbar::after{content:"";position:absolute;right:22px;top:24px;width:44px;height:9px;border-radius:2px;border:1px solid var(--c-text-weak);opacity:.6;}
+.screen{height:646px;overflow:hidden;position:relative;}
+.page{padding:20px 20px 100px;min-height:100%;}
+
+/* ================= 首页 ================= */
+.header{display:flex;align-items:flex-start;justify-content:space-between;padding:4px 2px 0;}
+.title{font-size:27px;font-weight:500;letter-spacing:1.5px;line-height:1.25;}
+.title::after{content:"";display:block;width:28px;height:3px;margin-top:8px;border-radius:999px;background:linear-gradient(90deg,var(--c-primary),var(--c-gold));}
+.subtitle{font-size:13px;color:var(--c-text-weak);margin-top:5px;letter-spacing:.5px;}
+.pref-entry{position:relative;flex:none;margin-top:3px;padding:0 14px;height:32px;line-height:32px;border-radius:var(--r-pill);background:var(--c-card);color:var(--c-text-sub);font-size:12.5px;letter-spacing:.5px;border:1px solid var(--c-line);box-shadow:var(--shadow-1);}
+.pref-dot{position:absolute;top:7px;right:8px;width:6px;height:6px;border-radius:50%;background:var(--c-primary);box-shadow:0 0 0 2px rgba(221,122,60,.18);}
+
+.hero-wrap{position:relative;width:230px;height:230px;margin:28px auto 0;display:flex;align-items:center;justify-content:center;}
+.hero-ring{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle,rgba(221,122,60,.22) 0%,rgba(221,122,60,0) 70%);animation:heroPulse 2.6s ease-out infinite;}
+@keyframes heroPulse{0%{transform:scale(.82);opacity:.7}70%,100%{transform:scale(1.16);opacity:0}}
+/* 漂浮小球（菜名胶囊） */
+.hero-floats{position:absolute;inset:0;z-index:10;pointer-events:none;}
+.float-planet{position:absolute;width:48px;height:48px;border-radius:50%;background:linear-gradient(150deg,#FFF7EE 0%,#F2E1CD 100%);border:1px solid rgba(221,122,60,.38);box-shadow:0 3px 8px rgba(120,80,40,.20);display:flex;align-items:center;justify-content:center;font-size:10px;color:#7A4A22;font-weight:500;text-align:center;line-height:1.1;animation:floatIn .5s var(--ease) both,planetDrift 6s ease-in-out infinite;}
+.fp1{top:18px;left:8px;animation-delay:0s,0s;}
+.fp2{top:6px;right:14px;animation-delay:.1s,-1.5s;}
+.fp3{bottom:38px;left:0;animation-delay:.2s,-3s;}
+.fp4{bottom:24px;right:6px;animation-delay:.3s,-4.5s;}
+@keyframes floatIn{from{opacity:0;transform:scale(.86)}to{opacity:1;transform:scale(1)}}
+@keyframes planetDrift{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.hero-btn{position:relative;z-index:3;width:150px;height:150px;border-radius:50%;
+  background:radial-gradient(120% 120% at 30% 22%,rgba(255,255,255,.30) 0%,rgba(255,255,255,0) 42%),linear-gradient(150deg,#E98C4F 0%,#D16C2E 55%,#BC5A26 100%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  box-shadow:var(--shadow-primary),inset 0 1px 3px rgba(255,255,255,.35),inset 0 -5px 12px rgba(134,58,18,.22);}
+.hero-title{font-size:21px;font-weight:500;color:#fff;letter-spacing:2px;text-shadow:0 1px 4px rgba(120,50,14,.30);}
+.hero-sub{margin-top:6px;font-size:11px;color:rgba(255,255,255,.86);letter-spacing:3px;}
+.hero-tip{text-align:center;font-size:12px;color:var(--c-text-weak);margin-top:14px;letter-spacing:.5px;}
+
+/* 菜系快捷筛选条 */
+.cuisine-bar{width:310px;margin:18px auto 0;padding:4px 9px;background:var(--c-card);border:1px solid var(--c-line-soft);border-radius:999px;overflow:hidden;box-shadow:var(--shadow-1);display:flex;gap:6px;}
+.cuisine-chip{flex:none;height:30px;line-height:30px;padding:0 14px;border-radius:999px;background:transparent;color:var(--c-text-sub);font-size:12.5px;letter-spacing:.5px;white-space:nowrap;}
+.cuisine-chip.is-on{background:var(--c-primary);color:#fff;font-weight:500;}
+
+/* 上次结果卡（点击进历史） */
+.last-card{position:relative;margin-top:18px;padding:13px 14px 13px 18px;background:var(--c-card);border-radius:var(--r-lg);box-shadow:var(--shadow-1);overflow:hidden;}
+.last-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(180deg,var(--c-primary),var(--c-gold));}
+.last-head{display:flex;align-items:center;justify-content:space-between;}
+.last-label{font-size:11px;color:var(--c-text-weak);letter-spacing:.5px;}
+.last-more{font-size:11px;color:var(--c-text-weak);}
+.last-name{margin-top:4px;font-size:19px;font-weight:500;letter-spacing:1px;}
+.last-meta{margin-top:6px;display:flex;align-items:center;}
+.last-cat{font-size:11px;color:var(--c-primary-deep);background:var(--c-primary-soft);padding:2px 8px;border-radius:var(--r-pill);}
+.last-time{margin-left:8px;font-size:12px;color:var(--c-text-weak);}
+.foot-note{margin-top:18px;text-align:center;font-size:11px;color:var(--c-text-weak);letter-spacing:.5px;}
+
+/* ================= 底部浮动 tabBar（Uiverse 00Kubi radio-inputs 小程序改写版） =================
+   无位移滑动高亮块：每个 tab 自身就是选中态容器。
+   选中 = 双层背景（顶部白高光 + 暖橙渐变）+ 白字 + 缩放回弹 tabSelect + 上下各喷一颗粒子。
+   尺寸按 rpx 1:2 换算：620×112rpx → 310×56px；小屏端 blur 实际为 16px。 */
+.tabbar,.tabbar-demo{
+  position:absolute;left:50%;transform:translateX(-50%);
+  bottom:calc(env(safe-area-inset-bottom) + 12px);
+  width:310px;height:56px;display:flex;
+  border-radius:28px;
+  background:rgba(255,252,247,.72);
+  border:1px solid rgba(255,255,255,.55);
+  backdrop-filter:blur(16px) saturate(180%);-webkit-backdrop-filter:blur(16px) saturate(180%);
+  box-shadow:inset 0 1px 3px rgba(255,255,255,.85),inset 0 -1px 3px rgba(120,90,60,.12),0 6px 16px rgba(74,52,32,.20);
+  padding:4px;box-sizing:border-box;overflow:visible;z-index:8;
+}
+.tab-item{flex:1 1 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;border-radius:22px;padding:4px 0;transition:background-color .3s ease-in-out,color .3s ease-in-out;}
+.tab-icon{width:20px;height:20px;display:block;transition:transform .2s ease-in-out;opacity:.85;}
+/* 未选中用深色图标，选中用白色图标（与小程序 icon / iconWhite 两套资源一致） */
+.tab-icon-on{display:none;}
+.tab-item.is-on .tab-icon-off{display:none;}
+.tab-item.is-on .tab-icon-on{display:block;}
+.tab-label{margin-top:2px;font-size:10px;font-weight:600;letter-spacing:.5px;color:var(--c-text-2);transition:color .3s ease-in-out;}
+
+/* 选中态：双层背景 = 顶部白色高光（0→45% 淡出）+ 暖橙渐变，加立体阴影 */
+.tab-item.is-on{
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.34) 0%,rgba(255,255,255,0) 45%),
+    linear-gradient(135deg,var(--c-primary) 0%,var(--c-primary-deep) 100%);
+  box-shadow:var(--shadow-primary),inset 0 1px 2px rgba(255,255,255,.45);
+}
+.tab-item.is-on .tab-icon{transform:scale(1.1);opacity:1;}
+.tab-item.is-on .tab-label{color:#fff;font-weight:700;}
+
+/* 缩放回弹：0.95 → 1.05 → 1，仅「新页 attached」这一次触发（is-replay） */
+@keyframes tabSelect{0%{transform:scale(.95)}50%{transform:scale(1.05)}100%{transform:scale(1)}}
+.tab-item.is-on.is-replay{animation:tabSelect .32s ease;}
+
+/* 上下粒子：选中时从目标 tab 上、下各喷出一颗主题色小圆点 */
+.tab-item.is-on.is-replay::before,
+.tab-item.is-on.is-replay::after{
+  content:"";position:absolute;left:50%;width:4px;height:4px;border-radius:50%;
+  background:var(--c-primary);opacity:0;pointer-events:none;
+}
+.tab-item.is-on.is-replay::before{top:-4px;animation:tabParticleUp .5s ease forwards;}
+.tab-item.is-on.is-replay::after{bottom:-4px;animation:tabParticleDown .5s ease forwards;}
+@keyframes tabParticleUp{
+  0%{opacity:0;transform:translateX(-50%) translateY(0)}
+  40%{opacity:1}
+  100%{opacity:0;transform:translateX(-50%) translateY(-9px)}
+}
+@keyframes tabParticleDown{
+  0%{opacity:0;transform:translateX(-50%) translateY(0)}
+  40%{opacity:1}
+  100%{opacity:0;transform:translateX(-50%) translateY(9px)}
+}
+
+/* ================= 挑选动画层 ================= */
+.roll-mask{position:absolute;inset:0;z-index:20;background:rgba(38,29,22,.78);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;}
+.roll-panel{position:relative;width:280px;height:220px;background:linear-gradient(145deg,#F7F1E9 0%,#EBE1D4 100%);border-radius:14px;box-shadow:10px 10px 30px rgba(150,118,84,.28),-10px -10px 30px rgba(255,255,255,.9);overflow:hidden;}
+.roll-panel::before{content:"";position:absolute;top:0;left:20px;right:20px;height:3px;border-radius:0 0 999px 999px;background:linear-gradient(90deg,var(--c-primary),var(--c-gold));z-index:5;}
+/* 游走光斑 */
+.roll-blob{position:absolute;z-index:1;top:50%;left:50%;width:150px;height:150px;border-radius:50%;background:var(--c-primary);filter:blur(6px);animation:blobBounce 5s infinite ease;}
+.roll-blob-2{width:120px;height:120px;background:var(--c-gold);opacity:.85;animation-delay:-2.5s;animation-duration:6.5s;}
+@keyframes blobBounce{
+  0%{transform:translate(-100%,-100%)}
+  25%{transform:translate(0,-100%)}
+  50%{transform:translate(0,0)}
+  75%{transform:translate(-100%,0)}
+  100%{transform:translate(-100%,-100%)}
+}
+.roll-bg{position:absolute;top:5px;left:5px;width:270px;height:210px;z-index:2;background:rgba(255,255,255,.86);backdrop-filter:blur(12px);border-radius:10px;outline:1px solid #fff;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.roll-hint{position:relative;z-index:2;font-size:12px;color:var(--c-text-sub);letter-spacing:3px;margin-bottom:20px;}
+.roll-name{position:relative;z-index:2;font-size:30px;font-weight:500;letter-spacing:2px;animation:namePop 130ms ease-out;}
+@keyframes namePop{0%{transform:scale(.86);opacity:.5}45%{transform:scale(1.05);opacity:1}100%{transform:scale(1);opacity:1}}
+.roll-category{position:relative;z-index:2;display:inline-block;margin-top:9px;padding:3px 12px;border-radius:var(--r-pill);background:var(--c-primary-soft);color:var(--c-primary-deep);font-size:11px;letter-spacing:1px;}
+.roll-track{position:absolute;bottom:18px;left:0;right:0;display:flex;align-items:center;justify-content:center;gap:7px;}
+.roll-track i{width:6px;height:6px;border-radius:50%;background:var(--c-line);animation:dotWave 1.2s ease-in-out infinite;}
+.roll-track i:nth-child(2){animation-delay:.15s}.roll-track i:nth-child(3){animation-delay:.3s}.roll-track i:nth-child(4){animation-delay:.45s}
+@keyframes dotWave{0%,60%,100%{background:var(--c-line);transform:scale(1)}30%{background:var(--c-primary);transform:scale(1.4)}}
+
+/* ================= 结果页（新拟态卡） ================= */
+.rcard{position:relative;background:linear-gradient(145deg,#F7F1E9 0%,#EBE1D4 100%);border-radius:50px;padding:44px 28px 32px;box-shadow:10px 10px 30px rgba(150,118,84,.26),-10px -10px 30px rgba(255,255,255,.9);overflow:hidden;}
+.rcard::before{content:"";position:absolute;top:23px;left:50%;transform:translateX(-50%);width:48px;height:4px;border-radius:999px;background:linear-gradient(90deg,var(--c-primary),var(--c-gold));}
+.rcard-top{display:flex;align-items:center;justify-content:space-between;}
+.rcat{padding:3px 11px;border-radius:var(--r-pill);background:var(--c-primary-soft);color:var(--c-primary-deep);font-size:11.5px;letter-spacing:1px;}
+.rprice{font-size:11.5px;color:var(--c-text-weak);letter-spacing:.5px;}
+.rname{margin-top:16px;font-size:30px;font-weight:500;letter-spacing:1.5px;line-height:1.25;}
+.rfun{margin-top:7px;font-size:12.5px;color:var(--c-primary-deep);letter-spacing:.5px;font-style:italic;}
+.rtags{margin-top:12px;display:flex;flex-wrap:wrap;}
+.rtag{padding:2px 9px;border-radius:var(--r-pill);background:var(--c-bg-2);color:var(--c-text-sub);font-size:11px;letter-spacing:.5px;margin:0 6px 6px 0;}
+.rdesc{margin-top:8px;font-size:14px;color:var(--c-text-2);line-height:1.75;}
+.rreason{margin-top:18px;padding:14px 15px;background:var(--c-primary-tint);border-radius:var(--r-md);border-left:3px solid var(--c-gold);}
+.rreason-label{font-size:11px;color:var(--c-primary-deep);letter-spacing:1px;margin-bottom:4px;}
+.rreason-text{font-size:13px;color:var(--c-text-2);line-height:1.7;}
+.rnote{margin-top:14px;padding:10px 13px;background:var(--c-gold-soft);border-radius:var(--r-sm);font-size:12px;color:var(--c-primary-deep);line-height:1.6;}
+.rtools{margin-top:18px;display:flex;}
+.rtool{flex:1;height:42px;line-height:42px;text-align:center;background:var(--c-card);border-radius:var(--r-pill);font-size:12.5px;letter-spacing:1px;color:var(--c-text-sub);margin-right:8px;border:1px solid var(--c-line);box-shadow:var(--shadow-1);}
+.rtool:last-child{margin-right:0;}
+.rtool.is-on{background:var(--c-primary-soft);color:var(--c-primary-deep);border-color:transparent;}
+.rbtns{margin-top:22px;}
+.btn-primary{display:flex;align-items:center;justify-content:center;height:46px;border-radius:var(--r-pill);background:linear-gradient(135deg,#E68A4E,#D26E30);color:#fff;font-size:15px;font-weight:500;letter-spacing:1px;box-shadow:var(--shadow-primary);}
+.btn-ghost{display:flex;align-items:center;justify-content:center;height:46px;border-radius:var(--r-pill);background:var(--c-card);color:var(--c-primary-deep);font-size:15px;font-weight:500;letter-spacing:1px;border:1px solid var(--c-primary-soft);margin-top:10px;}
+.rrecipe{margin-top:14px;height:40px;line-height:40px;text-align:center;font-size:14px;color:var(--c-primary-deep);background:var(--c-card);border:1px solid var(--c-primary-soft);border-radius:var(--r-pill);box-shadow:var(--shadow-1);}
+.rback{margin-top:14px;text-align:center;font-size:12px;color:var(--c-text-weak);letter-spacing:.5px;}
+
+/* ================= 历史页（分组 + 日历） ================= */
+.tabs{display:flex;background:var(--c-bg-2);border-radius:var(--r-pill);padding:4px;}
+.tab{flex:1;height:34px;line-height:34px;text-align:center;font-size:12.5px;letter-spacing:.5px;color:var(--c-text-sub);border-radius:var(--r-pill);}
+.tab.is-on{background:var(--c-card);color:var(--c-primary-deep);font-weight:500;box-shadow:var(--shadow-1);}
+/* 概览统计 */
+.summary{margin-top:12px;display:flex;background:var(--c-card);border-radius:var(--r-md);padding:13px 8px;box-shadow:var(--shadow-1);border:1px solid var(--c-line-soft);}
+.sum-item{flex:1;text-align:center;position:relative;}
+.sum-item+.sum-item::before{content:'';position:absolute;left:0;top:6px;bottom:6px;width:1px;background:var(--c-line);}
+.sum-num{font-size:19px;font-weight:500;color:var(--c-primary-deep);line-height:1.2;}
+.sum-num.sum-text{font-size:13px;color:var(--c-text);padding:0 6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.sum-label{margin-top:4px;font-size:10px;color:var(--c-text-weak);letter-spacing:.5px;}
+/* 本周日历 */
+.week{margin-top:12px;background:var(--c-card);border-radius:var(--r-md);padding:13px 10px 11px;box-shadow:var(--shadow-1);border:1px solid var(--c-line-soft);}
+.week-title{font-size:11px;color:var(--c-text-sub);letter-spacing:.5px;margin-bottom:9px;}
+.week-row{display:flex;justify-content:space-between;}
+.day{flex:1;margin:0 2px;border-radius:var(--r-sm);padding:6px 2px;text-align:center;background:var(--c-bg-2);min-height:48px;display:flex;flex-direction:column;justify-content:center;align-items:center;}
+.day.has{background:var(--c-primary-soft);}
+.day.is-today{outline:1px solid var(--c-gold);outline-offset:-1px;}
+.day-label{font-size:9px;color:var(--c-text-weak);letter-spacing:.5px;}
+.day-name{margin-top:4px;font-size:9px;color:var(--c-text-2);line-height:1.3;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:0 1px;}
+.day.has .day-name{color:var(--c-primary-deep);}
+/* 分组 */
+.group{margin-top:18px;}
+.group:first-child{margin-top:14px;}
+.group-head{display:flex;align-items:center;padding:0 4px 8px;}
+.group-title{font-size:13px;font-weight:500;color:var(--c-text);letter-spacing:1px;}
+.group-count{margin-left:7px;min-width:18px;height:17px;line-height:17px;padding:0 6px;border-radius:var(--r-pill);background:var(--c-primary-soft);color:var(--c-primary-deep);font-size:10px;text-align:center;box-sizing:border-box;}
+.list{margin-top:0;}
+.item{display:flex;align-items:center;background:var(--c-card);border-radius:var(--r-md);padding:13px 12px 13px 16px;margin-bottom:10px;box-shadow:var(--shadow-1);border:1px solid var(--c-line-soft);}
+.item-main{flex:1;min-width:0;}
+.item-name{font-size:16px;font-weight:500;letter-spacing:.5px;}
+.item-meta{margin-top:5px;display:flex;align-items:center;flex-wrap:wrap;}
+.item-cat{font-size:11px;color:var(--c-primary-deep);background:var(--c-primary-soft);padding:1px 7px;border-radius:var(--r-pill);}
+.item-time{margin-left:7px;font-size:11px;color:var(--c-text-weak);}
+.badge{margin-left:7px;font-size:11px;color:var(--c-success);background:var(--c-success-soft);padding:1px 7px;border-radius:var(--r-pill);}
+.badge-manual{color:var(--c-primary-deep);background:var(--c-gold-soft);}
+.item-desc{margin-top:5px;font-size:12px;color:var(--c-text-weak);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.item-actions{flex:none;display:flex;margin-left:8px;}
+.act{width:32px;height:32px;border-radius:50%;margin-left:6px;overflow:hidden;display:flex;align-items:center;justify-content:center;flex:none;background:var(--c-bg-2);transition:transform .15s ease;}
+.act:active{transform:scale(.92);}
+.act.is-on{background:var(--c-primary-soft);}
+.act-black.is-on{background:var(--c-danger-soft);}
+.act svg{width:100%;height:100%;display:block;}
+@keyframes actFill{0%{transform:scale(.6)}60%{transform:scale(1.18)}100%{transform:scale(1)}}
+.act.is-on svg{animation:actFill .4s ease;}
+.clear-wrap{margin-top:20px;}
+.clear-btn{height:42px;line-height:42px;text-align:center;background:var(--c-card);color:var(--c-danger);font-size:13px;letter-spacing:1px;border-radius:var(--r-md);border:1px solid var(--c-danger-soft);box-shadow:var(--shadow-1);}
+.clear-tip{margin-top:7px;text-align:center;font-size:10px;color:var(--c-text-weak);}
+
+/* 空状态插画 */
+.empty{margin-top:60px;text-align:center;}
+.empty-art{position:relative;width:100px;height:88px;margin:0 auto 18px;}
+.empty-bowl{position:absolute;left:15px;bottom:11px;width:70px;height:35px;border:1px solid var(--c-line);border-top:1px solid var(--c-primary-soft);border-radius:0 0 70px 70px / 0 0 45px 45px;background:linear-gradient(180deg,var(--c-card),var(--c-card-2));box-shadow:var(--shadow-1);}
+.empty-base{position:absolute;left:37px;bottom:5px;width:26px;height:3px;border-radius:999px;background:var(--c-line);}
+.empty-steam{position:absolute;bottom:50px;width:2.5px;border-radius:999px;background:linear-gradient(180deg,rgba(201,162,75,0),var(--c-gold));opacity:.5;animation:steamUp 2.8s ease-in-out infinite;}
+.s1{left:33px;height:20px}.s2{left:49px;height:27px;animation-delay:.5s}.s3{left:65px;height:20px;animation-delay:1s}
+@keyframes steamUp{0%{transform:translateY(5px) scaleY(.7);opacity:0}40%{opacity:.55}100%{transform:translateY(-12px) scaleY(1.1);opacity:0}}
+.empty-title{font-size:16px;font-weight:500;color:var(--c-text-2);letter-spacing:.5px;}
+.empty-desc{margin-top:6px;font-size:13px;color:var(--c-text-weak);}
+
+/* ================= 偏好弹层（新版：无主题选择，加预算/时段/其他） ================= */
+.ps-mask{position:absolute;inset:0;background:rgba(40,31,24,.38);z-index:30;}
+.ps-panel{position:absolute;left:0;right:0;bottom:0;height:80%;background:var(--c-card);border-radius:22px 22px 0 0;z-index:31;box-shadow:0 -6px 24px rgba(58,46,38,.16);overflow:hidden;}
+.ps-panel::before{content:"";position:absolute;left:50%;top:8px;width:34px;height:4px;margin-left:-17px;border-radius:999px;background:var(--c-line);}
+.ps-head{height:50px;padding:8px 22px 0;display:flex;align-items:center;justify-content:space-between;}
+.ps-title{font-size:16px;font-weight:500;letter-spacing:1px;}
+.ps-done{font-size:13px;color:var(--c-primary-deep);padding:4px 12px;border-radius:var(--r-pill);background:var(--c-primary-tint);}
+.ps-body{padding:0 22px;height:calc(100% - 50px);overflow:hidden;}
+.ps-count{margin:2px 0 6px;padding:11px 13px;background:var(--c-card-2);border:1px solid var(--c-line-soft);border-radius:var(--r-md);font-size:12px;color:var(--c-text-sub);}
+.ps-count b{color:var(--c-primary-deep);font-weight:500;font-size:15px;}
+.ps-block{padding:13px 0 5px;border-bottom:1px solid var(--c-line-soft);}
+.ps-block:last-of-type{border-bottom:none;}
+.ps-block-title{position:relative;padding-left:10px;font-size:11.5px;font-weight:500;letter-spacing:1.5px;color:var(--c-text-2);margin-bottom:4px;}
+.ps-block-title::before{content:"";position:absolute;left:0;top:50%;width:3px;height:11px;margin-top:-5.5px;border-radius:999px;background:var(--c-gold);}
+.ps-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;}
+.ps-row-name{font-size:13.5px;}
+.ps-row-desc{font-size:10.5px;color:var(--c-text-weak);margin-top:2px;}
+.sw-ui{width:40px;height:23px;border-radius:999px;background:var(--c-line);position:relative;flex:none;}
+.sw-ui.on{background:var(--c-primary);}
+.sw-ui::after{content:"";position:absolute;top:3px;left:3px;width:17px;height:17px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.18);}
+.sw-ui.on::after{left:20px;}
+.ps-budget-head{display:flex;align-items:baseline;justify-content:space-between;margin:6px 0 4px;}
+.ps-budget-val{font-size:15px;font-weight:500;color:var(--c-primary-deep);}
+.ps-slider{height:4px;border-radius:999px;background:var(--c-line);position:relative;margin:6px 0;}
+.ps-slider-fill{position:absolute;left:0;top:0;bottom:0;width:50%;border-radius:999px;background:var(--c-primary);}
+.ps-slider-dot{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:14px;height:14px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.18);border:1px solid var(--c-primary);}
+.ps-budget-tip{font-size:10px;color:var(--c-text-weak);line-height:1.6;margin-top:6px;}
+.ps-segs{display:flex;padding:3px;background:var(--c-bg-2);border-radius:var(--r-pill);margin:6px 0 5px;}
+.ps-seg{flex:1;height:28px;line-height:28px;text-align:center;font-size:11.5px;color:var(--c-text-sub);border-radius:var(--r-pill);}
+.ps-seg.is-on{background:var(--c-card);color:var(--c-primary-deep);font-weight:500;box-shadow:var(--shadow-1);}
+.ps-reset{margin:18px 0 10px;height:38px;line-height:38px;text-align:center;color:var(--c-text-weak);font-size:12.5px;letter-spacing:1px;border:1px solid var(--c-line);border-radius:var(--r-md);background:var(--c-card);}
+
+/* ================= 分享卡片 ================= */
+.poster{width:280px;height:400px;position:relative;background:var(--c-bg);border-radius:14px;overflow:hidden;box-shadow:var(--shadow-2);}
+.poster-halo{position:absolute;right:-66px;top:-50px;width:192px;height:192px;border-radius:50%;background:var(--c-primary-tint);opacity:.5;}
+.poster-card{position:absolute;left:20px;top:24px;width:240px;height:310px;background:#fff;border-radius:18px;box-shadow:0 5px 26px rgba(58,46,38,.13);padding:24px;}
+.pk{display:flex;align-items:center;justify-content:space-between;}
+.pk-l{display:flex;align-items:center;gap:10px;font-size:9px;color:var(--c-text-weak);letter-spacing:2.4px;}
+.pk-l::before{content:"";width:22px;height:2px;border-radius:1px;background:var(--c-gold);}
+.pk-date{font-size:9px;color:var(--c-text-weak);}
+.p-cat{display:inline-block;margin-top:14px;padding:3px 11px;border-radius:999px;background:var(--c-primary-tint);color:var(--c-primary-deep);font-size:10px;letter-spacing:2px;}
+.p-name{margin-top:14px;font-size:24px;font-weight:500;line-height:1.28;}
+.p-desc{margin-top:11px;font-size:11.5px;color:var(--c-text-sub);line-height:1.68;}
+.p-reason{position:relative;margin-top:13px;padding:11px 11px 11px 22px;background:var(--c-card-2);border-radius:9px;font-size:11.5px;color:var(--c-text-2);line-height:1.6;}
+.p-reason::before{content:"";position:absolute;left:11px;top:13px;bottom:13px;width:2px;border-radius:1px;background:var(--c-gold);}
+.p-foot{position:absolute;left:0;right:0;bottom:20px;text-align:center;}
+.p-rule{display:flex;align-items:center;justify-content:center;gap:8px;}
+.p-rule i{width:32px;height:1px;background:var(--c-line);}
+.p-rule b{width:5px;height:5px;border-radius:50%;background:var(--c-gold);}
+.p-brand{margin-top:9px;font-size:12px;font-weight:500;}
+.p-slogan{margin-top:5px;font-size:9px;color:var(--c-text-weak);letter-spacing:2.2px;}
+
+.note{max-width:1180px;margin:76px auto 0;background:var(--c-card);border:1px solid var(--c-line);border-radius:var(--r-lg);padding:32px 36px;box-shadow:var(--shadow-1);}
+.note h2{font-size:19px;font-weight:500;letter-spacing:1px;margin-bottom:6px;}
+.note ul{margin-top:14px;padding-left:20px;}
+.note li{font-size:14px;line-height:2;color:var(--c-text-2);}
+.note li b{color:var(--c-text);font-weight:500;}
+.note code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.5px;background:var(--c-bg-2);color:var(--c-primary-deep);padding:1px 6px;border-radius:5px;}
+
+/* ================= 单独展示的 tabBar 样例（取消绝对定位，放进文档流） ================= */
+.tabbar-demo{position:relative;left:auto;bottom:auto;transform:none;margin:0 auto;}
+
+/* ================= 我的菜页 ================= */
+.my-head{margin-bottom:18px;}
+.my-title{font-size:22px;font-weight:500;letter-spacing:1.5px;}
+.my-sub{margin-top:5px;font-size:12.5px;color:var(--c-text-weak);letter-spacing:.5px;}
+.my-list{display:flex;flex-direction:column;}
+.my-item{display:flex;align-items:center;background:var(--c-card);border:1px solid var(--c-line-soft);border-radius:var(--r-md);padding:13px 12px 13px 16px;margin-bottom:10px;box-shadow:var(--shadow-1);}
+.my-item-main{flex:1;min-width:0;}
+.my-name{font-size:16.5px;font-weight:500;letter-spacing:.5px;}
+.my-meta{margin-top:4px;display:flex;align-items:center;}
+.my-cat{font-size:11px;color:var(--c-primary-deep);background:var(--c-primary-soft);padding:1px 7px;border-radius:var(--r-pill);}
+.my-price{margin-left:7px;font-size:11px;color:var(--c-text-weak);}
+.my-tags{margin-top:5px;display:flex;flex-wrap:wrap;}
+.my-tag{font-size:10.5px;color:var(--c-text-sub);background:var(--c-bg-2);padding:1px 7px;border-radius:var(--r-pill);margin:0 5px 4px 0;}
+.my-del{flex:none;margin-left:8px;font-size:12.5px;color:var(--c-danger);padding:6px 9px;}
+.my-add{margin-top:18px;height:46px;line-height:46px;text-align:center;font-size:14.5px;color:var(--c-primary-deep);background:var(--c-card);border:1px solid var(--c-primary-soft);border-radius:var(--r-pill);box-shadow:var(--shadow-1);letter-spacing:1px;}
+/* 添加表单 */
+.my-form{margin-top:14px;background:var(--c-card);border:1px solid var(--c-line-soft);border-radius:var(--r-lg);padding:18px 15px;box-shadow:var(--shadow-2);}
+.my-field{display:flex;align-items:flex-start;padding:11px 0;border-bottom:1px solid var(--c-line-soft);}
+.my-field:last-of-type{border-bottom:none;}
+.my-label{width:56px;flex:none;font-size:13.5px;color:var(--c-text-2);letter-spacing:.5px;padding-top:2px;}
+.my-input{flex:1;font-size:13px;color:var(--c-text);background:var(--c-card-2);border-radius:var(--r-sm);padding:8px 10px;}
+.my-input.ph{color:var(--c-text-weak);}
+.my-chips{display:flex;flex-wrap:wrap;gap:6px;flex:1;}
+.my-chip{font-size:11px;color:var(--c-text-sub);background:var(--c-bg-2);padding:4px 11px;border-radius:var(--r-pill);}
+.my-chip.is-on{background:var(--c-primary-soft);color:var(--c-primary-deep);font-weight:500;}
+.my-form-btns{margin-top:16px;display:flex;gap:10px;}
+.my-btn-ghost{flex:1;height:42px;line-height:42px;text-align:center;font-size:14px;color:var(--c-text-sub);background:var(--c-card-2);border-radius:var(--r-pill);}
+.my-btn-primary{flex:1;height:42px;line-height:42px;text-align:center;font-size:14px;color:#fff;background:linear-gradient(135deg,#E68A4E,#D26E30);border-radius:var(--r-pill);box-shadow:var(--shadow-primary);}
+
+/* ================= 附近餐厅页（地图钉顶部 + 列表独立滚动） ================= */
+.nb-page{display:flex;flex-direction:column;height:646px;padding:0;}
+.nb-map-wrap{position:relative;flex:none;width:100%;height:260px;background:var(--c-card-2);overflow:hidden;}
+.nb-map{width:100%;height:260px;background:
+  radial-gradient(circle at 30% 30%,rgba(221,122,60,.10) 0%,rgba(221,122,60,0) 55%),
+  repeating-linear-gradient(0deg,rgba(180,160,140,.16) 0 1px,transparent 1px 26px),
+  repeating-linear-gradient(90deg,rgba(180,160,140,.16) 0 1px,transparent 1px 26px),
+  linear-gradient(160deg,#EFE6D8 0%,#E4D9C7 100%);}
+/* 路网 */
+.nb-map::before{content:"";position:absolute;left:0;right:0;top:104px;height:9px;background:rgba(255,255,255,.62);}
+.nb-map::after{content:"";position:absolute;top:0;bottom:0;left:132px;width:7px;background:rgba(255,255,255,.62);}
+.nb-pin{position:absolute;width:22px;height:22px;margin:-22px 0 0 -11px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:var(--c-primary);box-shadow:0 3px 7px rgba(150,90,40,.36);border:2px solid #fff;}
+.nb-pin.is-on{background:var(--c-primary-deep);transform:rotate(-45deg) scale(1.28);}
+.nb-pin-loc{position:absolute;left:50%;top:50%;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;background:#4A86C8;border:2.5px solid #fff;box-shadow:0 0 0 6px rgba(74,134,200,.22);}
+.nb-mock{margin:10px 16px 0;padding:8px 12px;font-size:11.5px;color:var(--c-text-sub);background:var(--c-gold-soft);border-radius:var(--r-md);text-align:center;line-height:1.6;flex:none;}
+.nb-count{flex:none;margin:14px 16px 8px;display:flex;align-items:baseline;}
+.nb-count-n{font-size:22px;color:var(--c-primary-deep);font-weight:500;}
+.nb-count-t{margin-left:5px;font-size:13px;color:var(--c-text-2);}
+.nb-scroll{flex:1;overflow:hidden;display:flex;flex-direction:column;}
+.nb-list{margin:0 16px;background:var(--c-card);border-radius:var(--r-lg);box-shadow:var(--shadow-1);overflow:hidden;}
+.nb-item{display:flex;align-items:center;padding:15px 16px;border-bottom:1px solid var(--c-line-soft);}
+.nb-item:last-child{border-bottom:none;}
+.nb-item.is-on{background:var(--c-primary-tint);}
+.nb-item-main{flex:1;min-width:0;}
+.nb-item-name{font-size:15.5px;color:var(--c-text);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.nb-item-addr{margin-top:4px;font-size:12px;color:var(--c-text-sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.nb-item-tags{margin-top:6px;}
+.nb-item-cat{display:inline-block;font-size:11px;color:var(--c-primary-deep);background:var(--c-primary-soft);padding:2px 8px;border-radius:var(--r-pill);}
+.nb-item-dist{flex:none;margin-left:10px;font-size:13px;color:var(--c-gold);font-weight:500;}
+.nb-scroll-pad{height:90px;flex:none;}
+.nb-foot{flex:none;text-align:center;font-size:11px;color:var(--c-text-weak);padding:8px 0 4px;}
+/* 半屏详情 sheet */
+.nb-mask{position:absolute;inset:0;background:rgba(40,31,24,.38);z-index:30;}
+.nb-sheet{position:absolute;left:0;right:0;bottom:0;z-index:31;background:var(--c-card);border-radius:22px 22px 0 0;padding:22px 22px 18px;box-shadow:0 -6px 24px rgba(58,46,38,.16);}
+.nb-sheet::before{content:"";position:absolute;left:50%;top:8px;width:34px;height:4px;margin-left:-17px;border-radius:999px;background:var(--c-line);}
+.nb-sheet-name{margin-top:6px;font-size:21px;font-weight:500;letter-spacing:1px;}
+.nb-sheet-meta{margin-top:8px;display:flex;align-items:center;}
+.nb-sheet-cat{font-size:11px;color:var(--c-primary-deep);background:var(--c-primary-soft);padding:2px 9px;border-radius:var(--r-pill);}
+.nb-sheet-dist{margin-left:8px;font-size:12px;color:var(--c-gold);font-weight:500;}
+.nb-sheet-row{display:flex;margin-top:12px;align-items:flex-start;}
+.nb-sheet-k{flex:none;width:38px;font-size:12.5px;color:var(--c-text-weak);}
+.nb-sheet-v{flex:1;font-size:13.5px;color:var(--c-text);line-height:1.6;}
+.nb-sheet-note{margin-top:14px;padding:10px 12px;background:var(--c-gold-soft);border-radius:var(--r-sm);font-size:11.5px;color:var(--c-primary-deep);line-height:1.6;}
+.nb-sheet-btn{margin-top:14px;height:44px;line-height:44px;text-align:center;color:#fff;font-size:14.5px;letter-spacing:1px;background:linear-gradient(135deg,#E68A4E,#D26E30);border-radius:var(--r-pill);box-shadow:var(--shadow-primary);}
+.nb-sheet-close{margin-top:10px;text-align:center;font-size:12.5px;color:var(--c-text-weak);}
+
+/* ================= 菜谱详情页 ================= */
+.rp-head{background:var(--c-card);border-radius:var(--r-lg);padding:20px 18px;box-shadow:var(--shadow-1);}
+.rp-name{font-size:26px;font-weight:500;letter-spacing:1px;line-height:1.3;}
+.rp-meta{margin-top:9px;display:flex;flex-wrap:wrap;align-items:center;}
+.rp-cat{font-size:12px;color:#fff;background:var(--c-primary);padding:2px 9px;border-radius:var(--r-pill);margin-right:7px;}
+.rp-tag{font-size:11.5px;color:var(--c-primary-deep);background:var(--c-primary-soft);padding:2px 8px;border-radius:var(--r-pill);margin:6px 6px 0 0;}
+.rp-desc{margin-top:10px;font-size:13.5px;color:var(--c-text-2);line-height:1.7;}
+.rp-info{margin-top:14px;display:flex;background:var(--c-card-2);border:1px solid var(--c-line-soft);border-radius:var(--r-md);padding:11px 5px;}
+.rp-info-item{flex:1;display:flex;align-items:center;justify-content:center;position:relative;}
+.rp-info-item+.rp-info-item::before{content:'';position:absolute;left:0;top:7px;bottom:7px;width:1px;background:var(--c-line-soft);}
+.rp-info-ico{flex:none;width:26px;height:26px;line-height:26px;text-align:center;font-size:12.5px;color:var(--c-primary-deep);background:var(--c-primary-soft);border-radius:50%;margin-right:7px;}
+.rp-info-c{display:flex;flex-direction:column;}
+.rp-info-k{font-size:10.5px;color:var(--c-text-weak);}
+.rp-info-v{font-size:13.5px;color:var(--c-text);font-weight:500;margin-top:2px;}
+.rp-block{margin-top:16px;background:var(--c-card);border-radius:var(--r-lg);padding:18px;box-shadow:var(--shadow-1);}
+.rp-block-title{position:relative;padding-left:11px;font-size:15.5px;font-weight:500;margin-bottom:13px;}
+.rp-block-title::before{content:'';position:absolute;left:0;top:3px;bottom:3px;width:4px;border-radius:4px;background:var(--c-gold);}
+.rp-ings{display:flex;flex-wrap:wrap;}
+.rp-ing{font-size:13px;color:var(--c-text-2);background:var(--c-card-2);border:1px solid var(--c-line);padding:6px 11px;border-radius:var(--r-md);margin:0 8px 8px 0;}
+.rp-step{display:flex;align-items:flex-start;padding:11px 0;border-bottom:1px solid var(--c-line-soft);}
+.rp-step:last-child{border-bottom:none;}
+.rp-step-no{flex:none;width:24px;height:24px;line-height:24px;text-align:center;font-size:13px;font-weight:500;color:#fff;background:var(--c-primary);border-radius:50%;margin-right:11px;}
+.rp-step-text{flex:1;font-size:14px;color:var(--c-text);line-height:1.7;padding-top:2px;}
+.rp-back{margin-top:18px;height:42px;line-height:42px;text-align:center;font-size:14px;color:var(--c-primary-deep);background:var(--c-card);border:1px solid var(--c-primary-soft);border-radius:var(--r-pill);}
+.rp-safe{height:80px;}
+</style>
+</head>
+<body data-page-node-id="ohz3aezpX8W6WDY1bxUMqN">
+
+<div class="doc" data-page-node-id="7ky1CAXlXo7ifX2K0PH4yc">
+  <div class="doc-kicker" data-page-node-id="JJKCPRnt8EAovqDslhop5C">Visual Redesign</div>
+  <h1 data-page-node-id="kXzTNV2w7JTF2GwweNdcDs">安静的奢华 · <em data-page-node-id="KZAgkPmFCMh0cSlKQIJpJp">暖食风</em></h1>
+  <p data-page-node-id="DJU5qSzBWRYA6KyiJRdzRp">克制的暖橙作为唯一重点色，奶油米为底，深炭棕承载文字，金色只出现在发丝线与强调处。层级靠字号、字距与灰度拉开，而不是靠更多颜色。以下为 6 个页面的像素级还原（rpx 按 1:2 换算），图标均为项目里的真实 PNG 资源，动画均为真实实现。</p>
+  <div class="swatches" data-page-node-id="sEB3fw6Ur9DCgjn2GGRUsT">
+    <span class="sw" data-page-node-id="lNRpQPh1E3dFKtAMxBveo9"><i style="background:#F6F0E8" data-page-node-id="rWojXbMsFsucRQnXXzz5ew"></i>奶油底 #F6F0E8</span>
+    <span class="sw" data-page-node-id="n9lTftUYqhnpRJEidA5Qdy"><i style="background:#DD7A3C" data-page-node-id="f0bR9fB7fEOBpE3A60pdBt"></i>暖橙 #DD7A3C</span>
+    <span class="sw" data-page-node-id="4C3ASeZzSExCqHf5bJ2PoF"><i style="background:#BE5E27" data-page-node-id="pkSBbWCd8UfEwV2YwzgoXE"></i>深橙 #BE5E27</span>
+    <span class="sw" data-page-node-id="UhhI5CdhKBuna3jbWRW4e3"><i style="background:#C9A24B" data-page-node-id="EXRQimaTNbtiHL0TS7GyKd"></i>金 #C9A24B</span>
+    <span class="sw" data-page-node-id="YNRzvGf40zEuY0gGLvrXnA"><i style="background:#3A2E26" data-page-node-id="A5ExHkocTihiGhNkqmpJlu"></i>炭棕 #3A2E26</span>
+    <span class="sw" data-page-node-id="pI8AnNJyvUjxpkcqnEznwb"><i style="background:#B5A292" data-page-node-id="SzdgbcO22Xsr6a89E0ncAn"></i>弱文字 #B5A292</span>
+  </div>
+</div>
+
+<div class="stage" data-page-node-id="GBnbYv82ABsNgPmLfS2k5h">
+
+  <!-- 首页 -->
+  <div class="slot" data-page-node-id="3a5zD2hDwrsJYMVBfob7YH">
+    <div class="slot-cap" data-page-node-id="hBkkepbXBQgkFS9Y0AYZpX"><b data-page-node-id="8EwKYjEggHPPLm1ELxjn0E">首页</b><span data-page-node-id="g9dyBLEP6rLha20UvxnvpR">大按钮 · 飘浮菜名 · 菜系条 · 上次结果</span></div>
+    <div class="phone" data-page-node-id="ydmr6O1Iq5yCVSa223tiGO">
+      <div class="navbar" data-page-node-id="QpstSEhNr0QLgHXZJazNE7">今天吃什么</div>
+      <div class="screen" data-page-node-id="8A9jZfAVKugHaRm0PbU8Lz"><div class="page" data-page-node-id="zYSJAnLGETkanymZTI2mbF">
+        <div class="header" data-page-node-id="NhY6WuWybe8wCbBRbu0oP2">
+          <div data-page-node-id="huqNSTqvk68RBFgDo3Yt4j">
+            <div class="title" data-page-node-id="JbwdMbFgjW05KDFU8aSQ7F">今天吃什么</div>
+            <div class="subtitle" data-page-node-id="CFcC0xHLaUKntcWjlFW2Yx">别纠结了，我帮你做决定</div>
+          </div>
+          <div class="pref-entry" data-page-node-id="uiMeY0t4S9Q6CsZxJqNuAK">偏好</div>
+        </div>
+        <div class="hero-wrap" data-page-node-id="fpIOh5qDh01XFg0zfrPa5F">
+          <div class="hero-ring" data-page-node-id="WIfXUi9kvVqtI0sFYe3Mc0"></div>
+          <div class="hero-floats" data-page-node-id="8aqSxkVPkLtPUykJ4kyIVq">
+            <div class="float-planet fp1" data-page-node-id="tHcWRx0Pjw5xbDXlX3x5qF">红烧<br data-page-node-id="yt85WuV7PWYgWPCdLWpjAN">牛肉面</div>
+            <div class="float-planet fp2" data-page-node-id="gyp5XDaNJSo3oxi51XRwDq">宫保<br data-page-node-id="HuGzVTJvokladaTeccAhGm">鸡丁</div>
+            <div class="float-planet fp3" data-page-node-id="XmlQ4OV5BFOgbyGRsBcTaX">麻婆<br data-page-node-id="wQ2aPkIYAM2E2oYrrzy3fk">豆腐</div>
+            <div class="float-planet fp4" data-page-node-id="f1J1To9SCHQR5DcBBeyb1H">小炒<br data-page-node-id="NsEefFq7bevJ2W2wUu2on2">肉</div>
+          </div>
+          <div class="hero-btn" data-page-node-id="hsOrAlugdjE7l8dT1007mE">
+            <div class="hero-title" data-page-node-id="WQoyz8VeCLw8WOsHs4qIav">帮我选</div>
+            <div class="hero-sub" data-page-node-id="ZMjfr8ZomMn4W8ujrqRWF1">点我开始</div>
+          </div>
+        </div>
+        <div class="hero-tip" data-page-node-id="FCJd5OYNYfOxbxK73UG1HP">共 215 道菜，当前可抽 168 道</div>
+        <div class="cuisine-bar" data-page-node-id="jCeFuD3P37dgr6NGlXVdwG">
+          <span class="cuisine-chip is-on" data-page-node-id="0Ev0dWoWkAOey8AvnHaz2h">全部</span>
+          <span class="cuisine-chip" data-page-node-id="9bWUxai2Z9s8TEUYrCxDMs">中餐</span>
+          <span class="cuisine-chip" data-page-node-id="cN7Ob3tAZQr9KWiQeLodCw">面食</span>
+          <span class="cuisine-chip" data-page-node-id="s0FTkhwcjn8haw0m5koEWg">轻食</span>
+          <span class="cuisine-chip" data-page-node-id="EDtMhx63A4GUGJHHotH5XX">快餐</span>
+        </div>
+        <div class="last-card" data-page-node-id="8HLMh4Ao0VjxcGjSB2mg1E">
+          <div class="last-head" data-page-node-id="cOfn93DCiI6TbWP1tVHEXA">
+            <div class="last-label" data-page-node-id="WtnwqmZDQgi67JVlPn5XPs">上次吃的是</div>
+            <div class="last-more" data-page-node-id="noCC8BSmyNeFZdG8aqsrBe">历史记录 ›</div>
+          </div>
+          <div class="last-name" data-page-node-id="ekdEUn6MHPrkBB0lg2TVTE">avocado 三明治</div>
+          <div class="last-meta" data-page-node-id="EHEkPaCvj9aDCfZzmCfyin"><span class="last-cat" data-page-node-id="AjDlW2ftuHw7ni2zNILv4O">轻食</span><span class="last-time" data-page-node-id="nksePJdZCAxpsaNq0YyhGO">2 小时前</span></div>
+        </div>
+        <div class="foot-note" data-page-node-id="TUbgyrWnjsQaEDP2IfVeDc">核心功能无需登录，数据只存在你的手机里</div>
+      </div></div>
+      <div class="tabbar js-cycle" data-cycle="replay">
+        <div class="tab-item is-on is-replay">
+          <img class="tab-icon tab-icon-off" src="./miniprogram/assets/tabbar/home.png" alt=""/>
+          <img class="tab-icon tab-icon-on" src="./miniprogram/assets/tabbar/home_white.png" alt=""/>
+          <div class="tab-label">首页</div>
+        </div>
+        <div class="tab-item">
+          <img class="tab-icon tab-icon-off" src="./miniprogram/assets/tabbar/dishes.png" alt=""/>
+          <img class="tab-icon tab-icon-on" src="./miniprogram/assets/tabbar/dishes_white.png" alt=""/>
+          <div class="tab-label">我的菜</div>
+        </div>
+        <div class="tab-item">
+          <img class="tab-icon tab-icon-off" src="./miniprogram/assets/tabbar/nearby.png" alt=""/>
+          <img class="tab-icon tab-icon-on" src="./miniprogram/assets/tabbar/nearby_white.png" alt=""/>
+          <div class="tab-label">附近餐厅</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 挑选动画 -->
+  <div class="slot" data-page-node-id="VFA7Kv8ASUaBBYYpvx3Hvw">
+    <div class="slot-cap" data-page-node-id="Zf9hDTIDwluzPnB5HtXfCW"><b data-page-node-id="aYqHzgGwkTwVtqSyixcCO0">挑选动画</b><span data-page-node-id="wcjGiGjGuNqPUkZBGdC6uR">新拟态卡 · 玻璃层 · 双游走光斑</span></div>
+    <div class="phone" data-page-node-id="NcT3rSARQogjH4qNkoa6Ek">
+      <div class="navbar" data-page-node-id="O4pf675qXEWWPEZLQcFRSB">今天吃什么</div>
+      <div class="screen" data-page-node-id="1TnGCLnWx6CpLa4uzjjP37">
+        <div class="page" style="transform:scale(.985)" data-page-node-id="T35pjFfN1Op0k8Ql9tFZDP">
+          <div class="header" data-page-node-id="wzxUMs4mmfixWTGL1BHS3l">
+            <div data-page-node-id="O5SFNSCfMbrowgArNyx9O1"><div class="title" data-page-node-id="oS34GGtmLyohBdbaimHaCI">今天吃什么</div><div class="subtitle" data-page-node-id="jip604lQLHAWHw6I0g3fOg">别纠结了，我帮你做决定</div></div>
+            <div class="pref-entry" data-page-node-id="cn3DcqeDLqJH13WoUNX88N">偏好</div>
+          </div>
+          <div class="hero-wrap" data-page-node-id="WXISIwgTpBXGNW33eqseGB"><div class="hero-ring" data-page-node-id="O4q3Ka8SEhHaf5AtZnbtBF"></div>
+            <div class="hero-btn" data-page-node-id="y6WeaB5MfKyK6Dn2jeuo3L"><div class="hero-title" data-page-node-id="NwYnMb4P8zVjNFclOMfkST">帮我选</div><div class="hero-sub" data-page-node-id="zababqTT4WCSOQKs7bA734">点我开始</div></div>
+          </div>
+          <div class="hero-tip" data-page-node-id="U4ruuLC1hesPEnEbvQCIib">共 215 道菜，当前可抽 168 道</div>
+        </div>
+        <div class="roll-mask" data-page-node-id="v27KTdSW0NkoZDkzRbicD1">
+          <div class="roll-panel" data-page-node-id="anoKpDOIniMpG0rHFPga04">
+            <div class="roll-blob" data-page-node-id="HmpNEnD7BrfDPiLr1PGaGs"></div>
+            <div class="roll-blob roll-blob-2" data-page-node-id="UbKtTWjyysaGG5RFJ9jSCI"></div>
+            <div class="roll-bg" data-page-node-id="EneSgDcwHFX0i9zHWe8sMy">
+              <div class="roll-hint" data-page-node-id="YvH0UEtkkN4bAhvkIHAtdg">正在为你挑选</div>
+              <div class="roll-name" data-page-node-id="KxrpsFAyPOtB8QaW0ZKjJx">红烧牛肉面</div>
+              <div class="roll-category" data-page-node-id="LLelK6kYkaKLctCALBz64O">面食</div>
+              <div class="roll-track" data-page-node-id="TJ1T11iEDaeC498mqQKXam"><i data-page-node-id="ZWBZgDPCNGUzSaokD6MgjV"></i><i data-page-node-id="y5qvk9wbxBScbbRyg8fQRT"></i><i data-page-node-id="jvwgXPmDPZlCwVEYOXFxpT"></i><i data-page-node-id="gA8CGkDAhlw59vHIe4wxqM"></i></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 结果页 -->
+  <div class="slot" data-page-node-id="2DXXfNkkgFiAkrKz8EY1Sw">
+    <div class="slot-cap" data-page-node-id="XhQnIPmXZz0TyzsStLmKA6"><b data-page-node-id="OXvIEbBnKXxXsOmpPb4SHb">随机结果页</b><span data-page-node-id="DCMmP0HGAiv0zT1dSjkrpR">新拟态 · 顶部金线 · 双按钮</span></div>
+    <div class="phone" data-page-node-id="9EiIHCOpanYeqHKvatVb7C">
+      <div class="navbar" data-page-node-id="p6ttjQ3vNitQYHC2TagrOI">今天的答案</div>
+      <div class="screen" data-page-node-id="Dflb5cKjpcTT7QqaAkLCil"><div class="page" data-page-node-id="RwSPIMKK3YBjFzxFFAVFlx">
+        <div class="rcard" data-page-node-id="WF8Kcvz0uDr7AIjgWT5G9X">
+          <div class="rcard-top" data-page-node-id="iwiRTkU6pDrjcjjvMiCRcM"><span class="rcat" data-page-node-id="cVe5580C7OkHoTUMyncYbx">中餐</span><span class="rprice" data-page-node-id="xl7vULC0UDzQh0WD7xLJtw">参考价 ¥32</span></div>
+          <div class="rname" data-page-node-id="YPBAOA1VjXYFDALL2ketDJ">宫保鸡丁</div>
+          <div class="rfun" data-page-node-id="GcBIyTj7IBp0qPHZGZUteL">辣里带甜，下饭之选</div>
+          <div class="rtags" data-page-node-id="k57sUXct03ZZnmUsHfM5hi"><span class="rtag" data-page-node-id="WOZ84vyHejAyrXOJK2Qdyq">辣</span><span class="rtag" data-page-node-id="YOTDuGPUqTqewa4JqWSGew">荤</span><span class="rtag" data-page-node-id="bjXpIBkUHQrJkj7Jmf8tsy">下饭</span></div>
+          <div class="rdesc" data-page-node-id="ywtP1Jznhc3wskCbZrrnR2">花生米与鸡丁的经典组合，酸甜微辣，糊辣香突出。</div>
+          <div class="rreason" data-page-node-id="uZxGLNFr4rwycmTbjOAw7e">
+            <div class="rreason-label" data-page-node-id="AyP8LBPuMBxoVU636wfVLo">推荐理由</div>
+            <div class="rreason-text" data-page-node-id="SuXPwl5KohqdqIBdUiW1CR">不知道吃什么的时候点它，基本不会踩雷。</div>
+          </div>
+          <div class="rnote" data-page-node-id="0TXMalYcK3cHys6YXOFDAL">小贴士：怕辣可以少放花椒，多留花生米的香。</div>
+        </div>
+        <div class="rtools" data-page-node-id="5L24fvezCGDFClrxyx6xxH">
+          <div class="rtool is-on" data-page-node-id="aQpAiCz4HkrgZQwpL0QC8C">已收藏</div>
+          <div class="rtool" data-page-node-id="RGzoXLoMMFBwZBLXcvmmoi">不想吃</div>
+          <div class="rtool" data-page-node-id="daSa0YbX4yGBTmILCCo6N3">分享</div>
+        </div>
+        <div class="rbtns" data-page-node-id="QJoqViZb4v6LFlndzS7Ell">
+          <div class="btn-primary" data-page-node-id="VBsz3BsckoOqKMnmzmZz9m">换一个</div>
+          <div class="btn-ghost" data-page-node-id="luNncdEUsELqih5AxiOIPg">就吃这个</div>
+        </div>
+        <div class="rrecipe" data-page-node-id="qW2qMNahrmHpR39A4lZKhS">查看详细菜谱</div>
+        <div class="rback" data-page-node-id="7bkKvIprczbmYT18OHC6sa">返回首页</div>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- 菜谱详情页 -->
+  <div class="slot">
+    <div class="slot-cap"><b>菜谱详情页</b><span>2 人份 · 约 30 分钟 · 中等 · 真实菜谱数据</span></div>
+    <div class="phone">
+      <div class="navbar">宫保鸡丁</div>
+      <div class="screen"><div class="page">
+        <div class="rp-head">
+          <div class="rp-name">宫保鸡丁</div>
+          <div class="rp-meta">
+            <span class="rp-cat">中餐</span>
+            <span class="rp-tag">辣</span><span class="rp-tag">荤</span><span class="rp-tag">下饭</span>
+          </div>
+          <div class="rp-desc">花生米与鸡丁同炒，酸甜微辣裹着一层亮油</div>
+          <div class="rp-info">
+            <div class="rp-info-item"><div class="rp-info-ico">份</div><div class="rp-info-c"><div class="rp-info-k">份量</div><div class="rp-info-v">2人份</div></div></div>
+            <div class="rp-info-item"><div class="rp-info-ico">时</div><div class="rp-info-c"><div class="rp-info-k">总时长</div><div class="rp-info-v">约30分钟</div></div></div>
+            <div class="rp-info-item"><div class="rp-info-ico">难</div><div class="rp-info-c"><div class="rp-info-k">难度</div><div class="rp-info-v">中等</div></div></div>
+          </div>
+        </div>
+
+        <div class="rp-block">
+          <div class="rp-block-title">食材准备</div>
+          <div class="rp-ings">
+            <div class="rp-ing">鸡胸肉 300g</div>
+            <div class="rp-ing">油酥花生米 50g</div>
+            <div class="rp-ing">干辣椒 10个</div>
+            <div class="rp-ing">花椒 1小勺</div>
+            <div class="rp-ing">葱白 1段</div>
+            <div class="rp-ing">蒜 3瓣</div>
+            <div class="rp-ing">姜 1片</div>
+            <div class="rp-ing">生抽 2勺</div>
+            <div class="rp-ing">香醋 2勺</div>
+            <div class="rp-ing">白糖 1勺</div>
+            <div class="rp-ing">淀粉 1勺</div>
+          </div>
+        </div>
+
+        <div class="rp-block">
+          <div class="rp-block-title">做法步骤</div>
+          <div class="rp-step"><div class="rp-step-no">1</div><div class="rp-step-text">调碗汁：生抽、香醋、白糖、淀粉、2 勺清水搅匀备用。</div></div>
+          <div class="rp-step"><div class="rp-step-no">2</div><div class="rp-step-text">花生米冷油下锅小火炸至微黄酥脆盛出。</div></div>
+          <div class="rp-step"><div class="rp-step-no">3</div><div class="rp-step-text">热油下花椒、干辣椒小火煸出香味（别糊），下姜蒜葱白爆香。</div></div>
+          <div class="rp-step"><div class="rp-step-no">4</div><div class="rp-step-text">转大火下鸡丁滑炒至变色断生。</div></div>
+          <div class="rp-step"><div class="rp-step-no">5</div><div class="rp-step-text">倒入碗汁快速翻炒至浓稠裹匀，撒花生米翻匀出锅。</div></div>
+        </div>
+
+        <div class="rp-block">
+          <div class="rp-block-title">小贴士</div>
+          <div class="rp-step" style="padding:8px 0"><div class="rp-step-no" style="background:var(--c-gold)">·</div><div class="rp-step-text">鸡丁先腌后大火快炒，嫩滑不柴。</div></div>
+          <div class="rp-step" style="padding:8px 0;border-bottom:none"><div class="rp-step-no" style="background:var(--c-gold)">·</div><div class="rp-step-text">花生米最后放，保持脆口。</div></div>
+        </div>
+
+        <div class="rp-back">返回</div>
+        <div class="rp-safe"></div>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- 历史页 -->
+  <div class="slot" data-page-node-id="LHKaCEhzD42gb0N1a4ite8">
+    <div class="slot-cap" data-page-node-id="s1sI8HGSSvZrpP5IoDCeGq"><b data-page-node-id="wCJEGUCZrNVJSlRtFGUyCu">历史记录页</b><span data-page-node-id="J8Ndq4EVGxRv5mZ79vFTM8">概览 · 本周日历 · 已选择/抽过没选分组</span></div>
+    <div class="phone" data-page-node-id="ou6dHu9LxPXXofPk2cUoVA">
+      <div class="navbar" data-page-node-id="WbNA3yALqueLpk8ToSGi0f">历史记录</div>
+      <div class="screen" data-page-node-id="y1NYkbV1snUAKzqqhmmoUu"><div class="page" data-page-node-id="tWNKMtcQGbrDjEDnvevNKU">
+        <div class="tabs" data-page-node-id="jQEhcXvEHHFq3Fnc0fJ5O3">
+          <div class="tab is-on" data-page-node-id="4iqOu9OzIZ9BVKssCdgT6o">历史 12</div>
+          <div class="tab" data-page-node-id="CD56PPvaDGNSlupuBeqM7j">收藏 5</div>
+          <div class="tab" data-page-node-id="6C3ETccJUOEPivFo9YUKQH">黑名单 2</div>
+        </div>
+        <div class="summary" data-page-node-id="RreAFhVc2VNxtduz9USnKz">
+          <div class="sum-item" data-page-node-id="Sl9c78DzFoWb3eZR43XHHC"><div class="sum-num" data-page-node-id="eTYEAT2ITZBI0IxBqLRfKy">4</div><div class="sum-label" data-page-node-id="D4m5Aajlbw5aYVQSp4KqHH">本周决定</div></div>
+          <div class="sum-item" data-page-node-id="4NGQVLFWhi2iiOsvCLEnby"><div class="sum-num sum-text" data-page-node-id="78m4p7PEFsA4fXaqQ7OFqo">红烧牛肉面</div><div class="sum-label" data-page-node-id="6E7jTYez1ojJSxMx15BDgL">本周最爱</div></div>
+          <div class="sum-item" data-page-node-id="Xpzl9aQsVnhwRZnUPRSWTj"><div class="sum-num sum-text" data-page-node-id="zEUnWjKVDQgLFSRQePi6IZ">面食</div><div class="sum-label" data-page-node-id="e5truC9SPwaYUJfDV8EzuE">最常分类</div></div>
+        </div>
+        <div class="week" data-page-node-id="NTLzm0Jo2bU5MJ5nrwyGyE">
+          <div class="week-title" data-page-node-id="YWlEGAJd77inFDF5GJGPAD">本周吃了啥</div>
+          <div class="week-row" data-page-node-id="cHpElWQWO0zT5PJrQgSVPH">
+            <div class="day" data-page-node-id="wPQeHG1UHacmqlmjL9FJYv"><div class="day-label" data-page-node-id="IZzT7DPG1q0s3vc0824bDQ">一</div><div class="day-name" data-page-node-id="xyPrHpCLvDisru1Sv9BL4A">三明治</div></div>
+            <div class="day has" data-page-node-id="ANb5v7cPmuIfqSXOdPZKgv"><div class="day-label" data-page-node-id="FdJDUJmgruUr0ud1W7Alq0">二</div><div class="day-name" data-page-node-id="cUVOomlAEkJ1MdcYcskgrV">牛肉面</div></div>
+            <div class="day" data-page-node-id="P7aYzTJETQD1m6tY0b7XJV"><div class="day-label" data-page-node-id="UAwsojrKTTkWLAtK9WnlKv">三</div><div class="day-name" data-page-node-id="0lYdjmhZqd7YGGONVyQqjS">—</div></div>
+            <div class="day has is-today" data-page-node-id="vB51lQVPDSMPOVWmcjbFZw"><div class="day-label" data-page-node-id="9UHSHAZ3v21ry7t8EjHED1">四</div><div class="day-name" data-page-node-id="slE54YNBdQogS3a9lKGZEB">宫保鸡丁</div></div>
+            <div class="day" data-page-node-id="2BAzaHNDUt5icBnM2H6GAX"><div class="day-label" data-page-node-id="33WPCwhb1yyyEcD1AzSfjE">五</div><div class="day-name" data-page-node-id="kOWzZKMe7QeNiijDPKTCdh">—</div></div>
+            <div class="day" data-page-node-id="c71QNAt0EO3oGkVjSBrIA2"><div class="day-label" data-page-node-id="5lBh3jjE32c59iRNpFF7mD">六</div><div class="day-name" data-page-node-id="ZEJCH6XzEdAvqaSBCGzY7k">—</div></div>
+            <div class="day" data-page-node-id="Noow5obefeIXSMzjZAfPhw"><div class="day-label" data-page-node-id="e1GEjSH3HX9oqg3BfjOsVi">日</div><div class="day-name" data-page-node-id="nWRXFu6c1Hd9IV8G2vsGyS">—</div></div>
+          </div>
+        </div>
+        <div class="group" data-page-node-id="ND4vKODKvlEOegIno4c4RW">
+          <div class="group-head" data-page-node-id="RJPg9d9eTYy3NdhLDm9v8W"><div class="group-title" data-page-node-id="iGAl5IdnxQsAmIRA7aeLJC">已选择</div><div class="group-count" data-page-node-id="8mnBedE9liDGYT1WvhcxIv">3</div></div>
+          <div class="list" data-page-node-id="BlIQDMuMLZ0So8PtHRxfLc">
+            <div class="item" data-page-node-id="qfyU5xe2XRo8VfsgOHTgHQ">
+              <div class="item-main" data-page-node-id="WzK3OGGZ24jTnzwSBQQ7Qn">
+                <div class="item-name" data-page-node-id="HCGLKgOoAkkz1UYVtLAxtt">红烧牛肉面</div>
+                <div class="item-meta" data-page-node-id="0aosHrY1IEc4hslyFLtB4E"><span class="item-cat" data-page-node-id="beCsFVVDL4fngnoTrKvCls">面食</span><span class="item-time" data-page-node-id="L06OKnE5T8tStU5rNnGHKL">10 分钟前</span><span class="badge" data-page-node-id="6OQfgme4J1DyRJHXATnMpJ">已决定</span></div>
+                <div class="item-desc" data-page-node-id="JGtr2jmIjzseyYFSsmdIYX">浓汤配软烂牛腩，冬天的最优解</div>
+              </div>
+              <div class="item-actions" data-page-node-id="dR7OSUE2oLDhlMhmLz6y2x"><div class="act is-on"><img class="act-icon" src="./miniprogram/assets/history/like-on.png" alt=""/></div><div class="act act-black"><img class="act-icon" src="./miniprogram/assets/history/unlike.png" alt=""/></div></div>
+            </div>
+            <div class="item" data-page-node-id="RWoKOFM31MfB5U6JifM5P9">
+              <div class="item-main" data-page-node-id="MweAVra8XsvCRCg19F6fvl">
+                <div class="item-name" data-page-node-id="XB7ergbdoLK5otMNYEqpA4">宫保鸡丁</div>
+                <div class="item-meta" data-page-node-id="te3q6BP9TtAAh9g5qWGMoo"><span class="item-cat" data-page-node-id="xyTlLzFeYyNrFYT20LCetv">中餐</span><span class="item-time" data-page-node-id="gQKIhFWMx9dkH0RN3ZsbPk">今天</span><span class="badge" data-page-node-id="lXgD03X3orJ0Hkb7AnrBmP">已决定</span></div>
+                <div class="item-desc" data-page-node-id="khpYbM2dJ9KnAAj7gxhHuo">酸甜微辣，糊辣香突出</div>
+              </div>
+              <div class="item-actions" data-page-node-id="wGp2pB2X60R8eHpRb1mpxh"><div class="act is-on"><img class="act-icon" src="./miniprogram/assets/history/like-on.png" alt=""/></div><div class="act act-black"><img class="act-icon" src="./miniprogram/assets/history/unlike.png" alt=""/></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="group" data-page-node-id="8Om1nvwLqeH4A4F1emhioi">
+          <div class="group-head" data-page-node-id="RQJVuKMtSEf37pFagIf3QI"><div class="group-title" data-page-node-id="WFESAwr8ayo98xPOf1tNxh">抽过没选</div><div class="group-count" data-page-node-id="iTQTYrb38IKJn9rMToianN">2</div></div>
+          <div class="list" data-page-node-id="A1xtI4cmpwMLv9ByJKFj2a">
+            <div class="item" data-page-node-id="Nx3B9bLcFjQuyoDoq3Jk9n">
+              <div class="item-main" data-page-node-id="fMd1kUhJ5ZhWctNjum5G0V">
+                <div class="item-name" data-page-node-id="ckBgGSgg6B6q1aHCPZvx0T">avocado 三明治</div>
+                <div class="item-meta" data-page-node-id="iuBHHBbFValU3A1nYhyvMA"><span class="item-cat" data-page-node-id="VtF0urCzcy0LU73Wzfnmti">轻食</span><span class="item-time" data-page-node-id="92fnnjbintw3ZOx829lTAr">2 小时前</span></div>
+                <div class="item-desc" data-page-node-id="qDRuoAWer0ZEUUYc85mcKi">牛油果加溏心蛋，清爽不腻</div>
+              </div>
+              <div class="item-actions" data-page-node-id="krVlLRNfDRKuBwaef8bxkm"><div class="act"><img class="act-icon" src="./miniprogram/assets/history/like.png" alt=""/></div><div class="act act-black"><img class="act-icon" src="./miniprogram/assets/history/unlike.png" alt=""/></div></div>
+            </div>
+            <div class="item" data-page-node-id="P0E0ANMLMsNVSMAZVeiODB">
+              <div class="item-main" data-page-node-id="QNIDJnRaWEewbsx78BX8B8">
+                <div class="item-name" data-page-node-id="PRonjHHv2KaYiGMGc55QnC">麻婆豆腐</div>
+                <div class="item-meta" data-page-node-id="efZAC4JTuuHsJzD5SDO1g9"><span class="item-cat" data-page-node-id="IXyAT7hGYcRMEQrgFHbJY0">中餐</span><span class="item-time" data-page-node-id="bPzpO8oELCLdBmGJVPKSK6">昨天</span></div>
+                <div class="item-desc" data-page-node-id="YfWmVg6Pad9JKVwAKTdcVx">麻辣鲜香，最下饭的一道</div>
+              </div>
+              <div class="item-actions" data-page-node-id="qzWq074wKrShIXPbvLWQMJ"><div class="act"><img class="act-icon" src="./miniprogram/assets/history/like.png" alt=""/></div><div class="act act-black"><img class="act-icon" src="./miniprogram/assets/history/unlike.png" alt=""/></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="clear-wrap" data-page-node-id="QWyqiGhB8R2MZp4eQyq27E">
+          <div class="clear-btn" data-page-node-id="FuEQSCLnJoG0rIJYpl4dDG">清空历史记录</div>
+          <div class="clear-tip" data-page-node-id="x0AvAxKWkwj3h2on9MuMf6">最多保留最近 100 条，收藏与黑名单不受影响</div>
+        </div>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- 我的菜（tab 2） -->
+  <div class="slot">
+    <div class="slot-cap"><b>我的菜</b><span>自定义菜 · 一起参与随机 · 可加食材做法</span></div>
+    <div class="phone">
+      <div class="navbar">我的菜</div>
+      <div class="screen"><div class="page">
+        <div class="my-head">
+          <div class="my-title">我的菜</div>
+          <div class="my-sub">手动添加常吃的菜，一起参与随机</div>
+        </div>
+
+        <div class="my-list">
+          <div class="my-item">
+            <div class="my-item-main">
+              <div class="my-name">老妈红烧肉</div>
+              <div class="my-meta"><span class="my-cat">中餐</span><span class="my-price">¥45</span></div>
+              <div class="my-tags"><span class="my-tag">荤</span><span class="my-tag">下饭</span><span class="my-tag">家常</span></div>
+            </div>
+            <div class="my-del">删除</div>
+          </div>
+          <div class="my-item">
+            <div class="my-item-main">
+              <div class="my-name">楼下麻辣烫</div>
+              <div class="my-meta"><span class="my-cat">小吃</span><span class="my-price">¥28</span></div>
+              <div class="my-tags"><span class="my-tag">辣</span><span class="my-tag">外卖</span></div>
+            </div>
+            <div class="my-del">删除</div>
+          </div>
+          <div class="my-item">
+            <div class="my-item-main">
+              <div class="my-name">番茄牛腩饭</div>
+              <div class="my-meta"><span class="my-cat">快餐</span><span class="my-price">¥32</span></div>
+              <div class="my-tags"><span class="my-tag">汤汁拌饭</span></div>
+            </div>
+            <div class="my-del">删除</div>
+          </div>
+        </div>
+
+        <div class="my-add">+ 添加一道菜</div>
+
+        <div class="my-form">
+          <div class="my-field">
+            <div class="my-label">菜名</div>
+            <div class="my-input">老妈红烧肉</div>
+          </div>
+          <div class="my-field">
+            <div class="my-label">分类</div>
+            <div class="my-input">中餐</div>
+          </div>
+          <div class="my-field">
+            <div class="my-label">标签</div>
+            <div class="my-chips">
+              <span class="my-chip is-on">荤</span><span class="my-chip is-on">下饭</span>
+              <span class="my-chip">辣</span><span class="my-chip">清淡</span>
+              <span class="my-chip">汤</span><span class="my-chip">快手</span><span class="my-chip">家常</span>
+            </div>
+          </div>
+          <div class="my-field">
+            <div class="my-label">参考价</div>
+            <div class="my-input">45</div>
+          </div>
+          <div class="my-field">
+            <div class="my-label">描述</div>
+            <div class="my-input">肥而不腻，糖色炒得刚好</div>
+          </div>
+          <div class="my-field">
+            <div class="my-label">食材</div>
+            <div class="my-input ph">每行一种，可带用量</div>
+          </div>
+          <div class="my-field">
+            <div class="my-label">做法</div>
+            <div class="my-input ph">每行一步</div>
+          </div>
+          <div class="my-form-btns">
+            <div class="my-btn-ghost">取消</div>
+            <div class="my-btn-primary">保存</div>
+          </div>
+        </div>
+      </div></div>
+      <div class="tabbar" data-fixed="1">
+        <div class="tab-item">
+          <img class="tab-icon tab-icon-off" src="./miniprogram/assets/tabbar/home.png" alt=""/>
+          <img class="tab-icon tab-icon-on" src="./miniprogram/assets/tabbar/home_white.png" alt=""/>
+          <div class="tab-label">首页</div>
+        </div>
+        <div class="tab-item is-on">
+          <img class="tab-icon tab-icon-off" src="./miniprogram/assets/tabbar/dishes.png" alt=""/>
+          <img class="tab-icon tab-icon-on" src="./miniprogram/assets/tabbar/dishes_white.png" alt=""/>
+          <div class="tab-label">我的菜</div>
+        </div>
+        <div class="tab-item">
+          <img class="tab-icon tab-icon-off" src="./miniprogram/assets/tabbar/nearby.png" alt=""/>
+          <img class="tab-icon tab-icon-on" src="./miniprogram/assets/tabbar/nearby_white.png" alt=""/>
+          <div class="tab-label">附近餐厅</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 附近餐厅（tab 3） -->
+  <div class="slot">
+    <div class="slot-cap"><b>附近餐厅</b><span>地图钉顶部 · 列表独立滚动 · 半屏详情</span></div>
+    <div class="phone">
+      <div class="navbar">附近餐厅</div>
+      <div class="screen" style="overflow:visible">
+        <div class="page nb-page">
+          <div class="nb-map-wrap">
+            <div class="nb-map">
+              <div class="nb-pin is-on" style="left:38%;top:34%"></div>
+              <div class="nb-pin" style="left:64%;top:26%"></div>
+              <div class="nb-pin" style="left:26%;top:62%"></div>
+              <div class="nb-pin" style="left:70%;top:66%"></div>
+              <div class="nb-pin" style="left:52%;top:80%"></div>
+              <div class="nb-pin-loc"></div>
+            </div>
+          </div>
+
+          <div class="nb-mock">当前为演示数据，接入腾讯位置服务 Key 后自动切换为真实餐厅</div>
+          <div class="nb-count"><span class="nb-count-n">5</span><span class="nb-count-t">家餐厅在附近</span></div>
+
+          <div class="nb-scroll">
+            <div class="nb-list">
+              <div class="nb-item is-on">
+                <div class="nb-item-main">
+                  <div class="nb-item-name">老碗村陕西面馆</div>
+                  <div class="nb-item-addr">科技园路 12 号 1 层</div>
+                  <div class="nb-item-tags"><span class="nb-item-cat">面食</span></div>
+                </div>
+                <div class="nb-item-dist">120m</div>
+              </div>
+              <div class="nb-item">
+                <div class="nb-item-main">
+                  <div class="nb-item-name">川渝小炒</div>
+                  <div class="nb-item-addr">科苑大道 88 号 2 层</div>
+                  <div class="nb-item-tags"><span class="nb-item-cat">中餐</span></div>
+                </div>
+                <div class="nb-item-dist">260m</div>
+              </div>
+              <div class="nb-item">
+                <div class="nb-item-main">
+                  <div class="nb-item-name">轻食主义 · 沙拉工坊</div>
+                  <div class="nb-item-addr">高新南七道 5 号</div>
+                  <div class="nb-item-tags"><span class="nb-item-cat">轻食</span></div>
+                </div>
+                <div class="nb-item-dist">410m</div>
+              </div>
+              <div class="nb-item">
+                <div class="nb-item-main">
+                  <div class="nb-item-name">幸福小笼包</div>
+                  <div class="nb-item-addr">科技南十二路 3 号</div>
+                  <div class="nb-item-tags"><span class="nb-item-cat">小吃</span></div>
+                </div>
+                <div class="nb-item-dist">680m</div>
+              </div>
+              <div class="nb-item">
+                <div class="nb-item-main">
+                  <div class="nb-item-name">牛角村日式咖喱</div>
+                  <div class="nb-item-addr">粤海街道 21 号</div>
+                  <div class="nb-item-tags"><span class="nb-item-cat">日韩</span></div>
+                </div>
+                <div class="nb-item-dist">950m</div>
+              </div>
+            </div>
+            <div class="nb-scroll-pad"></div>
+          </div>
+
+          <div class="nb-foot">数据来自腾讯位置服务 · 仅供选餐参考</div>
+        </div>
+
+        <!-- 半屏详情：常驻渲染，用 class 控制进出场动画 -->
+        <div class="nb-mask is-on"></div>
+        <div class="nb-sheet is-on">
+          <div class="nb-sheet-name">老碗村陕西面馆</div>
+          <div class="nb-sheet-meta"><span class="nb-sheet-cat">面食</span><span class="nb-sheet-dist">120m</span></div>
+          <div class="nb-sheet-row"><div class="nb-sheet-k">地址</div><div class="nb-sheet-v">科技园路 12 号 1 层</div></div>
+          <div class="nb-sheet-row"><div class="nb-sheet-k">区域</div><div class="nb-sheet-v">南山区</div></div>
+          <div class="nb-sheet-note">想看菜单、评分和人均？复制店名去点评或美团搜一下</div>
+          <div class="nb-sheet-btn">复制店名去点评搜索</div>
+          <div class="nb-sheet-close">关闭</div>
+        </div>
+      </div>
+      <div class="tabbar">
+        <div class="tab-item">
+          <img class="tab-icon tab-icon-off" src="./miniprogram/assets/tabbar/home.png" alt=""/>
+          <img class="tab-icon tab-icon-on" src="./miniprogram/assets/tabbar/home_white.png" alt=""/>
+          <div class="tab-label">首页</div>
+        </div>
+        <div class="tab-item">
+          <img class="tab-icon tab-icon-off" src="./miniprogram/assets/tabbar/dishes.png" alt=""/>
+          <img class="tab-icon tab-icon-on" src="./miniprogram/assets/tabbar/dishes_white.png" alt=""/>
+          <div class="tab-label">我的菜</div>
+        </div>
+        <div class="tab-item is-on">
+          <img class="tab-icon tab-icon-off" src="./miniprogram/assets/tabbar/nearby.png" alt=""/>
+          <img class="tab-icon tab-icon-on" src="./miniprogram/assets/tabbar/nearby_white.png" alt=""/>
+          <div class="tab-label">附近餐厅</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 赞/踩图标 1:1（实际 PNG 资源） -->
+  <div class="slot">
+    <div class="slot-cap"><b>赞/踩图标 · 1:1 实物</b><span>历史页菜品右侧的圆形按钮 · 真机渲染</span></div>
+    <div class="phone" style="background:#F6F0E8">
+      <div class="navbar">图标资源</div>
+      <div class="screen"><div class="page" style="padding:24px 24px 40px;display:flex;flex-direction:column;gap:18px;">
+        <div style="font-size:12px;color:var(--c-text-sub);letter-spacing:.5px;">项目里 4 张 PNG · 72rpx 渲染 · 浅暖灰底/暖橙软底 · 深棕拇指</div>
+
+        <div style="display:flex;gap:24px;align-items:flex-end;">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+            <img src="./miniprogram/assets/history/like.png" alt="like 未选" style="width:72px;height:72px;border-radius:50%;"/>
+            <span style="font-size:10px;color:var(--c-text-sub);">like · 未选</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+            <img src="./miniprogram/assets/history/like-on.png" alt="like 选中" style="width:72px;height:72px;border-radius:50%;"/>
+            <span style="font-size:10px;color:var(--c-text-sub);">like_on · 已选</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+            <img src="./miniprogram/assets/history/unlike.png" alt="unlike 未选" style="width:72px;height:72px;border-radius:50%;"/>
+            <span style="font-size:10px;color:var(--c-text-sub);">unlike · 未选</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+            <img src="./miniprogram/assets/history/unlike-on.png" alt="unlike 选中" style="width:72px;height:72px;border-radius:50%;"/>
+            <span style="font-size:10px;color:var(--c-text-sub);">unlike_on · 已选</span>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:14px;align-items:center;padding:14px;background:var(--c-card);border-radius:var(--r-md);box-shadow:var(--shadow-1);">
+          <img src="./miniprogram/assets/history/like-on.png" style="width:48px;height:48px;border-radius:50%;"/>
+          <img src="./miniprogram/assets/history/unlike.png" style="width:48px;height:48px;border-radius:50%;"/>
+          <span style="font-size:11.5px;color:var(--c-text-sub);flex:1;">历史页菜品行右侧的真实按钮样式：圆形 + 暖橙软底/浅暖灰底 + 深棕拇指<br/>like 朝上 = 收藏 · unlike 朝下 = 黑名单</span>
+        </div>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- 偏好弹层 -->
+  <div class="slot" data-page-node-id="t1l1JpP0a0YjI7iQrb3bdp">
+    <div class="slot-cap" data-page-node-id="jzDWCnJRhfeAKW6jvFyYe4"><b data-page-node-id="zbtynXm6i2hJ7xZoDzx6Xz">偏好弹层</b><span data-page-node-id="LZdsE6oFwKOeDlgFs5IbVQ">半屏 · 忌口/预算/时段/重复/其他</span></div>
+    <div class="phone" data-page-node-id="jLt59SxLFy8CzvdoeyCjhx">
+      <div class="navbar" data-page-node-id="mGFAh1w1bQLFpHtcSGaArv">今天吃什么</div>
+      <div class="screen" data-page-node-id="EkiROMWJwhhmnRFYVygbd6">
+        <div class="page" data-page-node-id="4rkwcMDrZ6XSdJLghLzU5E">
+          <div class="header" data-page-node-id="HKzG6lvTc4Q7gbuKvHyjOZ">
+            <div data-page-node-id="3DbgbQNnwrpQQdDOvw2qBZ"><div class="title" data-page-node-id="0QjLw285cikw47vmlmOEBd">今天吃什么</div><div class="subtitle" data-page-node-id="BPGZATyly8vt8fOm1ObbNG">别纠结了，我帮你做决定</div></div>
+            <div class="pref-entry" data-page-node-id="jac2CHAH9zHBvsC7tKR5u1">偏好</div>
+          </div>
+          <div class="hero-wrap" data-page-node-id="HMYfHFNF1h3cKAUP4oU56U"><div class="hero-ring" data-page-node-id="e3usxJFsczniQzNcVU16kh"></div>
+            <div class="hero-btn" data-page-node-id="ltzOVsBVBsAnizF9aZNbWK"><div class="hero-title" data-page-node-id="9bbf6P7P7XfVsBebDWY5rU">帮我选</div><div class="hero-sub" data-page-node-id="yPmywbVZdU7oAEMBahZnRL">点我开始</div></div>
+          </div>
+        </div>
+        <div class="ps-mask" data-page-node-id="xZobHT17JROPTsYe3pifnv"></div>
+        <div class="ps-panel" data-page-node-id="7pN2EDAK8pxQ2W9et0g4CK">
+          <div class="ps-head" data-page-node-id="Q73wNzCfnRlLB1R9k0VAGn"><span class="ps-title" data-page-node-id="WTBUz1ASizDe0OVqlBEBPj">偏好设置</span><span class="ps-done" data-page-node-id="4Hp6xAulylGoPfzSZU4Bov">完成</span></div>
+          <div class="ps-body" data-page-node-id="drHxhwXL5INdWbmUPEtHBx">
+            <div class="ps-count" data-page-node-id="52PWxloiC2m4NKgE0CHNyq">当前条件下可抽到 <b data-page-node-id="ee6553B0E4uITGN34F4M6p">168</b> / 215 道菜</div>
+            <div class="ps-block" data-page-node-id="SUKCnJlmLAML5Czxk9fdrf">
+              <div class="ps-block-title" data-page-node-id="YpHdOhtgOOh0jEdsrZMKIt">忌口</div>
+              <div class="ps-row" data-page-node-id="dxJe5yvqx6Wn1B1a3pOZ8W"><div data-page-node-id="YUPk6TzoDLyFjXmBKjO54P"><div class="ps-row-name" data-page-node-id="ri9SZiCLULa9w3eTKZZUBJ">不吃辣</div><div class="ps-row-desc" data-page-node-id="RJcT5qMx0skjXZnZmkkYfi">剔除所有带「辣」标签的菜</div></div><div class="sw-ui on" data-page-node-id="Fm5tmPKSbplcAQOxUmIZEQ"></div></div>
+              <div class="ps-row"><div><div class="ps-row-name">素食</div><div class="ps-row-desc">只保留不含肉类的菜</div></div><div class="sw-ui"></div></div>
+              <div class="ps-row" data-page-node-id="Kq4dd3D8HQCR64d0Bmt1mL"><div data-page-node-id="IIyF9OU8OKwGu7LbGnTFev"><div class="ps-row-name" data-page-node-id="n5ECI2cyBb93tiX8aQGOmE">不吃香菜</div><div class="ps-row-desc" data-page-node-id="VuaQ5q9GI1BO2slzApzxkS">名字或食材里带香菜的都剔除</div></div><div class="sw-ui" data-page-node-id="OS4V0LI3JBZISIElT8gxUJ"></div></div>
+              <div class="ps-row" data-page-node-id="pmxYrzGDoTTIrbTgltMGfi"><div data-page-node-id="viEyvgsBqOIYbwapCdvYHC"><div class="ps-row-name" data-page-node-id="CU5BgIAGh4s9sBs1973X8o">不吃蒜</div><div class="ps-row-desc" data-page-node-id="BtuLdrD2Pbbotpf6B9VBTW">蒜末、蒜蓉、蒜泥都算</div></div><div class="sw-ui on" data-page-node-id="HZU6egcPLxrPp93heWRq4I"></div></div>
+              <div class="ps-row"><div><div class="ps-row-name">不吃葱</div><div class="ps-row-desc">葱花、大葱、小葱都剔除</div></div><div class="sw-ui"></div></div>
+            </div>
+            <div class="ps-block" data-page-node-id="RMFPw6w7cKGK4ETjAxDqpb">
+              <div class="ps-block-title" data-page-node-id="0NeVdnUT37L8ohWqADPFXA">人均预算</div>
+              <div class="ps-budget-head" data-page-node-id="ANboCQqrM2z80b907x6e38"><span class="ps-budget-val" data-page-node-id="DTSNZFaIE8OXWyTNJnsewJ">¥30 以内</span></div>
+              <div class="ps-slider" data-page-node-id="8MaYtwme94Ue9CptvXi1sx"><div class="ps-slider-fill" data-page-node-id="3rko8H6GQqQJ8O12Otc56F"></div><div class="ps-slider-dot" data-page-node-id="E12TFMhDNpG1lDdMBavMGI"></div></div>
+              <div class="ps-budget-tip" data-page-node-id="945Bn8ZzZoJgQVBpOa3AGv">拖到最左为「不限」，价格为参考值，不代表实际售价</div>
+            </div>
+            <div class="ps-block" data-page-node-id="tnSspWtDkWyhWJmNBvw8DW">
+              <div class="ps-block-title" data-page-node-id="1aqtqipSadBZxztAvCPFFh">推荐时段</div>
+              <div class="ps-segs" data-page-node-id="oUlHPDld2OKIlJGecUGv7j">
+                <div class="ps-seg" data-page-node-id="PxnDlPGF7AA8GosJpljCAE">自动</div>
+                <div class="ps-seg" data-page-node-id="seg-bf">早餐</div>
+                <div class="ps-seg is-on" data-page-node-id="pnykam3L14KplhXOcKs5pL">午餐</div>
+                <div class="ps-seg" data-page-node-id="seg-tea">下午茶</div>
+                <div class="ps-seg" data-page-node-id="bZSH3XPGUieTCl0xRLZ11n">晚餐</div>
+                <div class="ps-seg" data-page-node-id="seg-mn">夜宵</div>
+              </div>
+              <div class="ps-budget-tip" data-page-node-id="AHtMbw2MVsdDkVM7Fy6EqF">默认「自动」按你打开 App 的时间推荐；也可手动锁定早/午/晚</div>
+            </div>
+            <div class="ps-block" data-page-node-id="eDk2KbKbJlDyRmogHhAgPI">
+              <div class="ps-block-title" data-page-node-id="qVwbHNBK2nx5yr7AONuPyU">避免近期重复</div>
+              <div class="ps-segs" data-page-node-id="g3or7lslRHCml9k6xtc5NF">
+                <div class="ps-seg is-on" data-page-node-id="RbXgSvojlzTOt6bdUqMcuE">最近 10 次</div>
+                <div class="ps-seg" data-page-node-id="pYyW538hfdGnSwQFiAdcNf">最近 20 次</div>
+                <div class="ps-seg" data-page-node-id="XymE4bUvSACzyhF4DgXiVt">最近 50 次</div>
+              </div>
+              <div class="ps-budget-tip" data-page-node-id="qJGE8xet3e11fPFS5NLZjZ">避免最近抽过的菜重复出现</div>
+            </div>
+            <div class="ps-block" data-page-node-id="dXUvfWuVTurLtIgu5vve3l">
+              <div class="ps-block-title" data-page-node-id="cxJ3lgtMURjl9ZvWa0VlTK">其他</div>
+              <div class="ps-row" data-page-node-id="1lJC3PnCxKVSARRsOobZEP"><div data-page-node-id="xplUmzoXAt4Tkcg0m2z6aN"><div class="ps-row-name" data-page-node-id="YhrQmaEik7ayG3Be2wmq6N">摇一摇随机</div><div class="ps-row-desc" data-page-node-id="sZThBoPgWYplm4jqPpDZoJ">在首页摇动手机直接出结果</div></div><div class="sw-ui on" data-page-node-id="6qEDOy5YF81TNyoq8p8BVW"></div></div>
+              <div class="ps-row" data-page-node-id="GWJk17yxYCjFvNrwWv5IqS"><div data-page-node-id="SsQVPZsVN6Wz24dln3qqGo"><div class="ps-row-name" data-page-node-id="PgELFC5raWczbLkDfFquau">决定时震动与音效</div><div class="ps-row-desc" data-page-node-id="SDgcjkt5nx8kA9h6HIUsMT">选出结果时轻微反馈</div></div><div class="sw-ui" data-page-node-id="7KYUbJdgoA50N563deeEYC"></div></div>
+            </div>
+            <div class="ps-reset" data-page-node-id="2NqrlBiQqz0OGsSV1IqoLz">恢复默认设置</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 底部导航栏（独立展示） -->
+  <div class="slot">
+    <div class="slot-cap"><b>底部导航栏</b><span>每 tab 自身选中 · 缩放回弹 + 上下粒子 · 无滑动块</span></div>
+    <div class="phone">
+      <div class="navbar">导航栏细节</div>
+      <div class="screen"><div class="page" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:34px;">
+        <div style="font-size:13px;color:var(--c-text-weak);letter-spacing:1px;text-align:center;line-height:1.9;">
+          没有位移滑动块，每个 tab 自身就是选中容器<br>
+          双层背景：顶部白色高光 + 暖橙渐变<br>
+          玻璃底：blur 16px · saturate 180%<br>
+          登场动画：缩放 0.95→1.05→1 + 上下各喷一颗粒子
+        </div>
+
+        <!-- 静态态：选中「我的菜」 -->
+        <div class="tabbar-demo">
+          <div class="tab-item">
+            <img class="tab-icon tab-icon-off" src="./miniprogram/assets/tabbar/home.png" alt=""/>
+            <img class="tab-icon tab-icon-on" src="./miniprogram/assets/tabbar/home_white.png" alt=""/>
+            <div class="tab-label">首页</div>
+          </div>
+          <div class="tab-item is-on">
+            <img class="tab-icon tab-icon-off" src="./miniprogram/assets/tabbar/dishes.png" alt=""/>
+            <img class="tab-icon tab-icon-on" src="./miniprogram/assets/tabbar/dishes_white.png" alt=""/>
+            <div class="tab-label">我的菜</div>
+          </div>
+          <div class="tab-item">
+            <img class="tab-icon tab-icon-off" src="./miniprogram/assets/tabbar/nearby.png" alt=""/>
+            <img class="tab-icon tab-icon-on" src="./miniprogram/assets/tabbar/nearby_white.png" alt=""/>
+            <div class="tab-label">附近餐厅</div>
+          </div>
+        </div>
+
+        <!-- 循环演示：三者轮流被「选中」，每次播放缩放回弹 + 粒子 -->
+        <div class="tabbar-demo js-cycle" data-cycle="rotate">
+          <div class="tab-item is-on is-replay">
+            <img class="tab-icon tab-icon-off" src="./miniprogram/assets/tabbar/home.png" alt=""/>
+            <img class="tab-icon tab-icon-on" src="./miniprogram/assets/tabbar/home_white.png" alt=""/>
+            <div class="tab-label">首页</div>
+          </div>
+          <div class="tab-item">
+            <img class="tab-icon tab-icon-off" src="./miniprogram/assets/tabbar/dishes.png" alt=""/>
+            <img class="tab-icon tab-icon-on" src="./miniprogram/assets/tabbar/dishes_white.png" alt=""/>
+            <div class="tab-label">我的菜</div>
+          </div>
+          <div class="tab-item">
+            <img class="tab-icon tab-icon-off" src="./miniprogram/assets/tabbar/nearby.png" alt=""/>
+            <img class="tab-icon tab-icon-on" src="./miniprogram/assets/tabbar/nearby_white.png" alt=""/>
+            <div class="tab-label">附近餐厅</div>
+          </div>
+        </div>
+
+        <div style="font-size:11px;color:var(--c-text-weak);letter-spacing:.5px;text-align:center;">
+          上：选中「我的菜」静态态　下：循环演示「登场」动画（0.32s 回弹 + 0.5s 粒子）
+        </div>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- 空状态 + 分享卡片 -->
+  <div class="slot" data-page-node-id="meW2WblXJFiRq4Saa0NOA7">
+    <div class="slot-cap" data-page-node-id="nmYKwPrJfUA0beXMJAKPIg"><b data-page-node-id="97WYMnBPRXLQiA6ZxoBy6F">空状态 & 分享卡片</b><span data-page-node-id="hfDgihHmeh9MrBxQCfafYz">纯 CSS / Canvas 绘制</span></div>
+    <div class="phone" data-page-node-id="ZnsEAAlCQUECZgzUhXiYrJ">
+      <div class="navbar" data-page-node-id="H4JYKCSEvQQp4r1ahs7FiW">历史记录</div>
+      <div class="screen" data-page-node-id="6Ef88odLGEevxYb4WqmPUu"><div class="page" data-page-node-id="59uX4I2ErBICMShWXZD2z0">
+        <div class="tabs" data-page-node-id="Eo6mdTZPwgpgMEMK59SJKR">
+          <div class="tab" data-page-node-id="FlTzGFDGtoTnYXCigST4pw">历史 0</div>
+          <div class="tab is-on" data-page-node-id="VSjRHmOI2lDhegqOXIEIhy">收藏 0</div>
+          <div class="tab" data-page-node-id="0kBApQ089FVtmsZK4dfws3">黑名单 0</div>
+        </div>
+        <div class="empty" data-page-node-id="PTqHnYFX0HZtHOMPCEYoyc">
+          <div class="empty-art" data-page-node-id="623EnpFlAZU2ydTGVlMHyn">
+            <div class="empty-steam s1" data-page-node-id="dO818SicIvuHClwZisx5Xl"></div><div class="empty-steam s2" data-page-node-id="M89pUQCoFOFfpx4FkyEVXW"></div><div class="empty-steam s3" data-page-node-id="PIRyI7IllY5PoT41HabJ76"></div>
+            <div class="empty-bowl" data-page-node-id="HqnBtNpMDCcgVXtusOfqvK"></div><div class="empty-base" data-page-node-id="YMkQ5Osv9RxZ6QK78fqg1l"></div>
+          </div>
+          <div class="empty-title" data-page-node-id="g5k4jfZThlnrPKxBcsCxje">还没有收藏</div>
+          <div class="empty-desc" data-page-node-id="l5bn1iHVkXwmuckUID8KYK">在结果页点「收藏」就会出现在这里</div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="slot-cap" style="margin-top:28px" data-page-node-id="yumPTwinqrtQHrUF0V6G8B"><b data-page-node-id="a9fKM0pbp7aTBscX1OE6za">分享卡片</b><span data-page-node-id="c36ne3b46kgGHrDJzZXGfG">280×400 · Canvas 2D</span></div>
+    <div class="poster" data-page-node-id="yowxNXQZkRtOivYINChgri">
+      <div class="poster-halo" data-page-node-id="orQSud17ISTzfTHnraHeYq"></div>
+      <div class="poster-card" data-page-node-id="0zktfdf553yFAPSsvzoC5O">
+        <div class="pk" data-page-node-id="dBsRbNXDRKhA2njAZrucoo"><span class="pk-l" data-page-node-id="HqHHHENOiLdgCvElnmhAce">今日之选</span><span class="pk-date" data-page-node-id="nr8WFhB7PSc1IcWNG8kGyc">2026.09.05</span></div>
+        <span class="p-cat" data-page-node-id="LF4GOBJMxZBQBe5aRSLEyd">中餐</span>
+        <div class="p-name" data-page-node-id="To7NgZar8vrWRGmxpR6aGH">宫保鸡丁</div>
+        <div class="p-desc" data-page-node-id="o8YbPqWNIWmwVAsvTgyDcT">花生米与鸡丁的经典组合，酸甜微辣。</div>
+        <div class="p-reason" data-page-node-id="dAQO3h0eGeicbpJIrZw6xS">不知道吃什么的时候点它，基本不会踩雷。</div>
+      </div>
+      <div class="p-foot" data-page-node-id="Huj7uwV1PEHgFPkRlwosL5">
+        <div class="p-rule" data-page-node-id="AElv4vrDRo8fjLnhGTI2KM"><i data-page-node-id="JagrebanCGyhktCtRpGsmx"></i><b data-page-node-id="VnJbVwpqGW3Ab9Te0ekwmA"></b><i data-page-node-id="49EKLi0EIHDxG87IMQ7uW6"></i></div>
+        <div class="p-brand" data-page-node-id="Pt8sFY7CpZ6c7pza5o6Tsp">午饭选择困难症</div>
+        <div class="p-slogan" data-page-node-id="UceGSzVaLCR2qPw6PimR12">帮你做决定 不再纠结</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="note" data-page-node-id="UJDOsiFBT0f5Nt1ncQLDEm">
+  <h2 data-page-node-id="ykJ8SBqsQNDtDERc99XBIC">设计要点</h2>
+  <ul data-page-node-id="6OwkOGZDjUYPl8WULuouRt">
+    <li><b>底部导航栏</b>（Uiverse 00Kubi radio-inputs 小程序改写版）：<b>没有位移滑动高亮块</b>，每个 tab 自身就是选中态容器。毛玻璃底座（blur 16px · saturate 180%），选中态双层背景——上层从顶部打下来的白色高光（0→45% 淡出）+ 下层暖橙渐变，配橙色立体阴影与 inset 高光；选中文字白色加粗，未选中棕灰。</li>
+    <li><b>导航栏动画</b>：点击立即 <code>switchTab</code>（页面零延迟），新页 <code>attached</code> 时给目标 tab 加一次 <code>is-replay</code>，触发缩放回弹（0.95→1.05→1，0.32s）＋ 上下各喷一颗主题色粒子（0.5s）；360ms 后移除 class。从子页返回走 <code>settle</code> 只校正位置、<b>不重播动画</b>——即「切到页面后导航栏不再动」。本页下方的样例正在循环演示这一过程。</li>
+    <li><b>首页</b>：大按钮「帮我选」＋ 4 颗飘浮菜名小球（点一下直达结果）＋ 菜系快捷筛选条 ＋ 「上次吃的是」卡片（点击进历史）。旧的「历史/附近/拍照」三入口已移除（拍照选菜已砍、附近升级为 tab、历史并入该卡片）。</li>
+    <li data-page-node-id="6TND0ZO6nffdkrV3tcRN1n"><b data-page-node-id="J3e0ue0YFVZoc4fent3LPA">挑选面板换新拟态</b>：大圆角 + 右下暗/左上亮双阴影；底层两个游走光斑（暖橙 + 金，blur 后透过毛玻璃层收进来），替代旧版静态光晕。</li>
+    <li data-page-node-id="wCPWouN4erxbAYDUnDBB5R"><b data-page-node-id="NBgKMdY080DEMGCEiaPoKM">结果卡换新拟态</b>：圆角 100rpx、双阴影、渐变底；原左侧竖条改为顶部居中短横条（大圆角会切残竖条）；新增斜体「辣里带甜，下饭之选」副标、金色底「小贴士」、独立「查看详细菜谱」入口。</li>
+    <li data-page-node-id="HbMQmPXHs2OmRKAUnI0VnT"><b data-page-node-id="VSUwCWI8sCHgqHO2wPNkHo">历史页加概览与分组</b>：顶部统计卡（本周决定/本周最爱/最常分类）+ 本周日历（哪天吃了啥一目了然，今天有金线描边）；历史列表按「有没有选它」分成「已选择」与「抽过没选」两组，已选择置顶，每组带计数胶囊。</li>
+    <li><b>偏好弹层</b>：忌口 5 项（不吃辣/素食/香菜/蒜/葱）＋ 人均预算 slider（0–120，最左为不限）＋ 推荐时段 6 档（自动/早餐/午餐/下午茶/晚餐/夜宵）＋ 避免近期重复（10/20/50 次）＋ 其他（摇一摇、震动音效）。底部「恢复默认设置」。主题已固定为暖食一套。</li>
+    <li><b>我的菜</b>（tab 2）：手动添加常吃的菜，带分类/标签/参考价/描述，可填食材与做法，和内置 215 道菜一起参与随机。</li>
+    <li><b>附近餐厅</b>（tab 3）：地图钉死在顶部不滚动，下方餐厅列表用 <code>scroll-view</code> 独立滚动；点列表或地图marker 弹出半屏详情。只展示 POI 自身字段（店名/品类/地址/距离），<b>不做推荐菜</b>——拿不到真实菜单数据，改用「复制店名 + 引导去点评搜索」把用户导出去。数据层 <code>utils/poi.js</code> 做了 provider 抽象（mock / tencent），换真实数据源时页面代码零改动。</li>
+    <li><b>菜谱详情</b>：份量/时长/难度三栏信息条 ＋ 食材准备 ＋ 分步做法（编号圆形序号）＋ 小贴士。215 道内置菜全部带完整菜谱。</li>
+    <li><b>赞/踩按钮</b>：历史页菜品行右侧的圆形按钮用真实 PNG 图标（非图标字体），未选中浅暖灰底＋深棕拇指，选中暖橙软底，按下 <code>scale(0.92)</code>，选中时图标弹一下（0.6→1.18→1）。</li>
+    <li data-page-node-id="RuVsHRB7Clwlp8IMcNbD3F"><b data-page-node-id="PYFk5wGZiw55XuG8rZopAZ">色彩收敛</b>：主色从刺眼的 #FF7A1A 降到柔和的 #DD7A3C，背景换成低饱和奶油米 #F6F0E8，全局只保留一个重点色 + 金色点缀。</li>
+    <li data-page-node-id="GSH41vbjGOFMuV0F9I04Yv"><b data-page-node-id="YZXMJwoVlCGv6HE4DJuADH">阴影分层</b>：所有卡片用两到三层极低透明度阴影叠加（近距离小模糊 + 远距离大模糊），接近真实纸张的漫反射。</li>
+    <li data-page-node-id="wDYPC0sNmMRiNCH4LzR9Mw"><b data-page-node-id="6RMaayCLnVEpRG4CojBXgv">金色发丝线</b>：卡片左侧竖条、标题下方短线、小节标题前的短标、推荐理由的左边线，全部用橙→金渐变。</li>
+    <li data-page-node-id="kP0oTNj5gDrooj4Y5XnHBK"><b data-page-node-id="kQlapdHiZ25FkMQa5DR9ea">排版细节</b>：中文加 letter-spacing，字重统一到 500 而非 bold，避免中文粗体在小屏幕上糊成一团。</li>
+  </ul>
+</div>
+
+<script>
+/* tabBar 演示：复刻小程序里的「登场反馈」——
+   attached 给目标 tab 加 is-replay，REPLAY_MS(360ms) 后移除；
+   rotate 模式模拟切页（选中项依次推移），replay 模式固定选中项只重播动画。 */
+(function () {
+  var REPLAY_MS = 360, INTERVAL = 1600;
+  var bars = document.querySelectorAll('.js-cycle');
+
+  function play(items, idx) {
+    for (var i = 0; i < items.length; i++) {
+      items[i].classList.toggle('is-on', i === idx);
+      items[i].classList.remove('is-replay');
+    }
+    // 强制回流后再加 class，确保动画每次都重新播放
+    void items[idx].offsetWidth;
+    items[idx].classList.add('is-replay');
+    setTimeout(function () { items[idx].classList.remove('is-replay'); }, REPLAY_MS);
+  }
+
+  bars.forEach(function (bar) {
+    var items = bar.querySelectorAll('.tab-item');
+    var mode = bar.getAttribute('data-cycle');
+    var idx = mode === 'rotate' ? 1 : 0;
+
+    play(items, 0);
+    setInterval(function () {
+      if (mode === 'rotate') { idx = (idx + 1) % items.length; }
+      play(items, idx);
+    }, INTERVAL);
+  });
+})();
+</script>
+
+</body>
+</html>

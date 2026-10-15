@@ -1,0 +1,1193 @@
+/* 挑选时页面微微后退，制造纵深（transform 比 filter 便宜得多）
+   注意：这里必须是 .index-page 而不是 .page —— 页面 WXSS 没有作用域隔离，
+   在 index.wxss 里覆盖全局 .page 会污染所有用到该类的页面。 */
+.index-page.is-rolling {
+  transform: scale(0.985);
+  transition: transform 320ms var(--ease);
+}
+
+/* ---------- 顶部 ---------- */
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 8rpx 4rpx 0;
+}
+
+.title {
+  font-size: var(--fs-3xl);
+  font-weight: 700;
+  color: var(--c-text);
+  letter-spacing: 3rpx;
+  line-height: 1.25;
+  position: relative;
+}
+
+.title::after {
+  content: "";
+  display: block;
+  width: 56rpx;
+  height: 6rpx;
+  margin-top: 16rpx;
+  border-radius: 999rpx;
+  background: linear-gradient(90deg, var(--c-primary) 0%, var(--c-gold) 100%);
+}
+
+.subtitle {
+  font-size: var(--fs-md);
+  color: var(--c-text-weak);
+  margin-top: 10rpx;
+  letter-spacing: 1rpx;
+}
+
+.pref-entry {
+  position: relative;
+  flex: none;
+  margin-top: 6rpx;
+  padding: 0 28rpx;
+  height: 64rpx;
+  line-height: 64rpx;
+  border-radius: var(--r-pill);
+  background: linear-gradient(180deg, var(--c-white) 0%, var(--c-card-2) 100%);
+  color: var(--c-text-sub);
+  font-size: var(--fs-sm);
+  letter-spacing: 1rpx;
+  border: 1rpx solid var(--c-line);
+  box-shadow: var(--shadow-1);
+}
+
+.pref-entry.is-on {
+  background: var(--c-primary-soft);
+  color: var(--c-primary-deep);
+  border-color: transparent;
+}
+
+.pref-dot {
+  position: absolute;
+  top: 14rpx;
+  right: 16rpx;
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 50%;
+  background: var(--c-primary);
+  box-shadow: 0 0 0 4rpx rgba(221, 122, 60, 0.18);
+}
+
+/* ---------- 英雄按钮 + 环绕小球 ---------- */
+.hero-wrap {
+  position: relative;
+  /* 620 → 580：原尺寸下首页总高约 1434rpx，iPhone SE/8 可视仅约 1206rpx，
+     「上次吃的是」被挤出首屏。压缩舞台 + 收紧 margin，让小屏只需极轻微滚动。
+     改这里必须同步改 index.js 的 FLOAT_CFG.HERO（小球物理用同一套 rpx 常量）。 */
+  width: 580rpx;
+  height: 580rpx;
+  margin: 28rpx auto 32rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-ring {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 580rpx;
+  height: 580rpx;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(221, 122, 60, 0.18) 0%, rgba(221, 122, 60, 0) 70%);
+  animation: heroPulse 2.6s ease-out infinite;
+}
+
+/* 漂浮小球：JS 物理驱动，位置用 inline transform 更新，CSS transition 做平滑插值 */
+.hero-floats {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.float-planet-wrap {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 96rpx;
+  height: 96rpx;
+  pointer-events: none;
+  transition: transform 0.05s linear;
+}
+
+.float-planet {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: 50%;
+  background: linear-gradient(150deg, var(--c-planet-bg-a) 0%, var(--c-planet-bg-b) 100%);
+  border: 2rpx solid var(--c-planet-line);
+  /* 新拟态凸起：同色基底 + 顶部高光 + 底部深阴影，让小球从背景"浮起来" */
+  box-shadow:
+    inset 0 4rpx 8rpx rgba(255, 255, 255, 0.85),
+    inset 0 -4rpx 10rpx rgba(166, 95, 40, 0.18),
+    0 10rpx 24rpx rgba(120, 80, 40, 0.22),
+    0 2rpx 6rpx rgba(120, 80, 40, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6rpx;
+  box-sizing: border-box;
+  pointer-events: auto;
+  transition: opacity 0.18s var(--ease), box-shadow 0.18s var(--ease), transform 0.18s var(--ease);
+  /* 初始动画：淡淡浮现 */
+  animation: float-in 0.5s var(--ease) both;
+}
+
+.float-planet.is-hover {
+  opacity: 0.82;
+  box-shadow:
+    inset 0 4rpx 8rpx rgba(255, 255, 255, 0.95),
+    inset 0 -4rpx 10rpx rgba(166, 95, 40, 0.22),
+    0 14rpx 30rpx var(--c-planet-line),
+    0 2rpx 6rpx rgba(120, 80, 40, 0.16);
+  transform: scale(0.94);
+}
+
+.planet-name {
+  font-size: var(--fs-sm);
+  line-height: 1.18;
+  color: var(--c-planet-text);
+  text-align: center;
+  font-weight: 500;
+  letter-spacing: 0.5rpx;
+}
+
+@keyframes float-in {
+  from { opacity: 0; transform: scale(0.86); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes heroPulse {
+  0% {
+    transform: scale(0.82);
+    opacity: 0.7;
+  }
+  70% {
+    transform: scale(1.16);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.16);
+    opacity: 0;
+  }
+}
+
+/* 按钮呼吸：idle 时轻微"鼓起 → 平 → 鼓起" */
+@keyframes heroBreath {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.035); }
+}
+
+/* 涟漪：圆环从按钮中心向外扩散并淡出 */
+@keyframes heroRipple {
+  0%   { transform: translate(-50%, -50%) scale(1);    opacity: 0.65; }
+  60%  { opacity: 0.20; }
+  100% { transform: translate(-50%, -50%) scale(1.55); opacity: 0;    }
+}
+
+.hero-btn {
+  position: relative;
+  z-index: 3;
+  width: 280rpx;
+  height: 280rpx;
+  border-radius: 50%;
+  /* 凸台新拟态：暖橙主色 + 顶部明显高光带 + 底部深色压暗，让圆球"立起来" */
+  background:
+    radial-gradient(120% 80% at 30% 18%, rgba(255, 255, 255, 0.48) 0%, rgba(255, 255, 255, 0) 50%),
+    linear-gradient(165deg, var(--c-primary-l1) 0%, var(--c-primary-l2) 38%, var(--c-primary-l3) 72%, var(--c-primary-l4) 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* 多层投影：内顶部高光 + 内底部压暗 + 外长投影（让圆球完全脱离平面）
+     末两行为 uiverse 补强：inset 亮环 = 金属包边；大范围暖橙外发光 = glow。
+     ⚠ 这里只能用 box-shadow 做描边：.hero-btn 的 ::before/::after 已被双层涟漪占用，
+        再挂 .glass-border 会互相覆盖。 */
+  box-shadow:
+    inset 0 6rpx 10rpx rgba(255, 255, 255, 0.55),
+    inset 0 -12rpx 28rpx rgba(122, 52, 16, 0.40),
+    inset 0 -2rpx 4rpx rgba(82, 30, 8, 0.30),
+    inset 0 0 0 2rpx rgba(255, 255, 255, 0.22),
+    0 18rpx 36rpx rgba(120, 56, 22, 0.42),
+    0 8rpx 16rpx rgba(120, 56, 22, 0.28),
+    0 2rpx 4rpx rgba(120, 56, 22, 0.20),
+    0 0 56rpx rgba(221, 122, 60, 0.30);
+  /* 持续呼吸：轻微缩放让"按下感"更明显 */
+  animation: heroBreath 2.4s ease-in-out infinite;
+}
+
+/* 按钮下方涟漪光圈：双层不同步扩散，强化"按下"反馈 */
+.hero-btn::before,
+.hero-btn::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 3rpx solid rgba(221, 122, 60, 0.55);
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 0.7;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.hero-btn::before {
+  animation: heroRipple 2.4s ease-out infinite;
+}
+
+.hero-btn::after {
+  animation: heroRipple 2.4s ease-out 1.2s infinite;
+}
+
+.hero-btn-hover {
+  /* 按下：圆球轻微缩放 + 投影变实（变沉） */
+  transform: scale(0.94);
+  box-shadow:
+    inset 0 4rpx 6rpx rgba(255, 255, 255, 0.40),
+    inset 0 -8rpx 20rpx rgba(122, 52, 16, 0.45),
+    0 8rpx 16rpx rgba(120, 56, 22, 0.38),
+    0 2rpx 4rpx rgba(120, 56, 22, 0.22);
+  animation-play-state: paused;
+}
+
+.hero-title {
+  font-size: var(--fs-2xl);
+  font-weight: 500;
+  color: var(--c-white);
+  letter-spacing: 4rpx;
+  line-height: 1.3;
+  text-shadow: 0 2rpx 8rpx rgba(120, 50, 14, 0.30);
+}
+
+.hero-sub {
+  margin-top: 14rpx;
+  font-size: var(--fs-sm);
+  color: rgba(255, 255, 255, 0.86);
+  letter-spacing: 6rpx;
+}
+
+/* 首页菜系快捷筛选条：大胶囊容器，内部芯片也是胶囊，滚动裁切带圆角 */
+.cuisine-bar {
+  width: 620rpx;
+  margin: 28rpx auto 0;
+  padding: 8rpx 18rpx;
+  background: var(--c-glass-bg);
+  border: 1rpx solid var(--c-glass-border);
+  border-radius: 999rpx;
+  overflow: hidden;
+  -webkit-backdrop-filter: blur(var(--c-glass-blur)) saturate(160%);
+  backdrop-filter: blur(var(--c-glass-blur)) saturate(160%);
+  box-shadow:
+    var(--shadow-glass),
+    inset 0 1rpx 4rpx var(--c-glass-hi);
+}
+
+.cuisine-scroll {
+  width: 100%;
+  white-space: nowrap;
+  /* 行内布局清零：干掉 scroll-view 内部的基线空隙，保证上下留白严格对称 */
+  font-size: 0;
+  line-height: 0;
+  border-radius: 999rpx;
+  overflow: hidden;
+}
+
+.cuisine-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  height: 60rpx;
+  padding: 0 28rpx;
+  margin-right: 12rpx;
+  border-radius: 999rpx;
+  background: transparent;
+  color: var(--c-text-sub);
+  font-size: var(--fs-sm);
+  line-height: 1;
+  letter-spacing: 1rpx;
+  box-sizing: border-box;
+  transition: all 0.2s var(--ease);
+}
+
+.cuisine-chip.is-on {
+  background: var(--c-primary);
+  color: var(--c-white);
+  font-weight: 500;
+}
+
+/* ---------- 上次结果卡 ---------- */
+.last-card {
+  position: relative;
+  margin-top: 28rpx;
+  padding: 26rpx 32rpx 26rpx 40rpx;
+  background: linear-gradient(180deg, var(--c-white) 0%, var(--c-card-2) 100%);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-1);
+  overflow: hidden;
+}
+
+.last-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 8rpx;
+  background: linear-gradient(180deg, var(--c-primary) 0%, var(--c-gold) 100%);
+}
+
+.last-hover {
+  background: var(--c-card-2);
+}
+
+.last-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.last-more {
+  font-size: var(--fs-xs);
+  color: var(--c-text-weak);
+}
+
+.last-label {
+  font-size: var(--fs-xs);
+  color: var(--c-text-weak);
+  letter-spacing: 1rpx;
+}
+
+.last-name {
+  margin-top: 8rpx;
+  font-size: var(--fs-2xl);
+  font-weight: 700;
+  color: var(--c-text);
+  letter-spacing: 2rpx;
+}
+
+.last-meta {
+  margin-top: 12rpx;
+  display: flex;
+  align-items: center;
+}
+
+.last-cat {
+  font-size: var(--fs-xs);
+  color: var(--c-primary-deep);
+  background: var(--c-primary-soft);
+  padding: 4rpx 16rpx;
+  border-radius: var(--r-pill);
+  letter-spacing: 1rpx;
+}
+
+.last-time {
+  margin-left: 16rpx;
+  font-size: var(--fs-sm);
+  color: var(--c-text-weak);
+}
+
+/* 无历史记录时的占位态。
+   卡片本身必须常驻（它是唯一的历史页入口），只是内容换成引导文案。 */
+.last-card.is-empty .last-label {
+  color: var(--c-text-sub);
+}
+
+.last-placeholder {
+  font-size: var(--fs-lg);
+  font-weight: 400;
+  color: var(--c-text-weak);
+}
+
+
+/* ---------- 挑选动画层 ---------- */
+.roll-mask {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  background: var(--c-mask);
+  /* filter 函数内必须用 px，rpx 在部分基础库里会被忽略导致模糊失效 */
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: maskIn 260ms ease forwards;
+}
+
+@keyframes maskIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.roll-panel {
+  position: relative;
+  width: 600rpx;
+  height: 480rpx;
+  z-index: 1111;
+  background: linear-gradient(145deg, var(--c-neu-a) 0%, var(--c-neu-b) 100%);
+  border-radius: 28rpx;
+  /* 新拟态双阴影：右下暗、左上亮 */
+  box-shadow:
+    20rpx 20rpx 60rpx rgba(150, 118, 84, 0.28),
+    -20rpx -20rpx 60rpx rgba(255, 255, 255, 0.9);
+  overflow: hidden;
+  animation: panelIn 360ms var(--ease) forwards;
+}
+
+.roll-panel::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 40rpx;
+  right: 40rpx;
+  height: 6rpx;
+  border-radius: 0 0 999rpx 999rpx;
+  background: linear-gradient(90deg, var(--c-primary) 0%, var(--c-gold) 100%);
+  z-index: 5;
+}
+
+/* 玻璃层：盖在光斑之上，把模糊后的色块收进去 */
+.roll-bg {
+  position: absolute;
+  top: 10rpx;
+  left: 10rpx;
+  width: 580rpx;
+  height: 460rpx;
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.86);
+  /* filter 函数内必须用 px，用 rpx 会被忽略 */
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-radius: 20rpx;
+  outline: 2rpx solid var(--c-white);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 游走光斑 */
+.roll-blob {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  width: 300rpx;
+  height: 300rpx;
+  border-radius: 50%;
+  background-color: var(--c-primary);
+  opacity: 1;
+  /* blur 必须用 px */
+  filter: blur(12px);
+  animation: blobBounce 5s infinite ease;
+}
+
+.roll-blob-2 {
+  width: 240rpx;
+  height: 240rpx;
+  background-color: var(--c-gold);
+  opacity: 0.85;
+  animation-delay: -2.5s;
+  animation-duration: 6.5s;
+}
+
+@keyframes blobBounce {
+  0% {
+    transform: translate(-100%, -100%) translate3d(0, 0, 0);
+  }
+  25% {
+    transform: translate(-100%, -100%) translate3d(100%, 0, 0);
+  }
+  50% {
+    transform: translate(-100%, -100%) translate3d(100%, 100%, 0);
+  }
+  75% {
+    transform: translate(-100%, -100%) translate3d(0, 100%, 0);
+  }
+  100% {
+    transform: translate(-100%, -100%) translate3d(0, 0, 0);
+  }
+}
+
+@keyframes panelIn {
+  from {
+    opacity: 0;
+    transform: translateY(40rpx) scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.roll-hint {
+  position: relative;
+  z-index: 2;
+  font-size: var(--fs-md);
+  color: var(--c-text-sub);
+  letter-spacing: 6rpx;
+  margin-bottom: 52rpx;
+}
+
+.roll-stage {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  text-align: center;
+}
+
+.roll-name {
+  font-size: var(--fs-mega);
+  font-weight: 700;
+  color: var(--c-text);
+  letter-spacing: 4rpx;
+  line-height: 1.2;
+  min-height: 100rpx;
+  animation: namePop 130ms ease-out;
+}
+
+@keyframes namePop {
+  0% { transform: scale(0.86); opacity: 0.5; }
+  45% { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.roll-category {
+  display: inline-block;
+  margin-top: 22rpx;
+  padding: 6rpx 24rpx;
+  border-radius: var(--r-pill);
+  background: var(--c-primary-soft);
+  color: var(--c-primary-deep);
+  font-size: var(--fs-sm);
+  letter-spacing: 2rpx;
+}
+
+.roll-track {
+  position: absolute;
+  bottom: 46rpx;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14rpx;
+}
+
+/* 四个点做波浪式呼吸，纯 CSS 循环，无需 JS 驱动 */
+.roll-track-item {
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 50%;
+  background: var(--c-line);
+  animation: dotWave 1.2s ease-in-out infinite;
+}
+
+.roll-track-item:nth-child(1) { animation-delay: 0s; }
+.roll-track-item:nth-child(2) { animation-delay: 0.15s; }
+.roll-track-item:nth-child(3) { animation-delay: 0.3s; }
+.roll-track-item:nth-child(4) { animation-delay: 0.45s; }
+
+@keyframes dotWave {
+  0%, 60%, 100% {
+    background: var(--c-line);
+    transform: scale(1);
+  }
+  30% {
+    background: var(--c-primary);
+    transform: scale(1.4);
+  }
+}
+
+/* ===== 首次引导浮层 ===== */
+.guide-mask {
+  position: fixed;
+  inset: 0;
+  z-index: 1001;                 /* 高于底部自定义 tabBar(999)，避免引导层露出导航 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--c-mask-soft);
+  padding: 0 56rpx;
+}
+
+.guide-card {
+  width: 100%;
+  max-width: 620rpx;
+  background: linear-gradient(180deg, var(--c-white) 0%, var(--c-card-2) 100%);
+  border-radius: var(--r-xl);
+  box-shadow: var(--shadow-float);
+  padding: 56rpx 48rpx 44rpx;
+  text-align: center;
+  animation: guidePop 280ms var(--ease);
+}
+
+@keyframes guidePop {
+  from { opacity: 0; transform: translateY(24rpx) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.guide-emoji {
+  width: 88rpx;
+  height: 88rpx;
+  margin-bottom: 16rpx;
+}
+
+.guide-title {
+  font-size: var(--fs-2xl);
+  font-weight: 600;
+  color: var(--c-text);
+  letter-spacing: 1rpx;
+  margin-bottom: 28rpx;
+}
+
+.guide-feat {
+  text-align: left;
+  margin: 0 auto 28rpx;
+  max-width: 460rpx;
+}
+
+.guide-line {
+  font-size: var(--fs-md);
+  color: var(--c-text-2);
+  line-height: 2.1;
+}
+
+.guide-strong {
+  color: var(--c-primary-deep);
+  font-weight: 600;
+}
+
+.guide-add {
+  font-size: var(--fs-sm);
+  color: var(--c-text-sub);
+  background: var(--c-primary-tint);
+  border-radius: var(--r-md);
+  padding: 18rpx 22rpx;
+  line-height: 1.6;
+  margin-bottom: 32rpx;
+}
+
+.guide-btn {
+  height: 88rpx;
+  line-height: 88rpx;
+  border-radius: var(--r-pill);
+  background: linear-gradient(135deg, var(--c-primary) 0%, var(--c-primary-deep) 100%);
+  color: var(--c-white);
+  font-size: var(--fs-lg);
+  font-weight: 500;
+  letter-spacing: 4rpx;
+  box-shadow: var(--shadow-primary);
+}
+
+.guide-btn-hover {
+  transform: scale(0.98);
+  opacity: 0.94;
+}
+
+/* 浮动 tabBar 悬浮在底部，给内容留出空间。
+   注意：首页不再用全局 .page 类（避免页面 WXSS 污染全局 .page），
+   所以这里必须补全套基础布局：最小高度 + 上/左右内边距 + 底色。
+   原先这些由 app.wxss 的 .page 提供，去掉 .page class 后会一并丢失。 */
+.index-page {
+  min-height: 100vh;
+  padding: 40rpx 40rpx calc(env(safe-area-inset-bottom) + 168rpx);
+  /* 透明：露出 app.wxss 里 page 上的 background-image 的固定暖色渐变底。
+     首页是最该出玻璃感的一屏（hero 球 + 菜系玻璃条 + 白卡都在这一屏）。 */
+  background: transparent;
+}
+
+/* 连续打卡：给「不纠结」一个可见的连续记录，强化坚持感。
+   沿用 .summary / .taste 的白色卡片语言（圆角 + shadow-1 + 细描边）。 */
+.streak {
+  margin-top: 24rpx;
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+  background: linear-gradient(180deg, var(--c-white) 0%, var(--c-card-2) 100%);
+  border-radius: var(--r-md);
+  padding: 28rpx;
+  box-shadow: var(--shadow-1);
+  border: 1rpx solid var(--c-line-soft);
+}
+
+.streak-fire {
+  width: 84rpx;
+  height: 84rpx;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999rpx;
+  background: var(--c-primary-soft);
+  box-shadow: inset 0 1rpx 4rpx var(--c-glass-hi);
+}
+
+.streak-flame {
+  width: 52rpx;
+  height: 52rpx;
+  display: block;
+}
+
+.streak-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.streak-title {
+  display: flex;
+  align-items: baseline;
+  gap: 6rpx;
+}
+
+.streak-num {
+  font-size: var(--fs-2xl);
+  font-weight: 700;
+  color: var(--c-primary-deep);
+  line-height: 1.1;
+}
+
+.streak-unit {
+  font-size: var(--fs-md);
+  color: var(--c-primary-deep);
+  font-weight: 500;
+}
+
+.streak-label {
+  margin-left: 8rpx;
+  font-size: var(--fs-sm);
+  color: var(--c-text-sub);
+  letter-spacing: 1rpx;
+}
+
+.streak-sub {
+  margin-top: 6rpx;
+  font-size: var(--fs-xs);
+  color: var(--c-text-weak);
+  letter-spacing: 0.5rpx;
+}
+
+/* 月度报告按钮：描边胶囊，与 .btn-ghost 一致的轻量次级按钮语言 */
+.streak-btn {
+  flex-shrink: 0;
+  height: 64rpx;
+  line-height: 60rpx;
+  padding: 0 28rpx;
+  border-radius: var(--r-pill);
+  background: var(--c-card);
+  color: var(--c-primary-deep);
+  font-size: var(--fs-sm);
+  letter-spacing: 1rpx;
+  border: 1rpx solid var(--c-primary-soft);
+  box-sizing: border-box;
+}
+
+.streak-btn:active {
+  background: var(--c-primary-tint);
+}
+
+/* 月度报告预览浮层：在小程序内查看（纯 WXML，无需 canvas / 下载） */
+.monthly-mask {
+  position: fixed;
+  inset: 0;
+  z-index: 1001;                 /* 高于底部自定义 tabBar(999) */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--c-mask-soft);
+  padding: 0 56rpx;
+  animation: maskIn 240ms ease forwards;
+}
+
+.monthly-card {
+  width: 100%;
+  max-width: 600rpx;
+  background: linear-gradient(180deg, var(--c-white) 0%, var(--c-card-2) 100%);
+  border-radius: var(--r-xl);
+  box-shadow: var(--shadow-float);
+  padding: 32rpx 32rpx 40rpx;
+  animation: guidePop 280ms var(--ease);
+}
+
+.monthly-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24rpx;
+}
+
+.monthly-title {
+  font-size: var(--fs-lg);
+  font-weight: 600;
+  color: var(--c-text);
+  letter-spacing: 1rpx;
+}
+
+.monthly-close {
+  width: 56rpx;
+  height: 56rpx;
+  line-height: 56rpx;
+  text-align: center;
+  border-radius: 50%;
+  background: var(--c-primary-tint);
+  color: var(--c-text-sub);
+  font-size: var(--fs-lg);
+}
+
+.monthly-close:active {
+  transform: scale(0.92);
+}
+
+.monthly-month {
+  font-size: var(--fs-xs);
+  color: var(--c-gold);
+  letter-spacing: 2rpx;
+  font-weight: 600;
+}
+
+.monthly-count {
+  display: flex;
+  align-items: baseline;
+  gap: 8rpx;
+  margin-top: 18rpx;
+}
+
+.monthly-num {
+  font-size: var(--fs-mega);
+  font-weight: 700;
+  color: var(--c-primary-deep);
+  line-height: 1;
+}
+
+.monthly-unit {
+  font-size: var(--fs-md);
+  color: var(--c-primary-deep);
+  font-weight: 500;
+}
+
+.monthly-sub {
+  margin-top: 10rpx;
+  font-size: var(--fs-xs);
+  color: var(--c-text-weak);
+  letter-spacing: 0.5rpx;
+}
+
+.monthly-line {
+  height: 1rpx;
+  background: var(--c-line);
+  margin: 28rpx 0 22rpx;
+}
+
+.monthly-block {
+  margin-bottom: 24rpx;
+}
+
+.monthly-block:last-child {
+  margin-bottom: 0;
+}
+
+.monthly-label {
+  font-size: var(--fs-xs);
+  color: var(--c-text-weak);
+  letter-spacing: 1.5rpx;
+  margin-bottom: 10rpx;
+}
+
+.monthly-top {
+  font-size: var(--fs-2xl);
+  font-weight: 600;
+  color: var(--c-text);
+  line-height: 1.3;
+}
+
+.monthly-cat {
+  margin-top: 6rpx;
+  font-size: var(--fs-sm);
+  color: var(--c-text-sub);
+}
+
+.monthly-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+}
+
+.monthly-tag {
+  padding: 8rpx 22rpx;
+  border-radius: var(--r-pill);
+  background: var(--c-primary-tint);
+  color: var(--c-primary-deep);
+  font-size: var(--fs-sm);
+}
+
+.monthly-tag-muted {
+  background: var(--c-glass-bg, #F2ECE3);
+  color: var(--c-text-sub);
+}
+
+.monthly-empty {
+  font-size: var(--fs-sm);
+  color: var(--c-text-sub);
+  line-height: 1.6;
+}
+
+/* ---------- 双入口：菜品库 + 我的成就 ---------- */
+.entry-row {
+  margin-top: 24rpx;
+  display: flex;
+  gap: 16rpx;
+}
+
+.entry-card {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;        /* 上下结构：图标、标题、副标题全部垂直居中 */
+  align-items: center;
+  justify-content: center;
+  min-height: 176rpx;            /* 加高一点，让上下结构有呼吸感 */
+  padding: 28rpx 20rpx;
+  background: linear-gradient(180deg, var(--c-white) 0%, var(--c-card-2) 100%);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-1);
+  border: 1rpx solid var(--c-line-soft);
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.entry-emoji {
+  width: 58rpx;
+  height: 58rpx;
+  margin-bottom: 10rpx;
+}
+
+.entry-title {
+  font-size: var(--fs-md);
+  color: var(--c-text);
+  font-weight: 600;
+  letter-spacing: 1rpx;
+  line-height: 1.3;
+}
+
+.entry-sub {
+  margin-top: 8rpx;
+  max-width: 100%;
+  font-size: var(--fs-xs);
+  color: var(--c-text-weak);
+  letter-spacing: 0.5rpx;
+  line-height: 1.35;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.entry-arrow {
+  position: absolute;
+  top: 16rpx;
+  right: 18rpx;
+  font-size: var(--fs-lg);
+  line-height: 1;
+  color: var(--c-text-sub);
+}
+
+/* ---------- 成就浮层 ---------- */
+.ach-mask {
+  position: fixed;
+  inset: 0;
+  z-index: 1001;                 /* 必须高于底部自定义 tabBar 的 999，否则遮罩盖不住导航 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--c-mask-soft);
+  padding: 0 48rpx;
+  animation: maskIn 240ms ease forwards;
+}
+
+.ach-card {
+  width: 100%;
+  max-width: 640rpx;
+  background: linear-gradient(180deg, var(--c-white) 0%, var(--c-card-2) 100%);
+  border-radius: var(--r-xl);
+  box-shadow: var(--shadow-float);
+  padding: 28rpx 28rpx 24rpx;
+  display: flex;
+  flex-direction: column;
+  /* 必须是「确定高度」：只写 max-height 时，微信不会把它当作 flex 容器的确定高度，
+     里面的 scroll-view 就拿不到可用高度 —— 结果是被内容撑开、不滚动，
+     多出来的行还会溢出到卡片外面（卡片默认 overflow: visible）。
+     成就固定 20 个（2 列 10 行），必然超过 80vh，所以直接给死高度最稳。 */
+  height: 80vh;
+  max-height: 80vh;
+  overflow: hidden;                 /* 圆角裁切兜底：任何情况下内容都不许画到卡片外 */
+  animation: guidePop 280ms var(--ease);
+}
+
+.ach-head {
+  flex: none;                       /* 头部不参与伸缩，全部剩余高度留给 scroll-view */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6rpx;
+}
+
+.ach-title {
+  font-size: var(--fs-lg);
+  font-weight: 600;
+  color: var(--c-text);
+  letter-spacing: 1rpx;
+}
+
+.ach-close {
+  width: 56rpx;
+  height: 56rpx;
+  line-height: 56rpx;
+  text-align: center;
+  border-radius: 50%;
+  background: var(--c-primary-tint);
+  color: var(--c-text-sub);
+  font-size: var(--fs-lg);
+}
+
+.ach-stat {
+  flex: none;
+  margin-bottom: 16rpx;
+  font-size: var(--fs-sm);
+  color: var(--c-text-sub);
+}
+
+.ach-stat-n {
+  font-size: var(--fs-lg);
+  color: var(--c-primary-deep);
+  font-weight: 600;
+  margin-right: 4rpx;
+}
+
+.ach-stat-t {
+  letter-spacing: 1rpx;
+}
+
+.ach-scroll {
+  /* 父卡片已给出确定高度，这里用 flex-basis:0 + grow 拿到「正好剩余」的高度，
+     这是 scroll-view 产生内部滚动的充要条件（只有 max-height 时它不会滚动） */
+  flex: 1 1 0;
+  min-height: 0;    /* 去掉 flex 子项默认的 min-height:auto，否则它又被内容撑开 */
+}
+
+.ach-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+}
+
+.ach-cell {
+  width: calc((100% - 16rpx) / 2);
+  padding: 24rpx 22rpx;
+  background: var(--c-card-2);
+  border-radius: var(--r-md);
+  border: 1rpx solid var(--c-line-soft);
+  position: relative;
+  opacity: 0.55;
+}
+
+.ach-cell.is-on {
+  background: var(--c-primary-tint);
+  border-color: rgba(221, 122, 60, 0.22);
+  opacity: 1;
+}
+
+/* 成就图标：矢量位图（未解锁 / 已解锁两态各一张，颜色在生成脚本里定，
+   不再用 emoji —— emoji 各平台字形不一且自带 3D 质感，与全站线性图标冲突） */
+.ach-cell-ico {
+  width: 48rpx;
+  height: 48rpx;
+  display: block;
+}
+
+.ach-cell-name {
+  margin-top: 12rpx;
+  font-size: var(--fs-md);
+  color: var(--c-text);
+  font-weight: 600;
+  letter-spacing: 1rpx;
+}
+
+.ach-cell-desc {
+  margin-top: 6rpx;
+  font-size: var(--fs-xs);
+  color: var(--c-text-sub);
+  line-height: 1.5;
+  letter-spacing: 0.5rpx;
+}
+
+.ach-cell-tag {
+  position: absolute;
+  top: 16rpx;
+  right: 16rpx;
+  padding: 2rpx 12rpx;
+  border-radius: var(--r-pill);
+  background: var(--c-primary);
+  color: var(--c-white);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.5rpx;
+}
+
+.ach-cell-tag--off {
+  background: var(--c-card);
+  color: var(--c-text-weak);
+  border: 1rpx solid var(--c-line);
+}
+
+/* ---------- 顶部解锁提示 ---------- */
+.ach-unlock {
+  position: fixed;
+  left: 50%;
+  top: 80rpx;
+  transform: translateX(-50%);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  padding: 16rpx 28rpx;
+  background: linear-gradient(180deg, var(--c-white) 0%, var(--c-card-2) 100%);
+  border-radius: var(--r-pill);
+  box-shadow: var(--shadow-float);
+  border: 1rpx solid var(--c-primary-soft);
+  animation: achUnlockIn 320ms var(--ease);
+}
+
+.ach-unlock-ico {
+  width: 34rpx;
+  height: 34rpx;
+  margin-right: 12rpx;
+  flex-shrink: 0;
+}
+
+.ach-unlock-text {
+  font-size: var(--fs-sm);
+  color: var(--c-primary-deep);
+  font-weight: 500;
+  letter-spacing: 1rpx;
+}
+
+@keyframes achUnlockIn {
+  from { opacity: 0; transform: translate(-50%, -20rpx); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}

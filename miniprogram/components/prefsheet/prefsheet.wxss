@@ -1,0 +1,258 @@
+/* ===== 偏好弹层 · 安静的奢华 ===== */
+
+.ps-mask {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(40, 31, 24, 0.38);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.32s var(--ease);
+  z-index: 80;
+}
+
+.ps-mask.is-show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.ps-panel {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 82vh;
+  background: var(--c-card);
+  border-radius: 44rpx 44rpx 0 0;
+  transform: translateY(100%);
+  transition: transform 0.42s var(--ease);
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 -12rpx 48rpx rgba(58, 46, 38, 0.16);
+}
+
+.ps-panel.is-show {
+  transform: translateY(0);
+}
+
+/* 顶部把手 */
+.ps-panel::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 16rpx;
+  width: 68rpx;
+  height: 8rpx;
+  margin-left: -34rpx;
+  border-radius: 999rpx;
+  background: var(--c-line);
+}
+
+.ps-head {
+  flex: none;
+  height: 116rpx;
+  padding: 16rpx 44rpx 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ps-title {
+  font-size: 34rpx;
+  font-weight: 500;
+  letter-spacing: 2rpx;
+  color: var(--c-text);
+}
+
+.ps-done {
+  font-size: 28rpx;
+  letter-spacing: 1rpx;
+  color: var(--c-primary-deep);
+  padding: 8rpx 24rpx;
+  border-radius: var(--r-pill);
+  background: var(--c-primary-tint);
+}
+
+.ps-body {
+  flex: 1;
+  height: 0; /* 关键：scroll-view 必须有确定高度约束，否则滚不动、底部被裁 */
+  padding: 0 44rpx;
+  box-sizing: border-box;
+}
+
+/* 可抽数量提示 */
+.ps-count {
+  margin: 4rpx 0 12rpx;
+  padding: 26rpx 28rpx;
+  background: var(--c-card-2);
+  border: 2rpx solid var(--c-line-soft);
+  border-radius: var(--r-md);
+  font-size: 25rpx;
+  color: var(--c-text-sub);
+  letter-spacing: 0.5rpx;
+}
+
+.ps-count-num {
+  color: var(--c-primary-deep);
+  font-weight: 500;
+  font-size: 34rpx;
+  letter-spacing: 0;
+}
+
+.ps-block {
+  padding: 34rpx 0 12rpx;
+  border-bottom: 2rpx solid var(--c-line-soft);
+}
+
+.ps-block:last-of-type {
+  border-bottom: none;
+}
+
+/* 小节标题：金色短线 + 字距 */
+.ps-block-title {
+  position: relative;
+  padding-left: 20rpx;
+  font-size: 24rpx;
+  font-weight: 500;
+  letter-spacing: 3rpx;
+  color: var(--c-text-2);
+  margin-bottom: 8rpx;
+}
+
+.ps-block-title::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 6rpx;
+  height: 22rpx;
+  margin-top: -11rpx;
+  border-radius: 999rpx;
+  background: var(--c-gold);
+}
+
+.ps-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22rpx 0;
+}
+
+.ps-row-name {
+  font-size: 29rpx;
+  color: var(--c-text);
+  letter-spacing: 0.5rpx;
+}
+
+.ps-row-desc {
+  font-size: 23rpx;
+  color: var(--c-text-weak);
+  margin-top: 4rpx;
+  letter-spacing: 0.5rpx;
+}
+
+.ps-budget-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin: 10rpx 0 4rpx;
+}
+
+.ps-budget-val {
+  font-size: 40rpx;
+  font-weight: 500;
+  color: var(--c-primary-deep);
+  letter-spacing: 1rpx;
+}
+
+.ps-budget-tip {
+  font-size: 22rpx;
+  color: var(--c-text-weak);
+  line-height: 1.6;
+  margin-top: 10rpx;
+  padding-bottom: 10rpx;
+  letter-spacing: 0.5rpx;
+}
+
+/* 去重窗口分段 */
+/* 场景小标题：介于 block 标题与 chip 组之间的一层 */
+.ps-sub {
+  margin: 22rpx 0 0;
+  font-size: 22rpx;
+  font-weight: 500;
+  letter-spacing: 2rpx;
+  color: var(--c-text-sub);
+}
+
+.ps-sub:first-of-type {
+  margin-top: 8rpx;
+}
+
+.ps-segs {
+  display: flex;
+  padding: 8rpx;
+  background: var(--c-bg-2);
+  border-radius: var(--r-pill);
+  margin: 12rpx 0 14rpx;
+}
+
+.ps-seg {
+  flex: 1;
+  height: 68rpx;
+  line-height: 68rpx;
+  text-align: center;
+  font-size: 25rpx;
+  letter-spacing: 0.5rpx;
+  color: var(--c-text-sub);
+  border-radius: var(--r-pill);
+  transition: all 0.2s var(--ease);
+}
+
+.ps-seg.is-on {
+  background: var(--c-card);
+  color: var(--c-primary-deep);
+  font-weight: 500;
+  box-shadow: var(--shadow-1);
+}
+
+/* 时段分段（6 个，字略小） */
+.ps-segs-meal .ps-seg {
+  font-size: 22rpx;
+  letter-spacing: 0;
+}
+
+/* 小节标题内联标记 */
+.ps-block-tag {
+  margin-left: 12rpx;
+  font-size: 20rpx;
+  font-weight: 500;
+  letter-spacing: 1rpx;
+  color: var(--c-primary-deep);
+  background: var(--c-primary-tint);
+  padding: 2rpx 14rpx;
+  border-radius: var(--r-pill);
+}
+
+/* 主题选择已于 2026-09-05 移除，相关样式已删 */
+
+/* 恢复默认 */
+.ps-reset {
+  margin-top: 40rpx;
+  height: 92rpx;
+  line-height: 88rpx;
+  text-align: center;
+  font-size: 27rpx;
+  letter-spacing: 2rpx;
+  color: var(--c-danger);
+  background: var(--c-card);
+  border: 2rpx solid var(--c-danger-soft);
+  border-radius: var(--r-pill);
+}
+
+.ps-pad {
+  height: 160rpx;
+}

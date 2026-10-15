@@ -1,0 +1,187 @@
+<view class="page result-page theme-{{theme}}">
+  <!-- 自定义导航（原生栏已关，页面自己画顶栏）：
+       状态栏高度由 JS 注入，下面只有「圆玻璃返回键 + 居中标题」，不再有第二个返回箭头 -->
+  <!-- 固定顶栏：钉在顶部不随内容滚动；磨砂暖玻璃底保证标题在内容滑过时仍清晰 -->
+  <view class="r-header">
+    <view class="r-status-spacer" style="height: {{statusBarHeight}}px"></view>
+    <view class="r-nav">
+      <view class="r-nav-btn glass-circle tapable" bindtap="goHome">
+        <text class="r-nav-icon">←</text>
+      </view>
+      <view class="r-nav-title">{{dish.name ? '今天，你的答案' : '今天吃什么'}}</view>
+    </view>
+  </view>
+  <!-- 顶栏占位：与固定顶栏等高（状态栏 px + 导航行 88rpx + 呼吸 32rpx），把内容顶到顶栏下面 -->
+  <view style="height: {{statusBarHeight}}px"></view>
+  <view class="r-header-ph"></view>
+
+  <!-- 滚动主区：标题 + 卡片 + 工具 + 副操作 -->
+  <view class="r-content">
+    <!-- 标题区：eyebrow 文案随「是否多卡 / 是否已决定」切换；fun 副标题取当前前牌文案 -->
+    <view class="r-title" wx:if="{{dish}}">
+      <view class="r-eyebrow">
+        <view class="r-eyebrow-dot {{dish.recent.decidedAt ? 'is-decided' : ''}}"></view>
+        <text class="r-eyebrow-text">{{multi ? '替你挑了 ' + candidates.length + ' 个 · 左右滑动翻看' : (dish.recent.decidedAt ? '已吃过这道 · ' + dish.recent.label : '你的答案 · 新挑的')}}</text>
+      </view>
+      <view class="r-name">{{dish.name}}</view>
+      <view class="r-fun" wx:if="{{dish.fun}}">{{dish.fun}}</view>
+    </view>
+
+    <!-- 扑克牌卡片栈：中间一张、左右各探出一张，左右滑动旋转切换。
+         手势用纯 JS 触摸事件 + 路径式 setData（早期版本已验证稳定可用）；
+         流畅度靠渲染侧优化：无 backdrop-filter、2D 变换、will-change、16ms 帧节流。
+         教训：WXS 手势（含 callMethod / 冒泡双通道）在部分开发者工具版本上
+         touchend 链路不可靠，已整体弃用，勿再引入。 -->
+    <view class="r-stack {{anim}}" style="height:{{stackH}}rpx"
+          bindtouchstart="_onStackStart"
+          bindtouchmove="_onStackMove"
+          bindtouchend="_onStackEnd"
+          bindtouchcancel="_onStackEnd">
+      <view wx:for="{{candidates}}" wx:key="id"
+            class="rstack-card {{index === cur ? 'is-front' : ''}}"
+            style="{{cardStyles[index]}}" data-idx="{{index}}" bindtap="tapCard">
+        <!-- uiverse 标志：顶部高光斜带 + 左上彩色细带锚点 -->
+        <view class="rcard-topHi"></view>
+        <view class="rcard-strip"></view>
+
+        <!-- top row：category chip + price chip -->
+        <view class="rcard-top">
+          <view class="r-cat-chip">{{item.category}}</view>
+          <view class="r-price-chip">参考价 ¥{{item.price}}</view>
+        </view>
+
+        <!-- 描述 -->
+        <view class="r-desc">{{item.desc}}</view>
+
+        <!-- tags 行：普通 chip + 主题橙 chip（最后一个高亮）；
+             命中口味画像偏爱的，加一个轻量「你爱」角标（只做提示，不打分） -->
+        <view class="r-tags" wx:if="{{item.tagViews && item.tagViews.length}}">
+          <view class="r-tag {{tindex === item.tagViews.length - 1 ? 'r-tag--accent' : ''}} {{tag.loved ? 'r-tag--loved' : ''}}"
+                wx:for="{{item.tagViews}}" wx:for-item="tag" wx:for-index="tindex" wx:key="text"><text class="r-tag-love" wx:if="{{tag.loved}}">你爱 </text>{{tag.text}}</view>
+        </view>
+
+        <!-- 推荐理由 box：带发光小圆点 -->
+        <view class="r-reason" wx:if="{{item.reason}}">
+          <view class="r-reason-label">
+            <view class="r-reason-dot"></view>
+            <text>推荐理由</text>
+          </view>
+          <view class="r-reason-text">{{item.reason}}</view>
+        </view>
+
+        <!-- 卡片内细分隔线 -->
+        <view class="rcard-divider"></view>
+
+        <!-- 查看做菜教程（每张卡各自跳自己的菜谱，catchtap 避免触发翻牌） -->
+        <view class="r-recipe tapable" catchtap="goRecipe" data-id="{{item.id}}">
+          <text>查看做菜教程</text>
+          <text class="r-recipe-arrow">→</text>
+        </view>
+
+        <!-- 菜品详情（食材/适合时段/热量等） -->
+        <view class="r-recipe tapable" catchtap="goDetail" data-id="{{item.id}}">
+          <text>查看菜品详情</text>
+          <text class="r-recipe-arrow">→</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 卡片栈底部：翻牌进度点 + 滑动提示（仅多卡时显示） -->
+    <view class="r-stack-foot" wx:if="{{multi}}">
+      <view class="r-dots">
+        <view class="r-dot {{index === cur ? 'is-on' : ''}}" wx:for="{{candidates}}" wx:key="id"></view>
+      </view>
+      <view class="r-swipe-tip">← 滑动卡片换一张 →</view>
+    </view>
+
+    <!-- 工具条：4 个玻璃按钮，每个带线性图标 + 文字。
+         收藏与拉黑互斥：已收藏时「不想吃」锁定（is-locked），已拉黑时「收藏」锁定 -->
+    <view class="r-tools">
+      <view class="r-tool glass-soft tapable {{fav ? 'is-on' : ''}} {{black ? 'is-locked' : ''}}" bindtap="toggleFav">
+        <view class="r-tool-icon">
+          <image src="/assets/result/heart{{fav ? '-on' : ''}}.png" mode="aspectFit"></image>
+        </view>
+        <text class="r-tool-text">{{fav ? '已收藏' : '收藏'}}</text>
+      </view>
+      <view class="r-tool glass-soft tapable {{black ? 'is-on is-black' : ''}} {{fav ? 'is-locked' : ''}}" bindtap="toggleBlack">
+        <view class="r-tool-icon">
+          <image src="/assets/result/cross{{black ? '-on' : ''}}.png" mode="aspectFit"></image>
+        </view>
+        <text class="r-tool-text">{{black ? '已拉黑' : '不想吃'}}</text>
+      </view>
+      <view class="r-tool glass-soft tapable" bindtap="savePoster">
+        <view class="r-tool-icon">
+          <image src="/assets/result/card.png" mode="aspectFit"></image>
+        </view>
+        <text class="r-tool-text">分享卡片</text>
+      </view>
+      <button class="r-tool glass-soft tapable r-tool-share" open-type="share">
+        <view class="r-tool-icon">
+          <image src="/assets/result/share.png" mode="aspectFit"></image>
+        </view>
+        <text class="r-tool-text">转发</text>
+      </button>
+    </view>
+
+    <!-- 吃完打卡：结果页顺手给口味画像喂数据。已打卡则显示当前评价，点击可改 -->
+    <view class="r-rate glass-soft tapable" bindtap="openRate" wx:if="{{dish}}">
+      <block wx:if="{{myRating}}">
+        <image class="r-rate-emoji" src="/assets/result/rate-{{myRating}}.png" mode="aspectFit"></image>
+        <view class="r-rate-texts">
+          <view class="r-rate-title">已打卡 · {{myRating === 'good' ? '好吃' : myRating === 'ok' ? '一般' : '踩雷'}}</view>
+          <view class="r-rate-sub">点击可修改你的评价</view>
+        </view>
+      </block>
+      <block wx:else>
+        <image class="r-rate-emoji" src="/assets/result/rate.png" mode="aspectFit"></image>
+        <view class="r-rate-texts">
+          <view class="r-rate-title">吃完来打卡</view>
+          <view class="r-rate-sub">这道合你胃口吗？帮它越来越懂你</view>
+        </view>
+      </block>
+      <view class="r-rate-arrow">›</view>
+    </view>
+
+  </view>
+
+  <!-- 打卡评分弹层：好吃 / 一般 / 踩雷 -->
+  <view class="rate-mask {{rateOpen ? 'is-open' : ''}}" bindtap="closeRate">
+    <view class="rate-sheet" catchtap="">
+      <view class="rate-sheet-title">「{{dish.name}}」吃得怎么样？</view>
+      <view class="rate-options">
+        <view class="rate-opt" bindtap="rate" data-r="good">
+          <image class="rate-opt-emoji" src="/assets/result/rate-good.png" mode="aspectFit"></image>
+          <view class="rate-opt-text">好吃</view>
+        </view>
+        <view class="rate-opt" bindtap="rate" data-r="ok">
+          <image class="rate-opt-emoji" src="/assets/result/rate-ok.png" mode="aspectFit"></image>
+          <view class="rate-opt-text">一般</view>
+        </view>
+        <view class="rate-opt" bindtap="rate" data-r="bad">
+          <image class="rate-opt-emoji" src="/assets/result/rate-bad.png" mode="aspectFit"></image>
+          <view class="rate-opt-text">踩雷</view>
+        </view>
+      </view>
+      <view class="rate-close tapable" bindtap="closeRate">暂不评价</view>
+    </view>
+  </view>
+
+  <!-- 底部 sticky 玻璃 CTA 栏（Uiverse tabBar 风格的 2-tab 变体）：
+     胶囊容器（玻璃底座 + 玻璃边 + 玻璃阴影）+ 两个等分按钮。
+     「就吃这个」默认高亮（暖橙渐变 + 缩放回弹 + 上下粒子）。
+     「换一个」是描边态。点击「换一个」立即 rollAgain（翻菜），
+     render 完成时重新触发「就吃这个」的高亮动画（见 result.js _afterRender）。 -->
+  <view class="r-cta {{rateOpen ? 'is-hidden' : ''}}">
+    <view class="r-cta-btn r-cta-btn--refresh tapable" bindtap="rollAgain">
+      <view class="r-cta-icon">
+        <image src="/assets/result/refresh.png" mode="aspectFit"></image>
+      </view>
+      <text class="r-cta-text">换一批</text>
+    </view>
+    <view class="r-cta-btn r-cta-btn--eat tapable {{ctaReplay ? 'is-replay' : ''}}" bindtap="eatThis">
+      <text class="r-cta-text">就吃这个</text>
+    </view>
+  </view>
+</view>
+
+<canvas type="2d" id="poster" class="poster-canvas"></canvas>

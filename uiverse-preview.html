@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-node-id="frPui99uAF3gnvdKV7mipI">
+<head data-page-node-id="CqQwUQPygQWWS7d86pqlu2">
+<meta charset="UTF-8" data-page-node-id="l4jCUpDnvIdbbCkc1ehFtS">
+<meta name="viewport" content="width=device-width, initial-scale=1" data-page-node-id="8NyWLMj19lHE5JDby5uOzN">
+<title>uiverse 视觉升级 · Before / After</title>
+<style>
+  :root{
+    /* 三档浓度：只改 --orange-peak / --gold-peak 就能全局切换 */
+    --orange-peak: 0.16;
+    --orange-mid: 0.09;
+    --orange-low: 0.04;
+    --orange-corner: 0.06;
+    --gold-peak: 0.10;
+
+    --c-primary:#DD7A3C; --c-primary-deep:#BE5E27; --c-primary-l1:#F2A06A;
+    --c-gold:#C9A24B; --c-text:#3A2E26; --c-text-2:#6E5C4F;
+    --c-text-sub:#8A7565; --c-text-weak:#B5A292; --c-line:#ECE1D4;
+    --c-card-2:#FCF8F2; --c-white:#fff;
+    --c-primary-soft:#F7E7D8;
+
+    --shadow-1: 0 1px 4px rgba(58,46,38,.04), 0 4px 12px rgba(58,46,38,.05);
+    --shadow-1-hi: 0 1px 4px rgba(58,46,38,.04), 0 4px 12px rgba(58,46,38,.05),
+                   inset 0 1px 3px rgba(255,255,255,.6);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:#2B2521; color:#E8DFD6; min-height:100vh; padding:48px 24px 64px;
+    font-family:"PingFang SC","Microsoft YaHei",-apple-system,sans-serif;
+  }
+  .wrap{max-width:1180px;margin:0 auto}
+  h1{font-size:26px;font-weight:700;letter-spacing:1px;margin-bottom:8px}
+  .lead{color:#A6988A;font-size:14px;line-height:1.7;margin-bottom:28px;max-width:760px}
+  .lead b{color:#F2A06A;font-weight:600}
+
+  .control{
+    display:flex;align-items:center;gap:14px;margin-bottom:32px;
+    padding:14px 18px;background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.1);border-radius:14px;flex-wrap:wrap;
+  }
+  .control span{font-size:13px;color:#A6988A}
+  .control button{
+    padding:8px 18px;border-radius:999px;cursor:pointer;font-size:13px;
+    border:1px solid rgba(255,255,255,.16);background:transparent;color:#C9BCAE;
+    transition:all .18s;font-family:inherit;
+  }
+  .control button:hover{background:rgba(255,255,255,.08);color:#fff}
+  .control button.on{
+    background:linear-gradient(135deg,var(--c-primary),var(--c-primary-deep));
+    color:#fff;border-color:transparent;font-weight:600;
+    box-shadow:0 4px 14px rgba(221,122,60,.35);
+  }
+
+  .stage{display:flex;gap:32px;justify-content:center;flex-wrap:wrap}
+  .col{width:340px}
+  .col-tag{
+    text-align:center;font-size:12px;letter-spacing:2px;margin-bottom:14px;
+    padding:6px 0;border-radius:999px;
+  }
+  .col.before .col-tag{background:rgba(255,255,255,.07);color:#8A7E72}
+  .col.after  .col-tag{background:rgba(221,122,60,.16);color:#F2A06A;font-weight:600}
+
+  /* ===== 手机外壳 ===== */
+  .phone{
+    width:340px;height:660px;border-radius:38px;padding:10px;
+    background:linear-gradient(160deg,#3A332D,#241F1B);
+    box-shadow:0 24px 60px rgba(0,0,0,.5), inset 0 1px 2px rgba(255,255,255,.12);
+  }
+  .screen{
+    width:100%;height:100%;border-radius:30px;overflow:hidden;position:relative;
+    padding:22px 18px;
+  }
+  /* Before：纯米底 */
+  .screen.before{background:#F6F0E8}
+  /* After：多层暖色渐变（与 app.wxss 的 --c-bg-grad 一致） */
+  .screen.after{
+    background:
+      radial-gradient(150% 100% at 100% 0%,
+        rgba(221,122,60,var(--orange-peak)) 0%,
+        rgba(221,122,60,var(--orange-mid)) 34%,
+        rgba(221,122,60,var(--orange-low)) 62%,
+        rgba(221,122,60,0) 84%),
+      radial-gradient(110% 60% at 100% 100%,
+        rgba(221,122,60,var(--orange-corner)) 0%,
+        rgba(221,122,60,0) 64%),
+      radial-gradient(130% 80% at 0% 100%,
+        rgba(201,162,75,var(--gold-peak)) 0%,
+        rgba(201,162,75,0) 62%),
+      linear-gradient(180deg,#FBF4EA 0%,#FDF9F2 100%);
+  }
+
+  /* ===== 屏幕内容 ===== */
+  .hd{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px}
+  .title{font-size:25px;letter-spacing:1.5px;color:var(--c-text);line-height:1.25;position:relative}
+  .title::after{
+    content:"";display:block;width:28px;height:3px;margin-top:8px;border-radius:999px;
+    background:linear-gradient(90deg,var(--c-primary),var(--c-gold));
+  }
+  .before .title{font-weight:500}
+  .after  .title{font-weight:700}
+
+  .pill{
+    font-size:11px;padding:5px 13px;border-radius:999px;
+    background:var(--c-primary-soft);color:var(--c-primary-deep);letter-spacing:.5px;
+  }
+
+  /* hero 按钮 */
+  .hero-wrap{display:flex;justify-content:center;margin:22px 0 20px;position:relative}
+  .hero{
+    width:132px;height:132px;border-radius:50%;
+    background:
+      radial-gradient(120% 80% at 30% 18%,rgba(255,255,255,.48) 0%,rgba(255,255,255,0) 50%),
+      linear-gradient(165deg,var(--c-primary-l1) 0%,#E08649 38%,#C7652A 72%,#A8521B 100%);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    box-shadow:
+      inset 0 3px 5px rgba(255,255,255,.55),
+      inset 0 -6px 14px rgba(122,52,16,.40),
+      inset 0 -1px 2px rgba(82,30,8,.30),
+      0 9px 18px rgba(120,56,22,.42),
+      0 4px 8px rgba(120,56,22,.28);
+  }
+  .after .hero{
+    box-shadow:
+      inset 0 3px 5px rgba(255,255,255,.55),
+      inset 0 -6px 14px rgba(122,52,16,.40),
+      inset 0 -1px 2px rgba(82,30,8,.30),
+      inset 0 0 0 1px rgba(255,255,255,.22),
+      0 9px 18px rgba(120,56,22,.42),
+      0 4px 8px rgba(120,56,22,.28),
+      0 0 28px rgba(221,122,60,.30);
+  }
+  .hero-t{font-size:20px;color:#fff;letter-spacing:2px;text-shadow:0 1px 4px rgba(120,50,14,.3)}
+  .hero-s{margin-top:5px;font-size:10px;color:rgba(255,255,255,.86);letter-spacing:3px}
+
+  /* 菜系玻璃条 */
+  .bar{
+    padding:4px 9px;border-radius:999px;display:flex;gap:6px;margin-bottom:16px;
+  }
+  .before .bar{background:#fff;border:1px solid var(--c-line)}
+  .after .bar{
+    background:rgba(255,252,247,.66);border:1px solid rgba(255,255,255,.62);
+    backdrop-filter:blur(20px) saturate(160%);-webkit-backdrop-filter:blur(20px) saturate(160%);
+    box-shadow:0 4px 14px rgba(74,52,32,.18),0 1px 4px rgba(74,52,32,.10),
+               inset 0 1px 4px rgba(255,255,255,.6);
+  }
+  .chip{font-size:11px;padding:5px 12px;border-radius:999px;color:var(--c-text-sub);white-space:nowrap}
+  .chip.on{background:var(--c-primary);color:#fff;font-weight:500}
+
+  /* 卡片 */
+  .card{border-radius:16px;padding:15px;margin-bottom:12px;position:relative}
+  .before .card{background:#fff;box-shadow:var(--shadow-1)}
+  .after .card{
+    background:linear-gradient(180deg,var(--c-white) 0%,var(--c-card-2) 100%);
+    box-shadow:var(--shadow-1-hi);
+  }
+  /* 渐变描边（伪元素 mask 方案） */
+  .after .card.gb::after{
+    content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;
+    background:linear-gradient(135deg,var(--c-gold) 0%,var(--c-primary) 52%,var(--c-primary-l1) 100%);
+    -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+    -webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;
+  }
+  .card-lab{font-size:10px;color:var(--c-text-weak);letter-spacing:1px}
+  .card-name{margin-top:4px;font-size:19px;color:var(--c-text);letter-spacing:1px}
+  .before .card-name{font-weight:500}
+  .after  .card-name{font-weight:700}
+  .card-meta{margin-top:7px;font-size:11px;color:var(--c-text-weak)}
+
+  /* 玻璃圆键 + 描边 */
+  .row{display:flex;gap:10px;align-items:center;margin-top:14px}
+  .gcircle{
+    width:40px;height:40px;border-radius:50%;position:relative;
+    background:rgba(255,252,247,.72);border:1px solid rgba(255,255,255,.6);
+    backdrop-filter:blur(12px) saturate(180%);-webkit-backdrop-filter:blur(12px) saturate(180%);
+    box-shadow:0 4px 12px rgba(74,52,32,.15),inset 0 1px 2px rgba(255,255,255,.45);
+    display:flex;align-items:center;justify-content:center;font-size:19px;
+  }
+  .after .gcircle::after{
+    content:"";position:absolute;inset:0;border-radius:50%;padding:1px;
+    background:linear-gradient(135deg,var(--c-gold) 0%,var(--c-primary) 55%,var(--c-primary-l1) 100%);
+    -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+    -webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;
+  }
+  .note{font-size:11px;color:var(--c-text-weak);line-height:1.6}
+
+  /* ===== 差异说明 ===== */
+  .diffs{
+    margin-top:40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;
+  }
+  .diff{padding:16px 18px;border-radius:14px;background:rgba(255,255,255,.04);
+        border:1px solid rgba(255,255,255,.08)}
+  .diff h3{font-size:13px;font-weight:600;color:#F2A06A;margin-bottom:6px;letter-spacing:.5px}
+  .diff p{font-size:12px;color:#9C8F82;line-height:1.7}
+  .diff code{background:rgba(255,255,255,.08);padding:1px 5px;border-radius:4px;
+             font-size:11px;color:#D9CDBC}
+</style>
+</head>
+<body data-page-node-id="oxk5qGhUswGbyhgZNu28Y4">
+<div class="wrap" data-page-node-id="ORgWKc3xFIrtCShWq18zMX">
+  <h1 data-page-node-id="x2rZrSoBvxLBUX4vD7v30K">uiverse 玻璃拟态升级 · Before / After</h1>
+  <p class="lead" data-page-node-id="exbWSM607ZuH7qvoG1cvDI">
+    A 组四项：<b data-page-node-id="z0ANCFA24Clv1yGZtWz4GQ">①</b> 多层暖色渐变底　<b data-page-node-id="U3vPfziIlbFTWDzJw833M9">②</b> 卡片顶部内高光　<b data-page-node-id="AIYH5G8WlvjWbzwsCqouc0">③</b> 渐变描边　<b data-page-node-id="1tHRjxgGZFpamIJ85Bexyr">④</b> 字重 700。
+    左为改造前，右为改造后。点上方按钮可现场切换<b data-page-node-id="bM4q2IQLvuuXsFGDpTjaTk">背景浓度</b>——浓度直接决定玻璃感强弱。
+  </p>
+
+  <div class="control" data-page-node-id="3njeeBrxeVCi2c0Nbc12Rd">
+    <span data-page-node-id="kQmFzsMFDt2P0VBAFGiSTA">背景浓度：</span>
+    <button data-p="0.16,0.09,0.04,0.06,0.10" class="on" data-page-node-id="71n2AEXaWyNTABXAjTTaxR">柔和（当前已落地）</button>
+    <button data-p="0.22,0.13,0.06,0.09,0.14" data-page-node-id="WHtY855QgvyXQ4WmrI4PEA">标准</button>
+    <button data-p="0.26,0.15,0.07,0.10,0.16" data-page-node-id="YIInydWlpUKai12Mm6Fg92">浓郁（= result 页）</button>
+  </div>
+
+  <div class="stage" data-page-node-id="owJjkJKPrDAhjHRs7HDEn3">
+    <div class="col before" data-page-node-id="5SEFOgSFmH4M3FfD1NLvjq">
+      <div class="col-tag" data-page-node-id="EDCrUhMHnjHkzPb1pgXJPx">BEFORE · 纯米底</div>
+      <div class="phone" data-page-node-id="Q879grBTQjWCeRi9NHCWLT"><div class="screen before" data-page-node-id="W8y0S6NuAuuQXLss43RzB6">
+        <div class="hd" data-page-node-id="FzP8aV9rlJXq3YHeR4Cafz">
+          <div class="title" data-page-node-id="YHjKKXRv7f0YTdFtqiJcVu">今天<br data-page-node-id="wcqiXPJ65dW2kVZ0Rc6J0V">吃什么</div>
+          <div class="pill" data-page-node-id="9O8gk0j7kG7hSufUzY6WGp">偏好</div>
+        </div>
+        <div class="hero-wrap" data-page-node-id="kOJJb4Rv2U9AdEzYAAFlNK">
+          <div class="hero" data-page-node-id="6Hdfk1GEUeRzKLbSW69Kxj"><div class="hero-t" data-page-node-id="W5Q1PeGEWKfMMRAHlgi3fF">帮我选</div><div class="hero-s" data-page-node-id="loHlzw4vcl7z1v0gKO2CUG">TAKE IT</div></div>
+        </div>
+        <div class="bar" data-page-node-id="hQBpyeJYPOShJAYwPJ0AmJ">
+          <div class="chip on" data-page-node-id="K7vR6055lqUaKmT4Yx0jph">全部</div><div class="chip" data-page-node-id="fk8jLUT8jQ3ThV7dxgVV5U">川菜</div>
+          <div class="chip" data-page-node-id="qffYgKVpEeGKHcWoWEv4zt">粤菜</div><div class="chip" data-page-node-id="kXVKwBAiy8dxVrajSJPreY">日料</div>
+        </div>
+        <div class="card" data-page-node-id="3JO7j2Ex7JuFtVK1utVVSM">
+          <div class="card-lab" data-page-node-id="BHv3EuAkozG9BcHf5x39DW">上次吃的是</div>
+          <div class="card-name" data-page-node-id="tRirrF6W7o3luU4h6SDZ5L">宫保鸡丁</div>
+          <div class="card-meta" data-page-node-id="phY0W0IxmTedHtOswTiVhm">川菜 · 2 天前</div>
+        </div>
+        <div class="row" data-page-node-id="Ia41g0ZxD8XTLWZNVcAROA">
+          <div class="gcircle" data-page-node-id="IaheqWHPX0QcIjSp2P3Gxk">←</div>
+          <div class="note" data-page-node-id="GCOF6ykjvzjDiIxSrC1uPG">纯白卡片 + 单色描边，<br data-page-node-id="C6ImehJEwYRW3vzEsPTX5R">玻璃感为零</div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="col after" data-page-node-id="NJyiYKKYDdwcwapKIwAna4">
+      <div class="col-tag" data-page-node-id="ejJmrmjCbj4USKA0NuMkxO">AFTER · 暖色渐变底</div>
+      <div class="phone" data-page-node-id="KX4q19hgoVZJcC5raxBNoy"><div class="screen after" data-page-node-id="A2BWpwEsHFtGSwUY8gbI09">
+        <div class="hd" data-page-node-id="OO1vmBhLNyqEZOUjlfOJLy">
+          <div class="title" data-page-node-id="tix74yW7VHNhxzF3C58wWe">今天<br data-page-node-id="Dkl71Suu6NOdBAhstecHXl">吃什么</div>
+          <div class="pill" data-page-node-id="EjqJN3IWRFptOXvt2up5Ou">偏好</div>
+        </div>
+        <div class="hero-wrap" data-page-node-id="0LQsDbrQ400IW74e7xLXhq">
+          <div class="hero" data-page-node-id="OeCPC8BF7qAynygt2Pglup"><div class="hero-t" data-page-node-id="28AgbCJqjEn3d04VHb8Pra">帮我选</div><div class="hero-s" data-page-node-id="HWKYGNUEF1PGLnp6DjqqhW">TAKE IT</div></div>
+        </div>
+        <div class="bar" data-page-node-id="DuARUEGyxuaWEeYlA0KNYh">
+          <div class="chip on" data-page-node-id="DxeKJFJD1tQsTHZFlLvzDZ">全部</div><div class="chip" data-page-node-id="AHp0DvybamNMXYrX2fgKXM">川菜</div>
+          <div class="chip" data-page-node-id="ylRKYVBqbFLWcIfOGa2NIf">粤菜</div><div class="chip" data-page-node-id="VeICKFN9whi7bsmyDExV8s">日料</div>
+        </div>
+        <div class="card gb" data-page-node-id="ArryxNyu4kNnxXhwDZKIGI">
+          <div class="card-lab" data-page-node-id="b3EhwBsFU9YYZgC0HiFmJp">上次吃的是</div>
+          <div class="card-name" data-page-node-id="tPM1Yu7uv3n5APBCb5ykxk">宫保鸡丁</div>
+          <div class="card-meta" data-page-node-id="itIOCJaQK9WryWyQETYKS1">川菜 · 2 天前</div>
+        </div>
+        <div class="row" data-page-node-id="g4rkan4SPriFHYqgv0siqK">
+          <div class="gcircle" data-page-node-id="vWKB9CTdeAS4vhJMAkcEfe">←</div>
+          <div class="note" data-page-node-id="EFBgQom8Fl7jXjY2XjFmnJ">渐变描边 + 顶部高光带，<br data-page-node-id="QnTjAlPuHD86RKL2KDPMsC">卡片真正"立"起来</div>
+        </div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="diffs" data-page-node-id="4V7tyaHPNJQOs5LlhRLMBq">
+    <div class="diff" data-page-node-id="jRYB7OgAyLlWBNLDG7OdFY">
+      <h3 data-page-node-id="nj5mtDtIUP0A4etLaosEAH">① 为什么必须先改背景</h3>
+      <p data-page-node-id="BwJfFtCV2Ci4LBNQaayjNK">玻璃拟态成立的前提是"背后有颜色可透"。原来 <code data-page-node-id="03FTIw7N3Eaq2iFZBNJibX">--c-bg</code> 是纯米色，玻璃卡叠上去等于叠在白纸上，透不出层次。这是性价比最高的一步。</p>
+    </div>
+    <div class="diff" data-page-node-id="VZAZANjl314xHPhirvmYy2">
+      <h3 data-page-node-id="8hAVWUlBrhXsvQbjUliSuu">② 高光带依赖渐变底</h3>
+      <p data-page-node-id="6b610nSb1B3XyjkdL7XEUI">纯白卡叠白色 inset 高光 = 白叠白，完全隐形。所以卡片背景同步改成 <code data-page-node-id="y2zdw5EwUUu0buTGj3RJwb">白 → 米白</code> 渐变，顶部受光区才立得住。<b data-page-node-id="WFEtcQzlAkVMQKvWXTYYV7">①② 必须成对存在。</b></p>
+    </div>
+    <div class="diff" data-page-node-id="WGONEZw0SbDRYWmGrnqkW9">
+      <h3 data-page-node-id="pdgW4MxKEAFH3XKbfMAe9q">③ 没用 border-image</h3>
+      <p data-page-node-id="0e6cNjVTgm8Pf3n3WjAzlL"><code data-page-node-id="LM2HZAlDX44sibEiY02MAi">border-image</code> 和 <code data-page-node-id="zGfgAWf7R586r07F1tgXg6">border-radius</code> 在 CSS 里互斥，用了圆角直接变直角。改用伪元素 + <code data-page-node-id="JyKK51T9FVGDxN62wBZ9BR">mask-composite</code> 抠环，圆角完好。</p>
+    </div>
+    <div class="diff" data-page-node-id="ANZHzHhAW2cGau7n1pD52n">
+      <h3 data-page-node-id="lj1kFZ26xwK0rUj8p0yKfB">④ 用 700 不用 800</h3>
+      <p data-page-node-id="rcNNp7FNZNGoFdHFGYBa5k">iOS 的 PingFang SC 最粗只到 Semibold(600)，写 800 会被静默 fallback；Android 思源黑体有真 700。统一 700 两端才一致。</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('.control button').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      document.querySelectorAll('.control button').forEach(function(b){ b.classList.remove('on'); });
+      btn.classList.add('on');
+      var v = btn.dataset.p.split(',');
+      var r = document.documentElement.style;
+      r.setProperty('--orange-peak', v[0]);
+      r.setProperty('--orange-mid', v[1]);
+      r.setProperty('--orange-low', v[2]);
+      r.setProperty('--orange-corner', v[3]);
+      r.setProperty('--gold-peak', v[4]);
+    });
+  });
+</script>
+</body>
+</html>

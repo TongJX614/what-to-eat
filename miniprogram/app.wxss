@@ -1,0 +1,452 @@
+page {
+  /* ===== 共享 token：圆角、缓动、字体（三套主题通用） ===== */
+  --r-xl: 40rpx;
+  --r-lg: 32rpx;
+  --r-md: 24rpx;
+  --r-sm: 16rpx;
+  --r-pill: 999rpx;
+
+  --ease: cubic-bezier(0.32, 0.72, 0, 1);
+
+  /* ===== 字重档位 =====
+     全站只用 400 / 500 / 700 三档，禁止裸写数值。
+     不用 800：iOS 的 PingFang SC 最粗只到 Semibold(600)，写 800 会被 fallback 成 600；
+     Android 思源黑体有真 700 —— 两端粗细会不一致。统一 700 才能保证两端都是实打实的粗体。 */
+  --fw-normal: 400;
+  --fw-medium: 500;
+  --fw-bold: 700;
+
+  /* ===== 字号 type scale =====
+     全站只允许使用这 9 级，禁止再写裸数值。
+     映射：xs 22 / sm 24 / md 27 / lg 30 / xl 34 / 2xl 44 / 3xl 54 / display 66 / mega 76 */
+  --fs-xs: 22rpx;      /* 微标签：角标、分组计数 */
+  --fs-sm: 24rpx;      /* 标签：分类胶囊、时间、次要说明 */
+  --fs-md: 27rpx;      /* 正文：描述、表单、按钮文字 */
+  --fs-lg: 30rpx;      /* 小标题：列表主标题、区块标题 */
+  --fs-xl: 34rpx;      /* 标题：卡片主标题 */
+  --fs-2xl: 44rpx;     /* 大标题：页面标题、大数字 */
+  --fs-3xl: 54rpx;     /* 页面主标题：首页问候语、菜谱菜名 */
+  --fs-display: 66rpx; /* 展示级：结果页菜名 */
+  --fs-mega: 76rpx;    /* 超大展示：抽取动画菜名 */
+
+  /* ===== 默认主题：暖食（定义在根 page 上，全局可用，浮层与组件也能继承） ===== */
+  --c-bg: #F6F0E8;
+  --c-bg-2: #F0E7DB;
+
+  /* ===== 多层暖色渐变底（uiverse 玻璃拟态的"底材"） =====
+     玻璃拟态成立的前提：卡片背后必须有"有颜色的东西"可透。
+     原来 --c-bg 是纯米色，玻璃卡叠上去等于叠在白纸上，透不出任何层次，玻璃感为零。
+     柔和档浓度：橙晕峰值 0.16 → 金晕 0.10，只为让玻璃"有东西可透"，不抢内容。
+     布局：右上暖橙主晕 + 右下橙角呼应 + 左下金晕，底层奶油垂直渐变兜底。
+     浓度分档（改这里即可全局切换）：柔和 0.16 / 标准 0.22 / 浓郁 0.26（= result 页）。 */
+  --c-bg-grad:
+    radial-gradient(150% 100% at 100% 0%,
+      rgba(221, 122, 60, 0.16) 0%,
+      rgba(221, 122, 60, 0.09) 34%,
+      rgba(221, 122, 60, 0.04) 62%,
+      rgba(221, 122, 60, 0) 84%),
+    radial-gradient(110% 60% at 100% 100%,
+      rgba(221, 122, 60, 0.06) 0%,
+      rgba(221, 122, 60, 0) 64%),
+    radial-gradient(130% 80% at 0% 100%,
+      rgba(201, 162, 75, 0.10) 0%,
+      rgba(201, 162, 75, 0) 62%),
+    linear-gradient(180deg, #FBF4EA 0%, #FDF9F2 100%);
+  --c-card: #FFFFFF;
+  --c-card-2: #FCF8F2;
+
+  --c-primary: #DD7A3C;
+  --c-primary-deep: #BE5E27;
+  --c-primary-soft: #F7E7D8;
+  --c-primary-tint: #FBF1E6;
+
+  --c-gold: #C9A24B;
+  --c-gold-soft: #F3E8CF;
+
+  --c-text: #3A2E26;
+  --c-text-2: #6E5C4F;
+  --c-text-sub: #8A7565;
+  --c-text-weak: #B5A292;
+
+  --c-line: #ECE1D4;
+  --c-line-soft: #F2EAE1;
+
+  --c-danger: #C0413E;
+  --c-danger-soft: #F8E7E6;
+  --c-success: #4F8A4A;
+  --c-success-soft: #EAF3E8;
+
+  /* ===== 主色渐变色阶（大按钮 / 强调面专用） =====
+     之前散落在 index.wxss 里写死，导致改 --c-primary 对主按钮完全无效。
+     l1 最亮 → l4 最深，用于球面高光到暗部的过渡。 */
+  --c-primary-l1: #F2A06A;
+  --c-primary-l2: #E08649;
+  --c-primary-l3: #C7652A;
+  --c-primary-l4: #A8521B;
+
+  /* ===== 主色系投影（暖棕，配合主色面使用） ===== */
+  --c-shade-warm: rgba(120, 80, 40, 0.22);   /* 常规暖影 */
+  --c-shade-warm-soft: rgba(120, 80, 40, 0.12);
+  --c-shade-deep: rgba(120, 56, 22, 1);      /* 深压暗，配合不透明度使用 */
+  --c-shade-inner: rgba(166, 95, 40, 0.18);  /* 内阴影 */
+
+  /* ===== 新拟态面（浅浮雕卡片：抽取面板 / 结果卡） ===== */
+  --c-neu-a: #F7F1E9;
+  --c-neu-b: #EBE1D4;
+  /* 左上高光：原为 rgba(255,255,255,.9)，在 #F6F0E8 米底上几乎不可见，
+     只剩右下暗影会显得"脏"。提亮到纯白并加大不透明度，让浮雕真正成立。 */
+  --shadow-neu: 20rpx 20rpx 60rpx var(--c-shade-warm),
+                -20rpx -20rpx 60rpx rgba(255, 255, 255, 1);
+
+  /* ===== 漂浮小球（首页环绕菜名球） ===== */
+  --c-planet-bg-a: #FFF7EE;
+  --c-planet-bg-b: #F2E1CD;
+  --c-planet-text: #7A4A22;
+  --c-planet-line: rgba(221, 122, 60, 0.38);
+
+  /* ===== 遮罩 ===== */
+  --c-mask: rgba(38, 29, 22, 0.78);       /* 强遮罩：抽取动画 */
+  --c-mask-soft: rgba(28, 22, 18, 0.52);  /* 弱遮罩：首次引导 */
+  --c-mask-sheet: rgba(58, 46, 38, 0.35); /* 半屏详情 */
+
+  /* ===== 纯白与玻璃拟态（Apple liquid-glass 风格，全站统一材质） =====
+     blur 函数内必须用 px（rpx 在部分基础库会被忽略导致模糊失效）。
+     常规底 --c-glass-bg 用于条/分段控件；强底 --c-glass-bg-strong 用于浮层/半屏详情。 */
+  --c-white: #FFFFFF;
+  --c-glass-blur: 20px;                              /* 毛玻璃模糊强度 */
+  --c-glass-bg: rgba(255, 252, 247, 0.66);          /* 常规玻璃底：条 / 分段控件 */
+  --c-glass-bg-strong: rgba(255, 253, 249, 0.90);   /* 强玻璃底：浮层 / 半屏详情（tabBar 底座用此，0.74→0.90 更实以突出底板） */
+  --c-glass-border: rgba(255, 255, 255, 0.62);      /* 玻璃细描边（受光面） */
+  --c-glass-line: rgba(255, 255, 255, 0.62);        /* 兼容别名 */
+  --c-glass-hi: rgba(255, 255, 255, 0.9);           /* 内顶部高光：让玻璃"立"起来 */
+  --c-glass-press: rgba(255, 255, 255, 0.5);        /* 按下瞬时高光 */
+  --shadow-glass: 0 8rpx 28rpx rgba(74, 52, 32, 0.18), 0 2rpx 8rpx rgba(74, 52, 32, 0.10);
+
+  /* ===== 通用投影 =====
+     每层都带一道 inset 顶部高光：模拟光从上方来，让"面"有受光区而不是一块死板的色块。
+     这是 uiverse 玻璃卡最显眼的特征。注意：高光只有在带明暗过渡的背景上才看得见
+     （纯白叠白色 inset = 隐形），所以它和 --c-card 系渐变面 / page 上的渐变底是配套的。
+     若某个元素底色本身是深色或透明，请勿套用这三层阴影。 */
+  --shadow-1: 0 2rpx 8rpx rgba(58, 46, 38, 0.04), 0 8rpx 24rpx rgba(58, 46, 38, 0.05),
+              inset 0 2rpx 6rpx rgba(255, 255, 255, 0.6);
+  --shadow-2: 0 4rpx 14rpx rgba(58, 46, 38, 0.05), 0 18rpx 44rpx rgba(58, 46, 38, 0.08),
+              inset 0 2rpx 6rpx rgba(255, 255, 255, 0.6);
+  --shadow-float: 0 14rpx 44rpx rgba(58, 46, 38, 0.10),
+                  inset 0 2rpx 6rpx rgba(255, 255, 255, 0.6);
+  --shadow-primary: 0 10rpx 26rpx rgba(221, 122, 60, 0.30), 0 2rpx 6rpx rgba(221, 122, 60, 0.20);
+
+  /* ===== 全页渐变底 =====
+     小程序里的实现要点（与浏览器不同，必须清楚）：
+     1. page { background: 渐变 } 直接写在背景上 —— 渐变会被拉成文档总高，
+        长页面（菜品库 / 历史）底部光晕会整个扯散。
+     2. page 伪元素 —— 基础库不支持，::before / ::after 直接不渲染。
+     3. 正确做法：page { background-image: 渐变; background-attachment: fixed }，
+        把光斑钉死在视口坐标系，滚动时元素经过彩色底 —— 这就是 uiverse 那种
+        "卡片滑过彩色光"的观感。iOS / Android 微信 WebView 均支持。
+     兜底色写在 background-color 上，渐变不生效时退回纯米色。 */
+  background-color: var(--c-bg);
+  background-image: var(--c-bg-grad);
+  background-attachment: fixed;
+  color: var(--c-text);
+
+  font-size: 28rpx;
+  line-height: 1.6;
+  font-family: "PingFang SC", -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Microsoft YaHei", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* 主题清爽/夜宵已于 2026-09-05 移除，只保留暖食（page{} 默认令牌） */
+
+view,
+text,
+button,
+input,
+textarea,
+scroll-view {
+  box-sizing: border-box;
+}
+
+.page {
+  min-height: 100vh;
+  padding: 40rpx 40rpx 72rpx;
+  /* 透明：让 page 上 background-image 的固定渐变透上来。
+     若写死 var(--c-bg) 或加 background-image，会盖住底层的暖色光斑，玻璃材质失效。 */
+  background: transparent;
+  color: var(--c-text);
+}
+
+/* 卡片：白色实体 + 顶部内高光带（uiverse 玻璃卡最显眼的一道）
+   ⚠ 这条高光只有在"有色/有层次的背景"上才看得见：
+   纯米底上叠纯白 inset 高光 = 白叠白，等于隐形（--shadow-neu 之前就踩过同一个坑）。
+   所以它必须和 page 上的 background-image 渐变底成对存在，不要单独删掉其中任何一个。 */
+.card {
+  background: linear-gradient(180deg, var(--c-white) 0%, var(--c-card-2) 100%);
+  border-radius: var(--r-lg);
+  box-shadow:
+    var(--shadow-1),
+    inset 0 2rpx 6rpx rgba(255, 255, 255, 0.6);
+  padding: 36rpx;
+}
+
+/* 胶囊标签 */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  height: 44rpx;
+  padding: 0 20rpx;
+  border-radius: var(--r-pill);
+  background: var(--c-primary-soft);
+  color: var(--c-primary-deep);
+  font-size: 22rpx;
+  letter-spacing: 1rpx;
+  line-height: 44rpx;
+}
+
+.muted {
+  color: var(--c-text-sub);
+}
+
+/* 主按钮（随主题主色变化） */
+.btn-primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 96rpx;
+  border-radius: var(--r-pill);
+  background: linear-gradient(135deg, var(--c-primary) 0%, var(--c-primary-deep) 100%);
+  color: var(--c-white);
+  font-size: 32rpx;
+  font-weight: 500;
+  letter-spacing: 2rpx;
+  border: none;
+  box-shadow: var(--shadow-primary);
+}
+
+.btn-primary::after {
+  border: none;
+}
+
+.btn-primary.button-hover {
+  background: var(--c-primary-deep);
+  transform: scale(0.985);
+}
+
+/* 次按钮（描边） */
+.btn-ghost {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 96rpx;
+  border-radius: var(--r-pill);
+  background: var(--c-card);
+  color: var(--c-primary-deep);
+  font-size: 32rpx;
+  font-weight: 500;
+  letter-spacing: 2rpx;
+  border: 2rpx solid var(--c-primary-soft);
+}
+
+.btn-ghost::after {
+  border: none;
+}
+
+.btn-ghost.button-hover {
+  background: var(--c-primary-tint);
+}
+
+.section-title {
+  font-size: 30rpx;
+  font-weight: 500;
+  letter-spacing: 1rpx;
+  margin: 40rpx 0 20rpx;
+}
+
+/* 通用：金色细分割线 */
+.hairline {
+  height: 1rpx;
+  background: var(--c-line);
+}
+
+/* ===== 通用空状态 =====
+   原先各页面各写一套：history 是手绘 CSS 碗、其余是纯文字。
+   这里把碗上提为全局类，全站空状态统一用 .empty / .empty-art / .empty-title / .empty-desc。 */
+.empty {
+  margin-top: 150rpx;
+  text-align: center;
+}
+
+/* 空状态插画：纯 CSS 画的一只碗 + 三缕热气，不引入图片资源 */
+.empty-art {
+  position: relative;
+  width: 200rpx;
+  height: 176rpx;
+  margin: 0 auto 36rpx;
+}
+
+.empty-bowl {
+  position: absolute;
+  left: 30rpx;
+  bottom: 22rpx;
+  width: 140rpx;
+  height: 70rpx;
+  border: 2rpx solid var(--c-line);
+  border-top: 2rpx solid var(--c-primary-soft);
+  border-radius: 0 0 140rpx 140rpx / 0 0 90rpx 90rpx;
+  background: linear-gradient(180deg, var(--c-card) 0%, var(--c-card-2) 100%);
+  box-shadow: var(--shadow-1);
+}
+
+.empty-base {
+  position: absolute;
+  left: 74rpx;
+  bottom: 10rpx;
+  width: 52rpx;
+  height: 6rpx;
+  border-radius: 999rpx;
+  background: var(--c-line);
+}
+
+.empty-steam {
+  position: absolute;
+  bottom: 100rpx;
+  width: 5rpx;
+  height: 40rpx;
+  border-radius: 999rpx;
+  background: linear-gradient(180deg, rgba(201, 162, 75, 0) 0%, var(--c-gold) 100%);
+  opacity: 0.5;
+  animation: steamUp 2.8s ease-in-out infinite;
+}
+
+.empty-steam.s1 {
+  left: 66rpx;
+  animation-delay: 0s;
+}
+
+.empty-steam.s2 {
+  left: 98rpx;
+  height: 54rpx;
+  animation-delay: 0.5s;
+}
+
+.empty-steam.s3 {
+  left: 130rpx;
+  animation-delay: 1s;
+}
+
+@keyframes steamUp {
+  0% {
+    transform: translateY(10rpx) scaleY(0.7);
+    opacity: 0;
+  }
+  40% {
+    opacity: 0.55;
+  }
+  100% {
+    transform: translateY(-24rpx) scaleY(1.1);
+    opacity: 0;
+  }
+}
+
+.empty-title {
+  font-size: var(--fs-xl);
+  font-weight: 500;
+  color: var(--c-text-2);
+  letter-spacing: 1rpx;
+}
+
+.empty-desc {
+  margin-top: 12rpx;
+  font-size: var(--fs-sm);
+  color: var(--c-text-weak);
+  line-height: 1.6;
+}
+
+/* ===== 通用按压反馈 =====
+   可点击元素统一：按下时轻微缩放 + 底色变化。
+   之前 .my-del / .rp-back / .rtool 三处完全没有按压态，点下去"没反应"。 */
+.tapable {
+  transition: transform 0.12s var(--ease), background-color 0.12s var(--ease);
+}
+
+.tapable:active {
+  transform: scale(0.96);
+}
+
+/* ===== 玻璃拟态工具类（Apple liquid-glass 风格，全站统一一套材质） =====
+   适用：浮在内容之上的控件 / 浮层（tabBar、分段控件、底部工具条、返回按钮、
+   半屏详情表、顶部筛选条）。静态内容卡不要用——平铺奶油底上透明玻璃只会发灰。
+   注意：backdrop-filter 模糊的是元素"背后"的内容，所以玻璃必须叠在有内容/图
+   层的上方才显得出 frosted 质感；filter 函数内必须用 px。 */
+.glass {
+  background: var(--c-glass-bg-strong);
+  border: 1rpx solid var(--c-glass-border);
+  -webkit-backdrop-filter: blur(var(--c-glass-blur)) saturate(160%);
+  backdrop-filter: blur(var(--c-glass-blur)) saturate(160%);
+  box-shadow:
+    var(--shadow-glass),
+    inset 0 2rpx 6rpx var(--c-glass-hi);
+}
+
+/* 轻量玻璃：用于更小的胶囊 / 标签类控件 */
+.glass-soft {
+  background: var(--c-glass-bg);
+  border: 1rpx solid var(--c-glass-border);
+  -webkit-backdrop-filter: blur(var(--c-glass-blur)) saturate(160%);
+  backdrop-filter: blur(var(--c-glass-blur)) saturate(160%);
+  box-shadow:
+    var(--shadow-glass),
+    inset 0 1rpx 4rpx var(--c-glass-hi);
+}
+
+/* 玻璃按下态：瞬时顶部高光增强（与 .tapable 配合或单独使用） */
+.glass:active,
+.glass-soft:active {
+  background: var(--c-glass-press);
+}
+
+/* ===== 渐变描边（uiverse 标志手法：边框本身就是一道光） =====
+   ⚠ 不要用 border-image：它和 border-radius 在 CSS 里互斥，一旦启用圆角直接变直角，
+     本站卡片全是 32rpx 圆角，用了就得不偿失。
+   这里用伪元素 + mask 抠出一圈 1rpx 的渐变环：圆角完好，iOS / Android 微信 WebView 均可用。
+   用法：<view class="card glass-border">，或单独挂在 .glass-circle / .btn-ghost 上。
+   ⚠ 前提：目标元素自身不能已占用 ::after，否则会互相覆盖（如 .hero-btn 已用 ::before/::after 做涟漪）。 */
+.glass-border {
+  position: relative;
+}
+
+.glass-border::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: inherit;
+  padding: 1rpx;
+  background: linear-gradient(135deg,
+    var(--c-gold) 0%,
+    var(--c-primary) 52%,
+    var(--c-primary-l1) 100%);
+  /* 两层 mask 相减：整块渐变 − 内容盒区域 = 只剩边框那 1rpx 的环 */
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* 渐变描边 · 暖光版：给需要"发光感"的主操作用（描边更亮、带一点外溢光晕） */
+.glass-border-glow::after {
+  padding: 2rpx;
+  background: linear-gradient(135deg,
+    var(--c-primary-l1) 0%,
+    var(--c-gold) 50%,
+    var(--c-primary) 100%);
+}
+
+.glass-border-glow {
+  box-shadow:
+    var(--shadow-1),
+    0 0 16rpx rgba(221, 122, 60, 0.18);
+}

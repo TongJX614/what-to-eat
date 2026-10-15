@@ -1,0 +1,223 @@
+/* ---------- 详情页 ---------- */
+.dt-page {
+  min-height: 100vh;
+  padding: 32rpx 32rpx calc(env(safe-area-inset-bottom) + 168rpx);
+  /* 透明：露出 app.wxss 里 page 上的 background-image 的固定暖色渐变底。
+     写死 var(--c-bg) 会把渐变整个盖掉，玻璃材质失效。 */
+  background: transparent;
+}
+
+.dt-hero {
+  margin-top: 16rpx;
+  padding: 36rpx 36rpx 32rpx;
+  background: linear-gradient(180deg, var(--c-white) 0%, var(--c-card-2) 100%);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-1);
+  border: 1rpx solid var(--c-line-soft);
+}
+
+.dt-cat {
+  display: inline-block;
+  padding: 6rpx 22rpx;
+  border-radius: var(--r-pill);
+  background: var(--c-primary-soft);
+  color: var(--c-primary-deep);
+  font-size: var(--fs-xs);
+  letter-spacing: 1.5rpx;
+  font-weight: 500;
+}
+
+.dt-name {
+  margin-top: 18rpx;
+  font-size: var(--fs-3xl);
+  font-weight: 600;
+  color: var(--c-text);
+  letter-spacing: 2rpx;
+  line-height: 1.3;
+}
+
+.dt-flavor {
+  margin-top: 12rpx;
+  font-size: var(--fs-sm);
+  color: var(--c-gold);
+  letter-spacing: 1rpx;
+}
+
+.dt-price {
+  margin-top: 16rpx;
+  font-size: var(--fs-md);
+  color: var(--c-text-sub);
+  letter-spacing: 0.5rpx;
+}
+
+.dt-tags {
+  margin-top: 24rpx;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14rpx;
+}
+
+.dt-tag {
+  padding: 8rpx 22rpx;
+  border-radius: var(--r-pill);
+  background: var(--c-card);
+  border: 1rpx solid var(--c-line);
+  color: var(--c-text-sub);
+  font-size: var(--fs-sm);
+  letter-spacing: 1rpx;
+}
+
+.dt-card {
+  margin-top: 24rpx;
+  padding: 28rpx 32rpx;
+  background: linear-gradient(180deg, var(--c-white) 0%, var(--c-card-2) 100%);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-1);
+  border: 1rpx solid var(--c-line-soft);
+}
+
+.dt-card-label {
+  font-size: var(--fs-xs);
+  color: var(--c-text-weak);
+  letter-spacing: 2rpx;
+  margin-bottom: 14rpx;
+  font-weight: 600;
+}
+
+.dt-card-text {
+  font-size: var(--fs-md);
+  color: var(--c-text-2);
+  line-height: 1.8;
+  letter-spacing: 0.5rpx;
+}
+
+.dt-card-text--quote {
+  border-left: 4rpx solid var(--c-gold);
+  padding-left: 16rpx;
+  color: var(--c-text);
+}
+
+.dt-meta {
+  margin-top: 24rpx;
+  display: flex;
+  gap: 24rpx;
+}
+
+.dt-meta-block {
+  flex: 1;
+  padding: 24rpx 28rpx;
+  background: linear-gradient(180deg, var(--c-white) 0%, var(--c-card-2) 100%);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-1);
+  border: 1rpx solid var(--c-line-soft);
+}
+
+.dt-meta-k {
+  font-size: var(--fs-xs);
+  color: var(--c-text-weak);
+  letter-spacing: 2rpx;
+  margin-bottom: 12rpx;
+}
+
+.dt-meta-v {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10rpx;
+}
+
+.dt-meta-pill {
+  padding: 6rpx 18rpx;
+  border-radius: var(--r-pill);
+  background: var(--c-primary-tint);
+  color: var(--c-primary-deep);
+  font-size: var(--fs-sm);
+  letter-spacing: 0.5rpx;
+}
+
+.dt-meta-pill--gold {
+  background: var(--c-gold-soft);
+  color: var(--c-gold);
+  font-weight: 600;
+}
+
+.dt-meta-empty {
+  font-size: var(--fs-sm);
+  color: var(--c-text-weak);
+}
+
+.dt-ings {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14rpx;
+}
+
+.dt-ing {
+  padding: 8rpx 22rpx;
+  border-radius: var(--r-pill);
+  background: var(--c-primary-tint);
+  color: var(--c-primary-deep);
+  font-size: var(--fs-sm);
+}
+
+.dt-ing--soft {
+  background: var(--c-card-2);
+  color: var(--c-text-2);
+}
+
+.dt-actions {
+  margin-top: 32rpx;
+  display: flex;
+  gap: 16rpx;
+}
+
+.dt-btn {
+  flex: 1;
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  border-radius: var(--r-pill);
+  font-size: var(--fs-md);
+  letter-spacing: 2rpx;
+  box-sizing: border-box;
+}
+
+.dt-btn--ghost {
+  background: var(--c-card);
+  color: var(--c-text-2);
+  border: 1rpx solid var(--c-line);
+}
+
+.dt-btn--fav {
+  color: var(--c-primary-deep);
+  border-color: var(--c-primary-soft);
+}
+
+.dt-btn--primary {
+  background: linear-gradient(135deg, var(--c-primary) 0%, var(--c-primary-deep) 100%);
+  color: var(--c-white);
+  font-weight: 500;
+  box-shadow: var(--shadow-primary);
+}
+
+.dt-side-row {
+  margin-top: 24rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28rpx 32rpx;
+  background: linear-gradient(180deg, var(--c-white) 0%, var(--c-card-2) 100%);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-1);
+  border: 1rpx solid var(--c-line-soft);
+}
+
+.dt-side-row-t {
+  font-size: var(--fs-md);
+  color: var(--c-text-2);
+  letter-spacing: 1rpx;
+}
+
+.dt-side-row-a {
+  font-size: var(--fs-lg);
+  color: var(--c-primary-deep);
+}

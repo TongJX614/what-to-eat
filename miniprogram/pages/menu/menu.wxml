@@ -1,0 +1,72 @@
+<view class="page mn-page theme-warm">
+  <!-- 搜索框 -->
+  <view class="mn-search">
+    <view class="mn-search-icon">🔍</view>
+    <input
+      class="mn-search-input"
+      placeholder="搜菜名 / 分类 / 标签"
+      placeholder-class="mn-search-ph"
+      value="{{keyword}}"
+      bindinput="onInput"
+      confirm-type="search"
+    />
+    <view class="mn-search-clear" wx:if="{{keyword}}" bindtap="clearInput">✕</view>
+  </view>
+
+  <!-- 最近吃过：只在有历史时显示 -->
+  <view class="mn-recent" wx:if="{{recent.length}}">
+    <view class="mn-section-head">
+      <view class="mn-section-title">最近吃过</view>
+      <view class="mn-section-sub">{{recent.length}} 道</view>
+    </view>
+    <scroll-view class="mn-recent-scroll" scroll-x="true">
+      <view class="mn-recent-item" wx:for="{{recent}}" wx:key="id"
+            data-id="{{item.id}}" bindtap="openDetail">
+        <view class="mn-recent-name">{{item.name}}</view>
+        <view class="mn-recent-cat">{{item.category}}</view>
+        <view class="mn-recent-rating" wx:if="{{item.rating}}">
+          <text wx:if="{{item.rating === 'good'}}">👍</text>
+          <text wx:elif="{{item.rating === 'bad'}}">👎</text>
+          <text wx:elif="{{item.rating === 'ok'}}">👌</text>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 分类 chips -->
+  <scroll-view class="mn-cats" scroll-x="true">
+    <view class="mn-cat {{activeCat === item.name ? 'is-on' : ''}}"
+          wx:for="{{cats}}" wx:key="name"
+          data-name="{{item.name}}" bindtap="onCat">
+      <text class="mn-cat-label">{{item.label}}</text>
+      <text class="mn-cat-count" wx:if="{{catCounts[item.name]}}">{{catCounts[item.name]}}</text>
+    </view>
+  </scroll-view>
+
+  <!-- 列表 -->
+  <view class="mn-list">
+    <view class="mn-empty" wx:if="{{!list.length}}">
+      <view class="mn-empty-t">没有匹配的菜</view>
+      <view class="mn-empty-s">换个关键词或分类试试</view>
+    </view>
+
+    <view class="mn-item" wx:for="{{list}}" wx:key="id"
+          data-id="{{item.id}}" bindtap="openDetail" hover-class="mn-item-hover">
+      <view class="mn-item-main">
+        <view class="mn-item-name">{{item.name}}</view>
+        <view class="mn-item-meta">
+          <text class="mn-item-cat">{{item.category}}</text>
+          <text class="mn-item-price" wx:if="{{item.price}}">¥{{item.price}}</text>
+        </view>
+        <view class="mn-item-tags" wx:if="{{item.tags && item.tags.length}}">
+          <text class="mn-item-tag" wx:for="{{item.tags}}" wx:key="*this">{{item}}</text>
+        </view>
+      </view>
+      <view class="mn-item-cta" catchtap="goResult" data-id="{{item.id}}">就吃</view>
+    </view>
+  </view>
+
+  <view class="mn-foot">
+    共 {{totalCount}} 道菜 · 已过滤黑名单 {{blacklistCount}} 道
+  </view>
+</view>

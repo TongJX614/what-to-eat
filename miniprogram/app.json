@@ -1,0 +1,53 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/result/result",
+    "pages/history/history",
+    "pages/mydishes/mydishes",
+    "pages/recipe/recipe",
+    "pages/detail/detail",
+    "pages/menu/menu",
+    "pages/nearby/nearby"
+  ],
+  "window": {
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#FBF4EA",
+    "navigationBarTitleText": "挑饭小助手",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#FBF4EA",
+    "backgroundColorTop": "#FBF4EA",
+    "backgroundColorBottom": "#FBF4EA"
+  },
+  "requiredPrivateInfos": [
+    "getLocation"
+  ],
+  "permission": {
+    "scope.userLocation": {
+      "desc": "用于展示你附近的餐厅"
+    }
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents",
+  "tabBar": {
+    "color": "#9A8B7A",
+    "selectedColor": "#DD7A3C",
+    "backgroundColor": "#FBF4EA",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/mydishes/mydishes",
+        "text": "我的菜"
+      },
+      {
+        "pagePath": "pages/nearby/nearby",
+        "text": "附近餐厅"
+      }
+    ],
+    "custom": true
+  }
+}
