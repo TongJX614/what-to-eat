@@ -4,8 +4,6 @@
 
 不需要注册，不联网也能用（附近餐厅除外）。打开决定，然后去吃饭。
 
-
-
 ---
 
 ## 功能亮点
@@ -32,7 +30,7 @@ design-preview.html   # 浏览器直接打开，像素级复刻 + 真实 CSS 动
 | --- | --- | --- |
 | `docs/screenshots/index.png` | `docs/screenshots/result.png` | `docs/screenshots/history.png` |
 
-仓库里另有若干单页设计稿预览（`achv-preview.html`、`result-rate-preview.html`、`taste-card-preview.html`、`index-icon-preview.html`、`uiverse-preview.html`），以及对应的设计记录（`design-review.md`、`design-fixes.md`）。
+设计过程稿（单页预览、评审记录等）不入库，仓库里只留这一份完整预览。
 
 ## 页面地图
 
