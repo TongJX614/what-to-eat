@@ -4,7 +4,7 @@
 
 不需要注册，不联网也能用（附近餐厅除外）。打开决定，然后去吃饭。
 
-<img width="853" height="743" alt="image" src="https://github.com/user-attachments/assets/dc7011a1-76c6-4460-9299-e649581f3f15" />
+
 
 ---
 
