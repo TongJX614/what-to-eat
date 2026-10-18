@@ -63,7 +63,7 @@
 
 在线看：**https://what-to-eat-preview-72924.app.workbuddy.host/** — 不用装开发者工具，手机也能打开。
 
-仓库里的 `design-preview.html` 是同一份文件，clone 后双击也可以直接打开（自包含单文件，无外链、无构建，94KB）。
+仓库里的 `design-preview.html` 是同一份页面，clone 后双击也能打开（单文件 HTML，无外链、无构建，95KB）。注意它的图标是相对路径引用的 `miniprogram/assets/` 下那 10 个 PNG，别把 HTML 单独拷走。
 
 > 预览页与 `miniprogram/` 下的真实实现保持同步，用来在不开模拟器的情况下快速过视觉。改动后需要重新发布，线上才会更新。
 
