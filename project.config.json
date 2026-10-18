@@ -1,6 +1,6 @@
 {
   "description": "午饭选择困难症 - 帮你决定今天吃什么",
-  "appid": "wxd7b7665208090d4e",
+  "appid": "touristappid",
   "projectname": "lunch-picker",
   "miniprogramRoot": "miniprogram/",
   "cloudfunctionRoot": "cloudfunctions/",

@@ -1,12 +1,14 @@
 App({
   globalData: {
-    // 云开发环境 ID，后续接入附近餐厅与拍照 OCR 时使用
-    envId: 'cloudbase-d5g1uaw61be68503c',
+    // 云开发环境 ID：本项目核心功能是纯本地的，留空即可。
+    // 要接云开发（如附近餐厅真实数据）时，填你自己的环境 ID。
+    envId: '',
     cloudReady: false
   },
 
   onLaunch() {
-    if (wx.cloud) {
+    // 没配 envId 就不初始化，避免控制台刷「云开发初始化失败」的噪音
+    if (wx.cloud && this.globalData.envId) {
       try {
         wx.cloud.init({
           env: this.globalData.envId,
