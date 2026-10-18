@@ -24,3 +24,12 @@ tools/_iconbuild/
 tools/_*
 miniprogram/assets/**/_gen.log
 *.log
+
+# 设计过程稿：不入库（本地保留，需要时自己打开看）
+# design-preview.html 是完整的页面预览，属于对外展示物，单独放行
+*_preview.html
+!design-preview.html
+design-review.md
+design-fixes.md
+ardot-result-design-notes.md
+ardot-result.png

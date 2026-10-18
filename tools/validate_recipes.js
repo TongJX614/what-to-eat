@@ -1,3 +1,15 @@
+/**
+ * 菜谱完整性校验：每道内置菜都必须有 ingredients + steps。
+ * 运行：node tools/validate_recipes.js
+ * 依赖：无（Node 下 mock 掉 wx storage，不需要开发者工具）
+ */
+const store = {}
+global.wx = {
+  getStorageSync: function (k) { return store[k] },
+  setStorageSync: function (k, v) { store[k] = v },
+  removeStorageSync: function (k) { delete store[k] }
+}
+
 const dishesUtil = require('../miniprogram/utils/dishes.js')
 const recipes = require('../miniprogram/data/recipes.js')
 

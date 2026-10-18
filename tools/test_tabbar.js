@@ -130,7 +130,8 @@ assert('无 tabstate 残留', src.indexOf('tabstate') === -1)
 
 // 10) wxss 关键样式
 const wxss = fs.readFileSync(path.join(__dirname, '../miniprogram/custom-tab-bar/index.wxss'), 'utf8')
-assert('wxss 有白底选中态', wxss.indexOf('#FFFFFF') > -1)
+assert('wxss 选中态用主题橙渐变', wxss.indexOf('linear-gradient') > -1 && wxss.indexOf('--c-primary') > -1)
+assert('wxss 底座是毛玻璃', wxss.indexOf('backdrop-filter') > -1)
 assert('wxss 有 select 缩放动画', wxss.indexOf('@keyframes tabSelect') > -1)
 assert('wxss 有粒子动画（伪元素）', wxss.indexOf('::before') > -1 && wxss.indexOf('::after') > -1)
 assert('wxss 用主题色粒子', wxss.indexOf('--c-primary') > -1)
