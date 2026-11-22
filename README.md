@@ -12,12 +12,12 @@
 
 ## 界面预览
 
-在线看：**https://what-to-eat-preview-72924.app.workbuddy.host/** — 不用装开发者工具，手机也能打开。
+| 抽取结果 | 菜谱详情 | 历史记录 |
+| --- | --- | --- |
+| ![随机结果：宫保鸡丁](docs/screenshots/result.jpg) | ![菜谱详情：宫保鸡丁](docs/screenshots/recipe.jpg) | ![历史记录：本周决定与已选择](docs/screenshots/history.jpg) |
 
-仓库里的 `design-preview.html` 是同一份页面，clone 后双击也能打开（单文件 HTML，无外链、无构建，95KB）。注意它的图标是相对路径引用的 `miniprogram/assets/` 下那 10 个 PNG，别把 HTML 单独拷走。
+截图取自仓库里的 `design-preview.html`。它是单文件视觉预览，clone 后双击就能打开（无外链、无构建，95KB）；图标用相对路径引用 `miniprogram/assets/` 下的 PNG，别把 HTML 单独拷走。交互与数据以 `miniprogram/` 下的真实实现为准。
 
-> 预览页与 `miniprogram/` 下的真实实现保持同步，用来在不开模拟器的情况下快速过视觉。改动后需要重新发布，线上才会更新。
-> 
 ---
 
 ## 这是什么
